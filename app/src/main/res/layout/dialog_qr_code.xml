@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@drawable/bg_card_white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvQrDialogTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Código QR Sanitario Oficial"
+        android:textColor="@color/slate_900"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvQrDialogSub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Identificación Digital • Alcaldía Municipal"
+        android:textColor="@color/slate_500"
+        android:textSize="11sp" />
+
+    <!-- QR Simulated Graphic Box -->
+    <FrameLayout
+        android:layout_width="180dp"
+        android:layout_height="180dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg_scanner_reticle"
+        android:backgroundTint="@color/blue_50"
+        android:padding="12dp">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:src="@drawable/ic_qr_code"
+            app:tint="@color/slate_900" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/tvQrRecordId"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:background="@drawable/bg_pill_slate"
+        android:fontFamily="monospace"
+        android:paddingHorizontal="10dp"
+        android:paddingVertical="3dp"
+        android:textColor="@color/slate_700"
+        android:textSize="12sp"
+        tools:text="CEN-2026-001 • Lucas" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:text="Escanee este código con cualquier cámara o dispositivo móvil para verificar la vigencia de la vacuna antirrábica y estado de esterilización."
+        android:textAlignment="center"
+        android:textColor="@color/slate_500"
+        android:textSize="11sp" />
+
+    <Button
+        android:id="@+id/btnDismissQr"
+        android:layout_width="match_parent"
+        android:layout_height="44dp"
+        android:layout_marginTop="16dp"
+        android:backgroundTint="@color/blue_600"
+        android:text="Cerrar Código"
+        android:textColor="@color/white" />
+
+</LinearLayout>

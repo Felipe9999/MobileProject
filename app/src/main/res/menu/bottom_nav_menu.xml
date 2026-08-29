@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_census"
+        android:icon="@drawable/ic_census"
+        android:title="@string/tab_census" />
+    <item
+        android:id="@+id/nav_register"
+        android:icon="@drawable/ic_register"
+        android:title="@string/tab_register" />
+    <item
+        android:id="@+id/nav_sync"
+        android:icon="@drawable/ic_sync"
+        android:title="@string/tab_sync" />
+    <item
+        android:id="@+id/nav_indicators"
+        android:icon="@drawable/ic_indicators"
+        android:title="@string/tab_indicators" />
+    <item
+        android:id="@+id/nav_map"
+        android:icon="@drawable/ic_map"
+        android:title="@string/tab_map" />
+</menu>

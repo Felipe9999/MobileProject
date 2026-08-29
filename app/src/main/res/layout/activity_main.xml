@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainCoordinatorLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slate_50">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Android Status Bar / Top Header Controls (Role Switcher & Network Toggle) -->
+        <LinearLayout
+            android:id="@+id/systemStatusBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/slate_900"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp">
+
+            <TextView
+                android:id="@+id/tvCurrentTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="08:17"
+                android:textColor="@color/slate_300"
+                android:textSize="11sp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <!-- User Role Button / Switcher -->
+            <LinearLayout
+                android:id="@+id/btnUserRole"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill_blue"
+                android:backgroundTint="@color/slate_800"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp">
+
+                <ImageView
+                    android:id="@+id/ivRoleIcon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_user"
+                    app:tint="@color/blue_300" />
+
+                <TextView
+                    android:id="@+id/tvRoleName"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Veterinario"
+                    android:textColor="@color/blue_200"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Network Status Toggle (Online / Offline Simulation) -->
+            <LinearLayout
+                android:id="@+id/btnNetworkToggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_pill_emerald"
+                android:backgroundTint="@color/slate_800"
+                android:clickable="true"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp">
+
+                <ImageView
+                    android:id="@+id/ivNetworkIcon"
+                    android:layout_width="12dp"
+                    android:layout_height="12dp"
+                    android:src="@drawable/ic_wifi"
+                    app:tint="@color/emerald_400" />
+
+                <TextView
+                    android:id="@+id/tvNetworkLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="4dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="5G Online"
+                    android:textColor="@color/emerald_300"
+                    android:textSize="10sp" />
+            </LinearLayout>
+
+            <!-- Scanner Shortcut Button -->
+            <ImageButton
+                android:id="@+id/btnQuickScanner"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="8dp"
+                android:background="@drawable/bg_pill_slate"
+                android:backgroundTint="@color/slate_800"
+                android:contentDescription="Abrir Escáner QR"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_qr_code"
+                app:tint="@color/slate_200" />
+
+            <!-- Login / Account Button -->
+            <ImageButton
+                android:id="@+id/btnQuickLogin"
+                android:layout_width="26dp"
+                android:layout_height="26dp"
+                android:layout_marginStart="6dp"
+                android:background="@drawable/bg_pill_slate"
+                android:backgroundTint="@color/slate_800"
+                android:contentDescription="Iniciar Sesión"
+                android:padding="5dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/ic_key_round"
+                app:tint="@color/amber_300" />
+        </LinearLayout>
+
+        <!-- Fragment Container -->
+        <FrameLayout
+            android:id="@+id/fragmentContainer"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1" />
+
+        <!-- Bottom Navigation View -->
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:id="@+id/bottomNavigation"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:background="@color/white"
+            app:elevation="8dp"
+            app:itemIconSize="20dp"
+            app:itemIconTint="@color/blue_600"
+            app:itemTextColor="@color/blue_600"
+            app:labelVisibilityMode="labeled"
+            app:menu="@menu/bottom_nav_menu" />
+
+    </LinearLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Censo Animal Rural</string>
+    <string name="title_activity_detail">Ficha de Identificación</string>
+    <string name="title_activity_scanner">Escáner de Microchip &amp; QR</string>
+    <string name="title_activity_login">Iniciar Sesión</string>
+
+    <!-- Bottom Nav Tabs -->
+    <string name="tab_census">Censo</string>
+    <string name="tab_register">Registro</string>
+    <string name="tab_sync">Envío</string>
+    <string name="tab_indicators">Métricas</string>
+    <string name="tab_map">Mapa</string>
+
+    <!-- Top Bar Labels -->
+    <string name="header_census_sub">Censo Rural Municipal</string>
+    <string name="header_census_title">Directorio Animal</string>
+    <string name="header_register_title">Nuevo Censo en Campo</string>
+    <string name="header_register_sub">Formulario asistido con validación de catálogo</string>
+    <string name="header_sync_title">Envío y Sincronización</string>
+    <string name="header_sync_sub">Respaldo seguro de datos en la Alcaldía</string>
+    <string name="header_indicators_sub">Entregable 14 • Gestión Municipal</string>
+    <string name="header_indicators_title">Panel de Indicadores Institucionales</string>
+    <string name="header_map_sub">Georreferenciación Catastral</string>
+    <string name="header_map_title">Mapa Municipal de Veredas</string>
+
+    <!-- General Labels -->
+    <string name="online">Online</string>
+    <string name="offline">Offline</string>
+    <string name="active">Activo</string>
+    <string name="deceased">Fallecido</string>
+    <string name="all">Todos</string>
+    <string name="dogs">Perros</string>
+    <string name="cats">Gatos</string>
+    <string name="alerts">Alertas</string>
+    <string name="search_placeholder">Buscar por nombre, chip, raza o responsable...</string>
+    <string name="vereda_prefix">Vereda: </string>
+    <string name="btn_see_dossier">Ver ficha</string>
+    <string name="btn_sync_all">Enviar todo</string>
+    <string name="btn_syncing">Enviando...</string>
+    <string name="btn_fix_chip">Corregir chip</string>
+    <string name="btn_cancel">Cancelar</string>
+    <string name="btn_save">Guardar</string>
+    <string name="btn_confirm_death">Confirmar Baja</string>
+</resources>

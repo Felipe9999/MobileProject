@@ -1,0 +1,669 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slate_50"
+    android:orientation="vertical">
+
+    <!-- Top Blue Header -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/blue_600"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingTop="12dp"
+        android:paddingBottom="14dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-bold"
+            android:text="@string/header_register_sub"
+            android:textColor="@color/blue_100"
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="2dp"
+            android:fontFamily="sans-serif-black"
+            android:text="@string/header_register_title"
+            android:textColor="@color/white"
+            android:textSize="18sp" />
+    </LinearLayout>
+
+    <!-- Stepper Navigation Header (Paso 1, 2, 3) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/stepTab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_primary"
+            android:fontFamily="sans-serif-bold"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="1. Animal"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@color/slate_300" />
+
+        <TextView
+            android:id="@+id/stepTab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill_slate"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="2. Sanitario"
+            android:textColor="@color/slate_600"
+            android:textSize="11sp" />
+
+        <View
+            android:layout_width="16dp"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="6dp"
+            android:background="@color/slate_300" />
+
+        <TextView
+            android:id="@+id/stepTab3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill_slate"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="3. Propietario"
+            android:textColor="@color/slate_600"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Scrollable Form Container -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- STEP 1: DATOS DEL ANIMAL -->
+            <LinearLayout
+                android:id="@+id/layoutStep1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Especie *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <!-- Especie Toggle: Perro / Gato -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/btnSpeciesDog"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill_blue"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🐶"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Canino (Perro)"
+                            android:textColor="@color/blue_800"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnSpeciesCat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill_slate"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="10dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🐱"
+                            android:textSize="16sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Felino (Gato)"
+                            android:textColor="@color/slate_700"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Nombre del Animal -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Nombre del Animal *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etAnimalName"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="Ej. Toby, Luna, Firulais"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Sexo & Edad en Meses -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Sexo *"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerSex"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:paddingHorizontal="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Edad (Meses) *"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/etAgeMonths"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:hint="Ej. 24"
+                            android:inputType="number"
+                            android:paddingHorizontal="12dp"
+                            android:textColor="@color/slate_900"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Raza Catálogo -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Raza (Validada por Catálogo) *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerBreed"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:paddingHorizontal="8dp" />
+
+                <!-- Color -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Color Predominante *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:paddingHorizontal="8dp" />
+            </LinearLayout>
+
+            <!-- STEP 2: DATOS SANITARIOS & MICROCHIP -->
+            <LinearLayout
+                android:id="@+id/layoutStep2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Microchip RFID -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Número de Microchip RFID (15 dígitos ISO)"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <EditText
+                        android:id="@+id/etMicrochip"
+                        android:layout_width="0dp"
+                        android:layout_height="44dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_search_box"
+                        android:fontFamily="monospace"
+                        android:hint="981098102938..."
+                        android:inputType="number"
+                        android:maxLength="15"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <Button
+                        android:id="@+id/btnGenerateChip"
+                        android:layout_width="wrap_content"
+                        android:layout_height="44dp"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="@color/blue_600"
+                        android:text="Auto Chip"
+                        android:textSize="11sp" />
+                </LinearLayout>
+
+                <!-- Esterilizado -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="¿Animal Esterilizado?"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Control quirúrgico de natalidad"
+                            android:textColor="@color/slate_500"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchSterilized"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/blue_600"
+                        app:trackTint="@color/blue_200" />
+                </LinearLayout>
+
+                <!-- Vacuna Antirrábica -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Fecha de Última Vacunación Antirrábica *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etRabiesDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="AAAA-MM-DD (ej. 2025-11-20)"
+                    android:inputType="date"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Lote de Vacuna -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Lote Biológico de Vacuna"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etVaccineBatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:fontFamily="monospace"
+                    android:hint="Ej. RAB-2026-X8"
+                    android:inputType="textCapCharacters"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- STEP 3: PROPIETARIO & UBICACIÓN RURAL -->
+            <LinearLayout
+                android:id="@+id/layoutStep3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Nombre Responsable -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Nombre Completo del Responsable *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etOwnerName"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="Ej. Carlos Rodríguez"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Cédula & Teléfono -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Cédula / Documento *"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/etOwnerDoc"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:hint="Ej. 19283746"
+                            android:inputType="number"
+                            android:paddingHorizontal="12dp"
+                            android:textColor="@color/slate_900"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Teléfono Celular *"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/etOwnerPhone"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:hint="3104829102"
+                            android:inputType="phone"
+                            android:paddingHorizontal="12dp"
+                            android:textColor="@color/slate_900"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Vereda Oficial -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Vereda Oficial *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerRegisterVereda"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:paddingHorizontal="8dp" />
+
+                <!-- Dirección Finca / Predio -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Dirección / Nombre del Predio o Finca *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etFarmAddress"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="Ej. Finca El Porvenir Lote 4"
+                    android:inputType="textCapSentences"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Coordenadas GPS WGS84 -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:background="@drawable/bg_pill_slate"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="10dp">
+
+                    <ImageView
+                        android:layout_width="16dp"
+                        android:layout_height="16dp"
+                        android:src="@drawable/ic_map_pin"
+                        app:tint="@color/emerald_600" />
+
+                    <TextView
+                        android:id="@+id/tvGpsCoords"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_weight="1"
+                        android:fontFamily="monospace"
+                        android:text="Lat: 4.9842, Lng: -73.9562"
+                        android:textColor="@color/slate_700"
+                        android:textSize="11sp" />
+
+                    <Button
+                        android:id="@+id/btnRefreshGps"
+                        style="@style/Widget.Material3.Button.TextButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="36dp"
+                        android:text="GPS Actual"
+                        android:textColor="@color/emerald_700"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <!-- Observaciones -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Observaciones de Campo"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etFieldNotes"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:gravity="top|start"
+                    android:hint="Condición corporal, comportamiento, notas adicionales..."
+                    android:inputType="textMultiLine"
+                    android:padding="10dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="12sp" />
+            </LinearLayout>
+
+            <!-- Bottom Stepper Buttons -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnPrevStep"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:text="Atrás"
+                    android:textColor="@color/slate_700"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btnNextStep"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/blue_600"
+                    android:text="Siguiente"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
