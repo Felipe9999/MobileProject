@@ -1,0 +1,6 @@
+{
+  "name": "Empty Project",
+  "description": "An empty Android starter project ready for importing an application.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
