@@ -1,0 +1,1 @@
+To load AI studio changes onto your current branch (assuming the AIS repo is up to date) run "git pull aistudio main"
