@@ -1,6 +1,6 @@
 {
-  "name": "Empty Project",
-  "description": "An empty Android starter project ready for importing an application.",
+  "name": "Censo Animal Rural",
+  "description": "Sistema de caracterización, censo y bienestar para animales de compañía en Zipaquirá.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }
