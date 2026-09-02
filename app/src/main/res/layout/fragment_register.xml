@@ -119,11 +119,11 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
-                    android:text="Especie *"
+                    android:text="Especie del Animal de Compañía *"
                     android:textColor="@color/slate_800"
                     android:textSize="12sp" />
 
-                <!-- Especie Toggle: Perro / Gato -->
+                <!-- Especie Toggle: Perro / Gato / Otro -->
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -134,58 +134,88 @@
                         android:id="@+id/btnSpeciesDog"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginEnd="6dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_pill_blue"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:paddingVertical="10dp">
+                        android:paddingVertical="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="🐶"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:layout_marginStart="4dp"
                             android:fontFamily="sans-serif-bold"
-                            android:text="Canino (Perro)"
+                            android:text="Canino"
                             android:textColor="@color/blue_800"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/btnSpeciesCat"
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="6dp"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
                         android:layout_weight="1"
                         android:background="@drawable/bg_pill_slate"
                         android:clickable="true"
                         android:focusable="true"
                         android:gravity="center"
                         android:orientation="horizontal"
-                        android:paddingVertical="10dp">
+                        android:paddingVertical="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="🐱"
-                            android:textSize="16sp" />
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Felino"
+                            android:textColor="@color/slate_700"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnSpeciesOther"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill_slate"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
 
                         <TextView
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="6dp"
+                            android:text="🐰"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
-                            android:text="Felino (Gato)"
+                            android:text="Otro"
                             android:textColor="@color/slate_700"
-                            android:textSize="12sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
                 </LinearLayout>
 
@@ -394,6 +424,44 @@
                         app:trackTint="@color/blue_200" />
                 </LinearLayout>
 
+                <!-- Tatuaje de Esterilización Reconocido -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Tatuaje de Esterilización Reconocido"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Marca auricular / inguinal visible (evita reintervenciones)"
+                            android:textColor="@color/slate_500"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchSterilizationTattoo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/emerald_600"
+                        app:trackTint="@color/emerald_200" />
+                </LinearLayout>
+
                 <!-- Vacuna Antirrábica -->
                 <TextView
                     android:layout_width="wrap_content"
@@ -448,10 +516,28 @@
                 android:orientation="vertical"
                 android:visibility="gone">
 
+                <!-- Tipo de Guardián / Relación -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Tipo de Relación / Tenencia *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerGuardianType"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:paddingHorizontal="8dp" />
+
                 <!-- Nombre Responsable -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
                     android:fontFamily="sans-serif-bold"
                     android:text="Nombre Completo del Responsable *"
                     android:textColor="@color/slate_800"

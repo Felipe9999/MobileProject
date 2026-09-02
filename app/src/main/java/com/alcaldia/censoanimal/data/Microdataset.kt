@@ -1,6 +1,10 @@
 package com.alcaldia.censoanimal.data
 
+import com.alcaldia.censoanimal.model.ActaVisita
 import com.alcaldia.censoanimal.model.AnimalRecord
+import com.alcaldia.censoanimal.model.ClinicalRecord
+import com.alcaldia.censoanimal.model.LostFoundAlert
+import com.alcaldia.censoanimal.model.MistreatmentReport
 import com.alcaldia.censoanimal.model.MunicipalIndicator
 import com.alcaldia.censoanimal.model.PresetAccount
 import com.alcaldia.censoanimal.model.UserRole
@@ -12,7 +16,31 @@ object Microdataset {
         "Vereda El Rosal",
         "Vereda Barroblanco",
         "Vereda Santa Librada",
-        "Vereda La Esperanza"
+        "Vereda La Esperanza",
+        "Vereda San Benito",
+        "Vereda Ventalarga",
+        "Vereda Portachuelo",
+        "Vereda Río Frío",
+        "Vereda El Tunal",
+        "Vereda Páramo de Guerrero",
+        "Vereda Barandillas",
+        "Vereda La Granja",
+        "Vereda Empalizado",
+        "Casco Urbano / Barrios"
+    )
+
+    val SPECIES_LIST = listOf(
+        "Perro",
+        "Gato",
+        "Conejo / Pequeña Especie",
+        "Equino de Compañía"
+    )
+
+    val GUARDIAN_TYPES = listOf(
+        "Propietario / Tenedor Permanente",
+        "Tenedor Temporal / Cuidador",
+        "Animal Comunitario (Custodia colectiva)",
+        "Animal en Situación de Calle / Albergue"
     )
 
     val DOG_BREEDS = listOf(
@@ -20,12 +48,12 @@ object Microdataset {
         "Labrador Retriever",
         "Pastor Alemán",
         "Golden Retriever",
-        "Pitbull Terrier",
+        "Pitbull Terrier (Ley 1801)",
         "Poodle / Caniche",
         "Pinscher",
         "Beagle",
         "Bulldog Francés",
-        "Rottweiler",
+        "Rottweiler (Ley 1801)",
         "Siberian Husky",
         "Otro / Sin raza definida"
     )
@@ -606,8 +634,163 @@ object Microdataset {
         )
     )
 
-    // Current in-memory list
+    val INITIAL_CLINICAL_RECORDS: MutableMap<String, MutableList<ClinicalRecord>> = mutableMapOf(
+        "CEN-2026-001" to mutableListOf(
+            ClinicalRecord(
+                id = "CLI-001-01",
+                registro_id = "CEN-2026-001",
+                fecha = "2024-03-15",
+                tipo_evento = "Esterilización Quirúrgica",
+                profesional = "Dra. Mariana Gómez (M.V. Z-4821)",
+                anamnesis = "Ingreso a campaña municipal de control reproductivo rural.",
+                hallazgos = "Orquiectomía bilateral sin complicaciones. Se verifica y confirma ausencia de ectoparásitos. Paciente estable.",
+                compromiso_correctivo = "Reposo relativo por 5 días, uso de collar isabelino y retiro de puntos en puesto de salud.",
+                cumplido = true
+            ),
+            ClinicalRecord(
+                id = "CLI-001-02",
+                registro_id = "CEN-2026-001",
+                fecha = "2025-11-20",
+                tipo_evento = "Jornada Vacunación Antirrábica",
+                profesional = "Dr. Ruiz (Secretaría de Salud)",
+                anamnesis = "Renovación anual biológico antirrábico rural.",
+                hallazgos = "Constantes fisiológicas normales (T° 38.6°C, FC 90 lpm). Aplicación subcutánea Lote RAB-2025-X8.",
+                compromiso_correctivo = "Vigilar posibles reacciones locales durante 24 horas.",
+                cumplido = true
+            )
+        ),
+        "CEN-2026-002" to mutableListOf(
+            ClinicalRecord(
+                id = "CLI-002-01",
+                registro_id = "CEN-2026-002",
+                fecha = "2025-10-14",
+                tipo_evento = "Jornada Vacunación Antirrábica",
+                profesional = "Dra. Mariana Gómez",
+                anamnesis = "Vacunación felina comunitaria.",
+                hallazgos = "Hembra felina en buena condición corporal (3/5). Aplicación de vacuna antirrábica y desparasitación oral.",
+                compromiso_correctivo = "Agendada para próxima jornada de esterilización en Vereda San Jorge.",
+                cumplido = false
+            )
+        ),
+        "CEN-2026-003" to mutableListOf(
+            ClinicalRecord(
+                id = "CLI-003-01",
+                registro_id = "CEN-2026-003",
+                fecha = "2026-01-10",
+                tipo_evento = "Consulta Canino de Manejo Especial (Ley 1801)",
+                profesional = "Dr. Alejandro Casas (M.V. Inspección)",
+                anamnesis = "Evaluación etológica y registro de raza de manejo especial (Pitbull Terrier).",
+                hallazgos = "Macho en excelente musculatura. Sin signos de agresividad no provocada. Microchip verificado.",
+                compromiso_correctivo = "Obligatoriedad de uso de bozal tipo canastilla y traílla en espacios públicos. Presentar póliza de responsabilidad civil en Inspección de Policía.",
+                cumplido = true
+            )
+        )
+    )
+
+    val INITIAL_LOST_FOUND_ALERTS: MutableList<LostFoundAlert> = mutableListOf(
+        LostFoundAlert(
+            id = "ALR-2026-01",
+            tipo = "PERDIDO",
+            especie = "Perro",
+            nombre = "Toby",
+            raza = "Golden Retriever",
+            color = "Dorado / Miel",
+            vereda = "Vereda San Jorge",
+            fecha_evento = "2026-02-27",
+            microchip = "981098102938411",
+            contacto_nombre = "Elena Suárez",
+            contacto_telefono = "3129847162",
+            estado = "Candidato Coincidencia Detectado",
+            descripcion = "Se asustó con truenos en la Finca La Colina. Lleva collar azul reflectivo. Requiere medicación.",
+            posible_coincidencia_registro_id = "CEN-2026-011",
+            dias_custodia_albergue = 0,
+            validacion_manual_aprobada = false
+        ),
+        LostFoundAlert(
+            id = "ALR-2026-02",
+            tipo = "HALLADO",
+            especie = "Perro",
+            nombre = null,
+            raza = "Golden Retriever",
+            color = "Dorado / Miel",
+            vereda = "Vereda San Jorge",
+            fecha_evento = "2026-02-28",
+            microchip = null,
+            contacto_nombre = "Policía Ambiental Zipaquirá",
+            contacto_telefono = "3209876543",
+            estado = "Candidato Coincidencia Detectado",
+            descripcion = "Canino hallado desorientado cerca al puente de la quebrada. Muy dócil, collar azul desgastado.",
+            posible_coincidencia_registro_id = "ALR-2026-01",
+            dias_custodia_albergue = 2,
+            validacion_manual_aprobada = false
+        ),
+        LostFoundAlert(
+            id = "ALR-2026-03",
+            tipo = "HALLADO",
+            especie = "Perro",
+            nombre = "Negro",
+            raza = "Criollo / Mestizo",
+            color = "Negro",
+            vereda = "Vereda Barroblanco",
+            fecha_evento = "2026-02-05",
+            microchip = null,
+            contacto_nombre = "Albergue Municipal Zipaquirá",
+            contacto_telefono = "01800091234",
+            estado = "Custodia Municipal (+20 Días - Declarado Abandonado)",
+            descripcion = "Ingresó por presunto abandono en vía pública. Cumplió 24 días de custodia oficial sin reclamo de propietario. Pasa a estado de adoptabilidad formal según TRD FR-2.5.",
+            posible_coincidencia_registro_id = null,
+            dias_custodia_albergue = 24,
+            validacion_manual_aprobada = true
+        )
+    )
+
+    val INITIAL_MISTREATMENT_REPORTS: MutableList<MistreatmentReport> = mutableListOf(
+        MistreatmentReport(
+            id = "DEN-2026-001",
+            fecha_radicado = "2026-02-25",
+            modo_privacidad = "Identidad Reservada",
+            denunciante_nombre = "Vecino Sector Rural (Protegido)",
+            denunciante_contacto = "3119876543",
+            vereda = "Vereda Santa Librada",
+            direccion_exacta = "Finca Los Sauces, casa esquinera cerca al acueducto",
+            descripcion_hechos = "Canino mestizo permanece encadenado a la intemperie bajo lluvia y sol sin plato de agua potable. Presenta delgadez marcada.",
+            nivel_gravedad_aparente = "Moderado",
+            estado_caso = "Acta Diligenciada",
+            acta_visita = ActaVisita(
+                id = "ACTA-2026-01",
+                reporte_id = "DEN-2026-001",
+                fecha_visita = "2026-02-26",
+                inspector_veterinario = "Dr. Alejandro Casas (Secretaría Rural)",
+                condicion_corporal = "2 - Bajo peso / Costillas visibles",
+                condicion_espacio = "Restringido / Atado permanente sin resguardo",
+                condicion_alimentacion = "Alimento insuficiente, sin agua limpia permanente",
+                clasificacion_final = "Maltrato Moderado",
+                dias_plazo_compromiso = 10,
+                compromiso_texto = "El propietario se compromete a desatar al animal, construir canil con techo adecuado de 3x3m, proporcionar alimentación 2 veces al día y agua a voluntad. Se fija visita de seguimiento para el 2026-03-08.",
+                requiere_aprehension_policia = false,
+                compromiso_cumplido = false
+            )
+        ),
+        MistreatmentReport(
+            id = "DEN-2026-002",
+            fecha_radicado = "2026-02-28",
+            modo_privacidad = "Completamente Anónimo",
+            denunciante_nombre = null,
+            denunciante_contacto = null,
+            vereda = "Vereda El Rosal",
+            direccion_exacta = "Sector La Esperanza, galpón abandonado",
+            descripcion_hechos = "Cachorros abandonados en caja de cartón cerca a zanja de aguas lluvias.",
+            nivel_gravedad_aparente = "Grave / Urgente",
+            estado_caso = "Pendiente Visita",
+            acta_visita = null
+        )
+    )
+
+    // Current in-memory stores
     val currentRecords: MutableList<AnimalRecord> = INITIAL_ANIMAL_RECORDS.toMutableList()
+    val clinicalRecordsStore: MutableMap<String, MutableList<ClinicalRecord>> = INITIAL_CLINICAL_RECORDS.toMutableMap()
+    val lostFoundAlertsStore: MutableList<LostFoundAlert> = INITIAL_LOST_FOUND_ALERTS.toMutableList()
+    val mistreatmentReportsStore: MutableList<MistreatmentReport> = INITIAL_MISTREATMENT_REPORTS.toMutableList()
 
     fun getAllRecords(): List<AnimalRecord> = currentRecords
 
@@ -622,6 +805,42 @@ object Microdataset {
         if (index != -1) {
             currentRecords[index] = record
         }
+    }
+
+    // Clinical History Methods
+    fun getClinicalRecords(animalId: String): List<ClinicalRecord> {
+        return clinicalRecordsStore[animalId] ?: emptyList()
+    }
+
+    fun addClinicalRecord(animalId: String, record: ClinicalRecord) {
+        val list = clinicalRecordsStore.getOrPut(animalId) { mutableListOf() }
+        list.add(0, record)
+    }
+
+    // Lost & Found Methods
+    fun getAllLostFoundAlerts(): List<LostFoundAlert> = lostFoundAlertsStore
+
+    fun addLostFoundAlert(alert: LostFoundAlert) {
+        lostFoundAlertsStore.add(0, alert)
+    }
+
+    fun approveManualMatch(alertId: String) {
+        val alert = lostFoundAlertsStore.find { it.id == alertId } ?: return
+        alert.validacion_manual_aprobada = true
+        alert.estado = "Reunificado con Guardián"
+    }
+
+    // Mistreatment Methods
+    fun getAllMistreatmentReports(): List<MistreatmentReport> = mistreatmentReportsStore
+
+    fun addMistreatmentReport(report: MistreatmentReport) {
+        mistreatmentReportsStore.add(0, report)
+    }
+
+    fun saveActaVisita(reportId: String, acta: ActaVisita) {
+        val report = mistreatmentReportsStore.find { it.id == reportId } ?: return
+        report.acta_visita = acta
+        report.estado_caso = if (acta.clasificacion_final == "Sin Maltrato") "Cerrado / Sancionado" else "Acta Diligenciada"
     }
 
     fun registerDeath(recordId: String, deathDate: String, deathReason: String) {

@@ -3,7 +3,7 @@ package com.alcaldia.censoanimal.model
 data class AnimalRecord(
     val registro_id: String,
     var microchip: String?,
-    var especie: String, // "Perro" | "Gato"
+    var especie: String, // "Perro" | "Gato" | "Conejo / Pequeña Especie" | "Equino de Compañía"
     var animal_nombre: String,
     var sexo: String, // "Macho" | "Hembra"
     var raza: String,
@@ -11,12 +11,14 @@ data class AnimalRecord(
     var edad_meses: Int,
     var esterilizado: Boolean,
     var fecha_esterilizacion: String?,
+    var tatuaje_esterilizacion: Boolean = false,
     var fecha_vacuna_rabia: String,
     var lote_vacuna: String?,
     var responsable_nombre: String,
     var documento_tipo: String,
     var documento_numero: String,
     var telefono: String,
+    var tipo_guardia: String = "Propietario / Tenedor Permanente",
     var territorio: String,
     var territorio_catalogo: String,
     var direccion_finca: String,
@@ -25,6 +27,9 @@ data class AnimalRecord(
     var fecha_censo: String,
     var censo_por: String,
     var observaciones: String,
+    var condicion_comportamental: String = "Sociable / Buen temperamento",
+    var alerta_sanitaria: String? = null,
+    var dias_en_custodia: Int = 0,
     var estado_animal: String = "Activo", // "Activo" | "Fallecido"
     var fecha_fallecimiento: String? = null,
     var motivo_fallecimiento: String? = null,

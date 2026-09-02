@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <TextView
+        android:id="@+id/tvActaTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Diligenciar Acta de Visita Técnica"
+        android:textColor="@color/slate_900"
+        android:textSize="16sp" />
+
+    <TextView
+        android:id="@+id/tvActaSubtitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Inspección sanitaria municipal en terreno según Ley 1774 de 2016"
+        android:textColor="@color/slate_500"
+        android:textSize="11sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:maxHeight="380dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Inspector / MV -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-bold"
+                android:text="Inspector / Médico Veterinario *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etActaInspector"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:hint="Ej. Dr. Andrés Peña (M.V. Inspectora Rural)"
+                android:inputType="textCapWords"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/slate_900"
+                android:textSize="13sp" />
+
+            <!-- Condición Corporal (1 a 5) -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Calificación de Condición Corporal (1 a 5) *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <Spinner
+                android:id="@+id/spinnerBodyScore"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:paddingHorizontal="8dp" />
+
+            <!-- Hallazgos de Inspección -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Evaluación de Espacio, Alimento y Salud *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etActaFindings"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:gravity="top|start"
+                android:hint="Descripción técnica del refugio, acceso a agua limpia y signos de estrés o lesiones..."
+                android:inputType="textMultiLine|textCapSentences"
+                android:padding="10dp"
+                android:textColor="@color/slate_900"
+                android:textSize="12sp" />
+
+            <!-- Calificación de Severidad Técnica -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Determinación de Severidad del Caso *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <Spinner
+                android:id="@+id/spinnerActaSeverity"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:paddingHorizontal="8dp" />
+
+            <!-- Compromisos Correctivos -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Compromisos y Plan de Manejo Obligatorio *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etActaCommitments"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:hint="Ej. Proveer techo impermeable y desparasitación"
+                android:inputType="textCapSentences"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/slate_900"
+                android:textSize="13sp" />
+
+            <!-- Plazo en Días -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Plazo de Subsanación / Seguimiento *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <Spinner
+                android:id="@+id/spinnerActaDays"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:paddingHorizontal="8dp" />
+
+            <!-- Checkbox Aprehensión Policial -->
+            <CheckBox
+                android:id="@+id/cbPoliceApprehension"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Requiere Aprehensión Preventiva con Policía Ambiental"
+                android:textColor="@color/rose_700"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancelActa"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="Cancelar"
+            android:textColor="@color/slate_600" />
+
+        <Button
+            android:id="@+id/btnSaveActa"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/slate_900"
+            android:text="Firmar y Radicar Acta"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>

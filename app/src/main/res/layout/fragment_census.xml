@@ -54,6 +54,39 @@
                 android:textColor="@color/white"
                 android:textSize="11sp" />
         </LinearLayout>
+
+        <!-- Quick Access to Modules (TRD Pérdidas & Maltrato) -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/btnOpenLostFound"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/blue_500"
+                android:paddingHorizontal="4dp"
+                android:text="🐾 Pérdidas / Hallazgos"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+
+            <Button
+                android:id="@+id/btnOpenMistreatment"
+                style="@style/Widget.Material3.Button.TonalButton"
+                android:layout_width="0dp"
+                android:layout_height="36dp"
+                android:layout_marginStart="6dp"
+                android:layout_weight="1"
+                android:backgroundTint="@color/blue_500"
+                android:paddingHorizontal="4dp"
+                android:text="🛡️ Casos de Maltrato"
+                android:textColor="@color/white"
+                android:textSize="10sp" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Search Input Bar -->
