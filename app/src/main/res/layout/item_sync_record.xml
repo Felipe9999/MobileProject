@@ -91,7 +91,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="6dp"
+                android:layout_marginTop="8dp"
                 android:gravity="center_vertical"
                 android:orientation="horizontal">
 
@@ -99,10 +99,9 @@
                     android:id="@+id/tvSyncVersion"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:fontFamily="monospace"
-                    android:textColor="@color/slate_400"
-                    android:textSize="10sp"
-                    tools:text="Versión: v1" />
+                    android:textColor="@color/slate_500"
+                    android:textSize="11sp"
+                    tools:text="Tutor: Carlos Mendoza" />
 
                 <View
                     android:layout_width="0dp"
@@ -114,9 +113,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
-                    android:textColor="@color/blue_600"
+                    android:textColor="@color/emerald_700"
                     android:textSize="11sp"
-                    tools:text="Transmisión lista" />
+                    tools:text="✔ Guardado en la Alcaldía" />
             </LinearLayout>
 
             <!-- Conflict warning banner if duplicate chip -->

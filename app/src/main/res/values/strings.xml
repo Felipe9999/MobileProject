@@ -8,7 +8,7 @@
     <!-- Bottom Nav Tabs -->
     <string name="tab_census">Censo</string>
     <string name="tab_register">Registro</string>
-    <string name="tab_sync">Envío</string>
+    <string name="tab_sync">Sincronización</string>
     <string name="tab_indicators">Métricas</string>
     <string name="tab_map">Mapa</string>
 
@@ -17,8 +17,8 @@
     <string name="header_census_title">Directorio Animal</string>
     <string name="header_register_title">Nuevo Censo en Campo</string>
     <string name="header_register_sub">Formulario asistido con validación de catálogo</string>
-    <string name="header_sync_title">Envío y Sincronización</string>
-    <string name="header_sync_sub">Respaldo seguro de datos en la Alcaldía</string>
+    <string name="header_sync_title">Sincronización de Datos</string>
+    <string name="header_sync_sub">Envía y actualiza la información con la Alcaldía</string>
     <string name="header_indicators_sub">Entregable 14 • Gestión Municipal</string>
     <string name="header_indicators_title">Panel de Indicadores Institucionales</string>
     <string name="header_map_sub">Georreferenciación Catastral</string>
