@@ -26,7 +26,7 @@
             android:layout_marginStart="8dp"
             android:layout_weight="1"
             android:fontFamily="sans-serif-black"
-            android:text="Rectificar Microchip en Campo"
+            android:text="Corregir Código de Microchip"
             android:textColor="@color/rose_900"
             android:textSize="15sp" />
     </LinearLayout>
@@ -35,7 +35,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="6dp"
-        android:text="El código actual (981098102938401) está colisionando con el registro oficial de Lucas (CEN-001). Ingrese o regenere el chip correcto para Tom (CEN-015)."
+        android:text="El código de microchip ingresado ya está asignado a otro animal en el sistema. Puedes escribir el código correcto o generar un nuevo identificador válido."
         android:textColor="@color/slate_600"
         android:textSize="12sp" />
 
@@ -44,7 +44,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:fontFamily="sans-serif-bold"
-        android:text="Nuevo Número de Microchip (15 dígitos) *"
+        android:text="Número de Microchip (15 dígitos) *"
         android:textColor="@color/slate_800"
         android:textSize="11sp" />
 

@@ -42,36 +42,36 @@ class SyncRecordAdapter(
         holder.tvSyncAnimalName.text = item.animal_nombre
         holder.tvSyncRecordId.text = item.registro_id
         holder.tvSyncDetails.text = "${item.especie} • ${item.raza} • ${item.territorio}"
-        holder.tvSyncVersion.text = "Versión: v${item.version_registro}"
+        holder.tvSyncVersion.text = "Tutor: ${item.responsable_nombre}"
 
         if (item.alerta_duplicado) {
             holder.viewSyncStatusStripe.setBackgroundColor(ContextCompat.getColor(context, R.color.rose_500))
-            holder.tvSyncStatusBadge.text = "Conflicto"
+            holder.tvSyncStatusBadge.text = "Requiere atención"
             holder.tvSyncStatusBadge.setBackgroundResource(R.drawable.bg_pill_rose)
             holder.tvSyncStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.rose_700))
-            holder.tvSyncActionLabel.text = "Requiere rectificación"
+            holder.tvSyncActionLabel.text = "Código de chip repetido"
             holder.tvSyncActionLabel.setTextColor(ContextCompat.getColor(context, R.color.rose_600))
             
             holder.layoutSyncConflict.visibility = View.VISIBLE
-            holder.tvConflictText.text = "Chip (${item.microchip}) en colisión"
+            holder.tvConflictText.text = "El chip (${item.microchip}) ya fue usado antes"
             holder.btnItemFixConflict.setOnClickListener {
                 onFixConflictClick(item)
             }
         } else if (item.offline_pending) {
             holder.viewSyncStatusStripe.setBackgroundColor(ContextCompat.getColor(context, R.color.amber_500))
-            holder.tvSyncStatusBadge.text = "Pendiente"
+            holder.tvSyncStatusBadge.text = "Por enviar"
             holder.tvSyncStatusBadge.setBackgroundResource(R.drawable.bg_pill_amber)
             holder.tvSyncStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.amber_700))
-            holder.tvSyncActionLabel.text = "Transmisión lista"
+            holder.tvSyncActionLabel.text = "Listo para enviar"
             holder.tvSyncActionLabel.setTextColor(ContextCompat.getColor(context, R.color.blue_600))
             holder.layoutSyncConflict.visibility = View.GONE
         } else {
             holder.viewSyncStatusStripe.setBackgroundColor(ContextCompat.getColor(context, R.color.emerald_500))
-            holder.tvSyncStatusBadge.text = "Sincronizado"
+            holder.tvSyncStatusBadge.text = "Guardado"
             holder.tvSyncStatusBadge.setBackgroundResource(R.drawable.bg_pill_emerald)
             holder.tvSyncStatusBadge.setTextColor(ContextCompat.getColor(context, R.color.emerald_700))
-            holder.tvSyncActionLabel.text = "En servidor"
-            holder.tvSyncActionLabel.setTextColor(ContextCompat.getColor(context, R.color.emerald_600))
+            holder.tvSyncActionLabel.text = "✔ Al día con la Alcaldía"
+            holder.tvSyncActionLabel.setTextColor(ContextCompat.getColor(context, R.color.emerald_700))
             holder.layoutSyncConflict.visibility = View.GONE
         }
     }

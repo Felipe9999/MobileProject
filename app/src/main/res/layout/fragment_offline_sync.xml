@@ -46,7 +46,7 @@
             android:orientation="vertical"
             android:padding="16dp">
 
-            <!-- Sync Master Control Card -->
+            <!-- Sync Status Summary Card -->
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -69,20 +69,34 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="20dp"
-                            android:layout_height="20dp"
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
                             android:src="@drawable/ic_sync"
                             app:tint="@color/blue_600" />
 
-                        <TextView
+                        <LinearLayout
                             android:layout_width="0dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="8dp"
+                            android:layout_marginStart="10dp"
                             android:layout_weight="1"
-                            android:fontFamily="sans-serif-bold"
-                            android:text="Estado de la Base Local (Room)"
-                            android:textColor="@color/slate_900"
-                            android:textSize="13sp" />
+                            android:orientation="vertical">
+
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:fontFamily="sans-serif-bold"
+                                android:text="Estado de la Conexión"
+                                android:textColor="@color/slate_900"
+                                android:textSize="14sp" />
+
+                            <TextView
+                                android:id="@+id/tvSyncSubtext"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Los datos se guardan en el teléfono y se envían cuando hay señal"
+                                android:textColor="@color/slate_500"
+                                android:textSize="11sp" />
+                        </LinearLayout>
 
                         <TextView
                             android:id="@+id/tvSyncBadgeStatus"
@@ -90,18 +104,18 @@
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_pill_emerald"
                             android:fontFamily="sans-serif-bold"
-                            android:paddingHorizontal="8dp"
-                            android:paddingVertical="3dp"
-                            android:text="Online • Conectado"
+                            android:paddingHorizontal="10dp"
+                            android:paddingVertical="4dp"
+                            android:text="Conectado"
                             android:textColor="@color/emerald_700"
-                            android:textSize="10sp" />
+                            android:textSize="11sp" />
                     </LinearLayout>
 
-                    <!-- Metrics 3-box Grid -->
+                    <!-- User-friendly summary 3-box Grid -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="12dp"
+                        android:layout_marginTop="14dp"
                         android:orientation="horizontal">
 
                         <LinearLayout
@@ -112,23 +126,25 @@
                             android:background="@drawable/bg_pill_slate"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="10dp">
+                            android:padding="12dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="En el teléfono"
-                                android:textColor="@color/slate_500"
-                                android:textSize="9sp" />
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Total Fichas"
+                                android:textColor="@color/slate_600"
+                                android:textSize="11sp" />
 
                             <TextView
                                 android:id="@+id/tvLocalCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="15"
                                 android:textColor="@color/slate_900"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -139,23 +155,25 @@
                             android:background="@drawable/bg_pill_emerald"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="10dp">
+                            android:padding="12dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="En la Alcaldía"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Guardados"
                                 android:textColor="@color/emerald_800"
-                                android:textSize="9sp" />
+                                android:textSize="11sp" />
 
                             <TextView
                                 android:id="@+id/tvServerCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="14"
                                 android:textColor="@color/emerald_700"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
 
                         <LinearLayout
@@ -166,23 +184,25 @@
                             android:background="@drawable/bg_pill_amber"
                             android:gravity="center"
                             android:orientation="vertical"
-                            android:padding="10dp">
+                            android:padding="12dp">
 
                             <TextView
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
-                                android:text="Por revisar"
+                                android:fontFamily="sans-serif-medium"
+                                android:text="Por Enviar"
                                 android:textColor="@color/amber_900"
-                                android:textSize="9sp" />
+                                android:textSize="11sp" />
 
                             <TextView
                                 android:id="@+id/tvPendingCount"
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
+                                android:layout_marginTop="2dp"
                                 android:fontFamily="sans-serif-black"
                                 android:text="1"
                                 android:textColor="@color/amber_700"
-                                android:textSize="16sp" />
+                                android:textSize="18sp" />
                         </LinearLayout>
                     </LinearLayout>
 
@@ -190,11 +210,11 @@
                     <Button
                         android:id="@+id/btnSyncAll"
                         android:layout_width="match_parent"
-                        android:layout_height="46dp"
+                        android:layout_height="48dp"
                         android:layout_marginTop="14dp"
                         android:backgroundTint="@color/blue_600"
                         android:fontFamily="sans-serif-bold"
-                        android:text="@string/btn_sync_all"
+                        android:text="Sincronizar ahora con la Alcaldía"
                         android:textColor="@color/white"
                         android:textSize="13sp" />
                 </LinearLayout>
@@ -224,8 +244,8 @@
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:layout_width="18dp"
-                            android:layout_height="18dp"
+                            android:layout_width="20dp"
+                            android:layout_height="20dp"
                             android:src="@drawable/ic_alert_triangle"
                             app:tint="@color/rose_600" />
 
@@ -235,7 +255,7 @@
                             android:layout_marginStart="8dp"
                             android:layout_weight="1"
                             android:fontFamily="sans-serif-bold"
-                            android:text="Alerta de Duplicidad en Campo"
+                            android:text="Microchip Duplicado"
                             android:textColor="@color/rose_900"
                             android:textSize="13sp" />
 
@@ -243,10 +263,10 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:background="@drawable/bg_pill_rose"
-                            android:fontFamily="monospace"
-                            android:paddingHorizontal="6dp"
-                            android:paddingVertical="2dp"
-                            android:text="CEN-2026-015"
+                            android:fontFamily="sans-serif-bold"
+                            android:paddingHorizontal="8dp"
+                            android:paddingVertical="3dp"
+                            android:text="Atención requerida"
                             android:textColor="@color/rose_700"
                             android:textSize="10sp" />
                     </LinearLayout>
@@ -255,17 +275,17 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="6dp"
-                        android:text="El gato 'Tom' (Vereda La Esperanza) fue registrado con el microchip 981098102938401, el cual ya pertenece al perro 'Lucas' (Vereda San Jorge)."
+                        android:text="El gato 'Tom' tiene el mismo código de microchip que otro animal ya registrado. Puedes corregirlo fácilmente tocando el botón a continuación."
                         android:textColor="@color/rose_800"
-                        android:textSize="11sp" />
+                        android:textSize="12sp" />
 
                     <Button
                         android:id="@+id/btnResolveConflict"
                         android:layout_width="match_parent"
-                        android:layout_height="40dp"
+                        android:layout_height="42dp"
                         android:layout_marginTop="10dp"
                         android:backgroundTint="@color/rose_600"
-                        android:text="@string/btn_fix_chip"
+                        android:text="Corregir microchip"
                         android:textColor="@color/white"
                         android:textSize="12sp" />
                 </LinearLayout>
@@ -275,11 +295,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
+                android:layout_marginTop="18dp"
                 android:fontFamily="sans-serif-bold"
-                android:text="Registros en Cola de Transmisión"
+                android:text="Estado de tus Registros"
                 android:textColor="@color/slate_800"
-                android:textSize="13sp" />
+                android:textSize="14sp" />
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/rvSyncRecords"
