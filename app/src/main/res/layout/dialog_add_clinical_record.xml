@@ -1,0 +1,183 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical"
+    android:padding="20dp">
+
+    <!-- Header -->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-black"
+        android:text="Registrar Atención Clínica"
+        android:textColor="@color/slate_900"
+        android:textSize="16sp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="2dp"
+        android:text="Ingreso oficial de evento al historial del animal"
+        android:textColor="@color/slate_500"
+        android:textSize="11sp" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:maxHeight="400dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Tipo de Evento -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-bold"
+                android:text="Tipo de Evento Clínico *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <Spinner
+                android:id="@+id/spinnerClinicalEventType"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:paddingHorizontal="8dp" />
+
+            <!-- Profesional Veterinario -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Médico Veterinario / Profesional *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etClinicalVet"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:hint="Ej. Dra. Mariana Gómez (M.V. Z-4821)"
+                android:inputType="textCapWords"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/slate_900"
+                android:textSize="13sp" />
+
+            <!-- Anamnesis / Motivo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Motivo / Anamnesis *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etClinicalAnamnesis"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:hint="Ej. Ingreso a jornada de esterilización / control anual"
+                android:inputType="textCapSentences"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/slate_900"
+                android:textSize="13sp" />
+
+            <!-- Hallazgos Clínicos -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Hallazgos y Procedimientos *"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etClinicalFindings"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:gravity="top|start"
+                android:hint="Descripción de constantes, procedimiento y medicación aplicada..."
+                android:inputType="textMultiLine|textCapSentences"
+                android:padding="10dp"
+                android:textColor="@color/slate_900"
+                android:textSize="12sp" />
+
+            <!-- Compromiso Correctivo -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Compromiso Correctivo / Recomendación"
+                android:textColor="@color/slate_800"
+                android:textSize="12sp" />
+
+            <EditText
+                android:id="@+id/etClinicalCommitment"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginTop="4dp"
+                android:background="@drawable/bg_search_box"
+                android:hint="Ej. Reposo por 5 días y retiro de puntos"
+                android:inputType="textCapSentences"
+                android:paddingHorizontal="12dp"
+                android:textColor="@color/slate_900"
+                android:textSize="13sp" />
+
+            <!-- Checkbox Cumplido -->
+            <CheckBox
+                android:id="@+id/cbClinicalFulfilled"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:checked="true"
+                android:text="Compromiso / Tratamiento cumplido en sitio"
+                android:textColor="@color/slate_700"
+                android:textSize="12sp" />
+
+        </LinearLayout>
+    </ScrollView>
+
+    <!-- Buttons -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:gravity="end"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancelClinical"
+            style="@style/Widget.Material3.Button.TextButton"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:text="Cancelar"
+            android:textColor="@color/slate_600" />
+
+        <Button
+            android:id="@+id/btnSaveClinical"
+            android:layout_width="wrap_content"
+            android:layout_height="44dp"
+            android:layout_marginStart="8dp"
+            android:backgroundTint="@color/blue_700"
+            android:text="Guardar en Historia"
+            android:textColor="@color/white" />
+    </LinearLayout>
+</LinearLayout>

@@ -45,6 +45,7 @@ class RegisterFragment : Fragment() {
     // Step 1 Form Fields
     private lateinit var btnSpeciesDog: LinearLayout
     private lateinit var btnSpeciesCat: LinearLayout
+    private lateinit var btnSpeciesOther: LinearLayout
     private var selectedSpecies = "Perro"
 
     private lateinit var etAnimalName: EditText
@@ -57,10 +58,12 @@ class RegisterFragment : Fragment() {
     private lateinit var etMicrochip: EditText
     private lateinit var btnGenerateChip: Button
     private lateinit var switchSterilized: SwitchMaterial
+    private lateinit var switchSterilizationTattoo: SwitchMaterial
     private lateinit var etRabiesDate: EditText
     private lateinit var etVaccineBatch: EditText
 
     // Step 3 Form Fields
+    private lateinit var spinnerGuardianType: Spinner
     private lateinit var etOwnerName: EditText
     private lateinit var etOwnerDoc: EditText
     private lateinit var etOwnerPhone: EditText
@@ -98,6 +101,7 @@ class RegisterFragment : Fragment() {
         // Step 1
         btnSpeciesDog = view.findViewById(R.id.btnSpeciesDog)
         btnSpeciesCat = view.findViewById(R.id.btnSpeciesCat)
+        btnSpeciesOther = view.findViewById(R.id.btnSpeciesOther)
         etAnimalName = view.findViewById(R.id.etAnimalName)
         spinnerSex = view.findViewById(R.id.spinnerSex)
         etAgeMonths = view.findViewById(R.id.etAgeMonths)
@@ -108,10 +112,12 @@ class RegisterFragment : Fragment() {
         etMicrochip = view.findViewById(R.id.etMicrochip)
         btnGenerateChip = view.findViewById(R.id.btnGenerateChip)
         switchSterilized = view.findViewById(R.id.switchSterilized)
+        switchSterilizationTattoo = view.findViewById(R.id.switchSterilizationTattoo)
         etRabiesDate = view.findViewById(R.id.etRabiesDate)
         etVaccineBatch = view.findViewById(R.id.etVaccineBatch)
 
         // Step 3
+        spinnerGuardianType = view.findViewById(R.id.spinnerGuardianType)
         etOwnerName = view.findViewById(R.id.etOwnerName)
         etOwnerDoc = view.findViewById(R.id.etOwnerDoc)
         etOwnerPhone = view.findViewById(R.id.etOwnerPhone)
@@ -128,24 +134,25 @@ class RegisterFragment : Fragment() {
     }
 
     private fun setupSpeciesToggle() {
-        fun updateSpeciesUI(isDog: Boolean) {
-            selectedSpecies = if (isDog) "Perro" else "Gato"
-            if (isDog) {
-                btnSpeciesDog.setBackgroundResource(R.drawable.bg_pill_blue)
-                btnSpeciesCat.setBackgroundResource(R.drawable.bg_pill_slate)
-            } else {
-                btnSpeciesDog.setBackgroundResource(R.drawable.bg_pill_slate)
-                btnSpeciesCat.setBackgroundResource(R.drawable.bg_pill_blue)
-            }
-            updateBreedSpinner(isDog)
+        fun selectSpecies(species: String) {
+            selectedSpecies = species
+            btnSpeciesDog.setBackgroundResource(if (species == "Perro") R.drawable.bg_pill_blue else R.drawable.bg_pill_slate)
+            btnSpeciesCat.setBackgroundResource(if (species == "Gato") R.drawable.bg_pill_blue else R.drawable.bg_pill_slate)
+            btnSpeciesOther.setBackgroundResource(if (species != "Perro" && species != "Gato") R.drawable.bg_pill_blue else R.drawable.bg_pill_slate)
+            updateBreedSpinner(species)
         }
 
-        btnSpeciesDog.setOnClickListener { updateSpeciesUI(true) }
-        btnSpeciesCat.setOnClickListener { updateSpeciesUI(false) }
+        btnSpeciesDog.setOnClickListener { selectSpecies("Perro") }
+        btnSpeciesCat.setOnClickListener { selectSpecies("Gato") }
+        btnSpeciesOther.setOnClickListener { selectSpecies("Conejo / Pequeña Especie") }
     }
 
-    private fun updateBreedSpinner(isDog: Boolean) {
-        val breeds = if (isDog) Microdataset.DOG_BREEDS else Microdataset.CAT_BREEDS
+    private fun updateBreedSpinner(species: String) {
+        val breeds = when (species) {
+            "Perro" -> Microdataset.DOG_BREEDS
+            "Gato" -> Microdataset.CAT_BREEDS
+            else -> listOf("Conejo Enano / Criollo", "Equino de Compañía", "Cobayo / Pequeña Especie", "Otro")
+        }
         val breedAdapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, breeds)
         spinnerBreed.adapter = breedAdapter
     }
@@ -158,10 +165,13 @@ class RegisterFragment : Fragment() {
         // Color
         spinnerColor.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Microdataset.COLOR_OPTIONS)
 
+        // Guardian Types
+        spinnerGuardianType.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Microdataset.GUARDIAN_TYPES)
+
         // Veredas
         spinnerRegisterVereda.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Microdataset.OFFICIAL_VEREDAS)
 
-        updateBreedSpinner(true)
+        updateBreedSpinner("Perro")
     }
 
     private fun setupGpsAndChipButtons() {
@@ -274,8 +284,10 @@ class RegisterFragment : Fragment() {
             edad_meses = etAgeMonths.text.toString().toIntOrNull() ?: 12,
             esterilizado = switchSterilized.isChecked,
             fecha_esterilizacion = if (switchSterilized.isChecked) today else null,
+            tatuaje_esterilizacion = switchSterilizationTattoo.isChecked,
             fecha_vacuna_rabia = etRabiesDate.text.toString().trim().ifEmpty { today },
             lote_vacuna = etVaccineBatch.text.toString().trim().ifEmpty { "RAB-2026-X8" },
+            tipo_guardia = spinnerGuardianType.selectedItem?.toString() ?: "Propietario / Tenedor Permanente",
             responsable_nombre = ownerName,
             documento_tipo = "CC",
             documento_numero = ownerDoc,
