@@ -7,6 +7,8 @@
         <item name="colorSecondary">@color/emerald_600</item>
         <item name="colorSecondaryVariant">@color/emerald_700</item>
         <item name="colorOnSecondary">@color/white</item>
+        <item name="colorSecondaryContainer">@color/blue_100</item>
+        <item name="colorOnSecondaryContainer">@color/blue_800</item>
         <item name="android:statusBarColor">@color/blue_700</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">@color/white</item>
@@ -32,5 +34,15 @@
         <item name="chipMinHeight">36dp</item>
         <item name="textStartPadding">8dp</item>
         <item name="textEndPadding">8dp</item>
+    </style>
+
+    <style name="BottomNavTextActive" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+
+    <style name="BottomNavTextInactive" parent="TextAppearance.Material3.LabelSmall">
+        <item name="android:textSize">11sp</item>
+        <item name="android:fontFamily">sans-serif</item>
     </style>
 </resources>
