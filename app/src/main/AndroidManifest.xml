@@ -51,6 +51,18 @@
             android:screenOrientation="portrait"
             android:label="@string/title_activity_login" />
 
+        <activity
+            android:name=".ui.LostFoundActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_lost_found" />
+
+        <activity
+            android:name=".ui.MistreatmentActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_mistreatment" />
+
     </application>
 
 </manifest>
