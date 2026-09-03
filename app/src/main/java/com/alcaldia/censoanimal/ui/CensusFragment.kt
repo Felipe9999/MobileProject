@@ -194,6 +194,7 @@ class CensusFragment : Fragment() {
 
         adapter.updateData(filtered)
         tvTotalBadge.text = "${filtered.size} censados"
+        (activity as? com.alcaldia.censoanimal.MainActivity)?.updateTopBarBadge("${filtered.size} censados")
 
         if (filtered.isEmpty()) {
             layoutEmptyState.visibility = View.VISIBLE

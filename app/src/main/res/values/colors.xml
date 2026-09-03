@@ -57,6 +57,8 @@
     <color name="rose_50">#FFF1F2</color>
     <color name="rose_100">#FFE4E6</color>
     <color name="rose_200">#FECDD3</color>
+    <color name="rose_300">#FDA4AF</color>
+    <color name="rose_400">#FB7185</color>
     <color name="rose_500">#F43F5E</color>
     <color name="rose_600">#E11D48</color>
     <color name="rose_700">#BE123C</color>

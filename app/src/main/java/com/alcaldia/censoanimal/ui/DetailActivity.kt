@@ -134,6 +134,10 @@ class DetailActivity : AppCompatActivity() {
         tvDetailGpsCoords = findViewById(R.id.tvDetailGpsCoords)
 
         btnRegisterDecease = findViewById(R.id.btnRegisterDecease)
+
+        val btnDetailAccount = findViewById<android.view.View>(R.id.btnDetailAccount)
+        val tvDetailAccountLabel = findViewById<TextView>(R.id.tvDetailAccountLabel)
+        TopBarAccountHelper.setupAccountButton(this, btnDetailAccount, tvDetailAccountLabel)
     }
 
     private fun setupListeners() {
