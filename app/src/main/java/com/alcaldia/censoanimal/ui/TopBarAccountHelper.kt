@@ -41,11 +41,25 @@ object TopBarAccountHelper {
 
         updateLabel(AppSessionManager.currentProfile)
 
-        AppSessionManager.addSessionListener { profile ->
-            activity.runOnUiThread {
-                updateLabel(profile)
-                onSessionUpdated?.invoke(profile)
+        val sessionListener: (UserProfile) -> Unit = { profile ->
+            if (!activity.isFinishing && !activity.isDestroyed) {
+                activity.runOnUiThread {
+                    updateLabel(profile)
+                    if (AppSessionManager.isLoggedIn) {
+                        onSessionUpdated?.invoke(profile)
+                    }
+                }
             }
+        }
+
+        AppSessionManager.addSessionListener(sessionListener)
+
+        if (activity is androidx.lifecycle.LifecycleOwner) {
+            activity.lifecycle.addObserver(object : androidx.lifecycle.DefaultLifecycleObserver {
+                override fun onDestroy(owner: androidx.lifecycle.LifecycleOwner) {
+                    AppSessionManager.removeSessionListener(sessionListener)
+                }
+            })
         }
 
         accountButton.setOnClickListener {
@@ -191,11 +205,13 @@ object TopBarAccountHelper {
             .setPositiveButton("Cerrar Sesión") { _, _ ->
                 AppSessionManager.logout()
                 Toast.makeText(activity, "Sesión cerrada correctamente", Toast.LENGTH_SHORT).show()
-                onSessionUpdated?.invoke(AppSessionManager.currentProfile)
 
-                // Navigate to LoginActivity
-                val intent = Intent(activity, LoginActivity::class.java)
+                // Navigate to LoginActivity and clear existing task stack
+                val intent = Intent(activity, LoginActivity::class.java).apply {
+                    flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+                }
                 activity.startActivity(intent)
+                activity.finish()
             }
             .setNegativeButton("Cancelar", null)
             .show()

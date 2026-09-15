@@ -78,11 +78,14 @@ class ReportMistreatmentActivity : AppCompatActivity() {
         tvCitizenReportCount = findViewById(R.id.tvCitizenReportCount)
         containerCitizenReports = findViewById(R.id.containerCitizenReports)
 
+        var lastKnownRole = AppSessionManager.currentProfile.role
         TopBarAccountHelper.setupAccountButton(this, btnReportAccount, tvReportAccountLabel) { profile ->
-            // If user switches role inside dropdown, redirect to the management view
-            if (profile.role != com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
-                startActivity(android.content.Intent(this, MistreatmentActivity::class.java))
-                finish()
+            if (profile.role != lastKnownRole) {
+                lastKnownRole = profile.role
+                if (profile.role != com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
+                    startActivity(android.content.Intent(this, MistreatmentActivity::class.java))
+                    finish()
+                }
             }
         }
     }

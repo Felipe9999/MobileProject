@@ -21,6 +21,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.alcaldia.censoanimal.R
+import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.ActaVisita
 import com.alcaldia.censoanimal.model.MistreatmentReport
@@ -76,11 +77,14 @@ class MistreatmentActivity : AppCompatActivity() {
         layoutCasesContainer = findViewById(R.id.layoutCasesContainer)
         layoutEmptyMistreatment = findViewById(R.id.layoutEmptyMistreatment)
 
+        var lastKnownRole = AppSessionManager.currentProfile.role
         TopBarAccountHelper.setupAccountButton(this, btnMistreatmentAccount, tvMistreatmentAccountLabel) { profile ->
-            if (profile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
-                // If role changed to citizen while on this activity, finish or redirect to ReportMistreatmentActivity
-                startActivity(Intent(this, ReportMistreatmentActivity::class.java))
-                finish()
+            if (profile.role != lastKnownRole) {
+                lastKnownRole = profile.role
+                if (profile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
+                    startActivity(Intent(this, ReportMistreatmentActivity::class.java))
+                    finish()
+                }
             }
         }
     }

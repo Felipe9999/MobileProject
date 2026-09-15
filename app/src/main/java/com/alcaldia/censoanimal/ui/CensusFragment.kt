@@ -28,6 +28,7 @@ import com.alcaldia.censoanimal.R
 import com.alcaldia.censoanimal.adapter.AnimalRecordAdapter
 import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
+import com.alcaldia.censoanimal.data.UserProfile
 import com.alcaldia.censoanimal.model.AnimalRecord
 import com.alcaldia.censoanimal.model.UserRole
 import java.text.SimpleDateFormat
@@ -62,6 +63,12 @@ class CensusFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_census, container, false)
+    }
+
+    private val sessionListener: (UserProfile) -> Unit = {
+        activity?.runOnUiThread {
+            updateMistreatmentButtonLabel()
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -107,7 +114,13 @@ class CensusFragment : Fragment() {
         setupVeredaSpinner()
         setupSearch()
         updateMistreatmentButtonLabel()
+        AppSessionManager.addSessionListener(sessionListener)
         applyFilters()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        AppSessionManager.removeSessionListener(sessionListener)
     }
 
     override fun onResume() {

@@ -29,7 +29,6 @@ object AppSessionManager {
         if (!listeners.contains(listener)) {
             listeners.add(listener)
         }
-        listener(currentProfile)
     }
 
     fun removeSessionListener(listener: (UserProfile) -> Unit) {

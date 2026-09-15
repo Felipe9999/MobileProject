@@ -113,6 +113,9 @@ class LoginActivity : AppCompatActivity() {
             }
             setResult(RESULT_OK, resultIntent)
             Toast.makeText(this, "Autenticación Biométrica Verificada (${role.label})", Toast.LENGTH_SHORT).show()
+            if (isTaskRoot) {
+                startActivity(Intent(this, com.alcaldia.censoanimal.MainActivity::class.java))
+            }
             finish()
         }
 
@@ -216,6 +219,9 @@ class LoginActivity : AppCompatActivity() {
         setResult(RESULT_OK, resultIntent)
 
         Toast.makeText(this, "Sesión iniciada como: ${finalRole.label}", Toast.LENGTH_SHORT).show()
+        if (isTaskRoot) {
+            startActivity(Intent(this, com.alcaldia.censoanimal.MainActivity::class.java))
+        }
         finish()
     }
 
