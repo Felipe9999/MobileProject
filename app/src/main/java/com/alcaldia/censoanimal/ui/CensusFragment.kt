@@ -26,8 +26,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alcaldia.censoanimal.R
 import com.alcaldia.censoanimal.adapter.AnimalRecordAdapter
+import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.AnimalRecord
+import com.alcaldia.censoanimal.model.UserRole
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -85,7 +87,12 @@ class CensusFragment : Fragment() {
             startActivity(Intent(requireContext(), LostFoundActivity::class.java))
         }
         btnOpenMistreatment.setOnClickListener {
-            startActivity(Intent(requireContext(), MistreatmentActivity::class.java))
+            val currentRole = AppSessionManager.currentProfile.role
+            if (currentRole == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
+                startActivity(Intent(requireContext(), ReportMistreatmentActivity::class.java))
+            } else {
+                startActivity(Intent(requireContext(), MistreatmentActivity::class.java))
+            }
         }
 
         rvCensusRecords.layoutManager = LinearLayoutManager(requireContext())
@@ -99,12 +106,22 @@ class CensusFragment : Fragment() {
         setupFilters()
         setupVeredaSpinner()
         setupSearch()
+        updateMistreatmentButtonLabel()
         applyFilters()
     }
 
     override fun onResume() {
         super.onResume()
+        updateMistreatmentButtonLabel()
         applyFilters()
+    }
+
+    private fun updateMistreatmentButtonLabel() {
+        if (AppSessionManager.currentProfile.role == UserRole.CIUDADANO) {
+            btnOpenMistreatment.text = "🛡️ Denunciar Maltrato"
+        } else {
+            btnOpenMistreatment.text = "🛡️ Casos de Maltrato"
+        }
     }
 
     private fun setupVeredaSpinner() {

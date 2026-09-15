@@ -224,7 +224,13 @@ class DetailActivity : AppCompatActivity() {
         }
 
         // Vaccine
-        tvDetailRabiesStatus.text = "Vacuna Antirrábica: ${record.fecha_vacuna_rabia} (${record.lote_vacuna ?: "Lote estándar"})"
+        val rabiesDate = record.fecha_vacuna_rabia
+        if (!rabiesDate.isNullOrBlank()) {
+            val lotText = if (!record.lote_vacuna.isNullOrBlank()) " (${record.lote_vacuna})" else ""
+            tvDetailRabiesStatus.text = "Vacuna Antirrábica: $rabiesDate$lotText"
+        } else {
+            tvDetailRabiesStatus.text = "Vacuna Antirrábica: Sin registro previo / Desconocida"
+        }
 
         // Location
         tvDetailVereda.text = "Vereda: ${record.territorio}"

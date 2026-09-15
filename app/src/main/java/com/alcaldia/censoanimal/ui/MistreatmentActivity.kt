@@ -1,6 +1,7 @@
 package com.alcaldia.censoanimal.ui
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -75,7 +76,13 @@ class MistreatmentActivity : AppCompatActivity() {
         layoutCasesContainer = findViewById(R.id.layoutCasesContainer)
         layoutEmptyMistreatment = findViewById(R.id.layoutEmptyMistreatment)
 
-        TopBarAccountHelper.setupAccountButton(this, btnMistreatmentAccount, tvMistreatmentAccountLabel)
+        TopBarAccountHelper.setupAccountButton(this, btnMistreatmentAccount, tvMistreatmentAccountLabel) { profile ->
+            if (profile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
+                // If role changed to citizen while on this activity, finish or redirect to ReportMistreatmentActivity
+                startActivity(Intent(this, ReportMistreatmentActivity::class.java))
+                finish()
+            }
+        }
     }
 
     private fun setupListeners() {

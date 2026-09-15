@@ -1,0 +1,423 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slate_50"
+    android:orientation="vertical">
+
+    <!-- Standardized Top Bar -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/slate_900"
+        android:gravity="center_vertical"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <ImageButton
+            android:id="@+id/btnReportBack"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:contentDescription="Volver"
+            android:src="@drawable/ic_arrow_left"
+            app:tint="@color/white" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:text="Secretaría de Desarrollo Rural y Ambiente"
+                android:textColor="@color/slate_400"
+                android:textSize="11sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="Radicar Denuncia de Maltrato"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+
+        <!-- Standardized Account Button with Dropdown Trigger -->
+        <LinearLayout
+            android:id="@+id/btnReportAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_pill_slate"
+            android:backgroundTint="@color/slate_800"
+            android:clickable="true"
+            android:contentDescription="Menú de Cuenta"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingHorizontal="10dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_user"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/tvReportAccountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Ciudadano"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!-- Citizen Instructions Banner -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/rose_50"
+        android:orientation="vertical"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="12dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:src="@drawable/ic_alert_triangle"
+                app:tint="@color/rose_700" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-bold"
+                android:text="Canal Oficial Ciudadano de Protección Animal"
+                android:textColor="@color/rose_900"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:fontFamily="sans-serif"
+            android:text="Tu reporte genera un radicado oficial ante la inspección de policía y bienestar animal de Zipaquirá. Puedes elegir proteger tu identidad o denunciar anónimamente."
+            android:textColor="@color/rose_800"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Form Content Scroll -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:clipToPadding="false"
+        android:padding="16dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <!-- Card Container -->
+            <com.google.android.material.card.MaterialCardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="16dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/slate_200"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="16dp">
+
+                    <!-- Modalidad de Reserva de Identidad -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Modalidad de Privacidad (TRD FR-4.1) *"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Garantía de amparo y confidencialidad Ley 1774/2016"
+                        android:textColor="@color/slate_500"
+                        android:textSize="11sp" />
+
+                    <RadioGroup
+                        android:id="@+id/rgCitizenPrivacy"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="vertical">
+
+                        <RadioButton
+                            android:id="@+id/rbCitizenReserved"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:checked="true"
+                            android:text="Identidad Reservada (Recomendado para seguimiento oficial)"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <RadioButton
+                            android:id="@+id/rbCitizenAnonymous"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="4dp"
+                            android:text="Completamente Anónimo (Sin datos de contacto)"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+                    </RadioGroup>
+
+                    <!-- Citizen Contact Information -->
+                    <LinearLayout
+                        android:id="@+id/layoutCitizenContact"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-medium"
+                            android:text="Tus Datos de Contacto (Confidencial para inspectores):"
+                            android:textColor="@color/slate_700"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/etCitizenContact"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:hint="Nombre y número celular (Ej. Carlos Mendoza - 310 123 4567)"
+                            android:inputType="text"
+                            android:paddingHorizontal="12dp"
+                            android:textColor="@color/slate_900"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="1dp"
+                        android:layout_marginVertical="16dp"
+                        android:background="@color/slate_200" />
+
+                    <!-- Territory / Vereda Selection -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Vereda o Territorio de Zipaquirá *"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Seleccione del catálogo controlado de veredas del municipio"
+                        android:textColor="@color/slate_500"
+                        android:textSize="11sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCitizenVereda"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_search_box"
+                        android:paddingHorizontal="10dp" />
+
+                    <!-- Exact Address / Reference -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Dirección o Referencia del Predio *"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <EditText
+                        android:id="@+id/etCitizenAddress"
+                        android:layout_width="match_parent"
+                        android:layout_height="44dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_search_box"
+                        android:hint="Ej. Vía San Jorge km 3, finca portón blanco frente a la tienda"
+                        android:inputType="textCapSentences"
+                        android:paddingHorizontal="12dp"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <!-- Apparent Severity -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Gravedad o Situación Observada *"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <Spinner
+                        android:id="@+id/spinnerCitizenSeverity"
+                        android:layout_width="match_parent"
+                        android:layout_height="46dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_search_box"
+                        android:paddingHorizontal="10dp" />
+
+                    <!-- Facts Description -->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="14dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Relato de los Hechos *"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Describa el estado del animal de compañía, lesiones, desnutrición, agresiones o encierro"
+                        android:textColor="@color/slate_500"
+                        android:textSize="11sp" />
+
+                    <EditText
+                        android:id="@+id/etCitizenDescription"
+                        android:layout_width="match_parent"
+                        android:layout_height="100dp"
+                        android:layout_marginTop="6dp"
+                        android:background="@drawable/bg_search_box"
+                        android:gravity="top|start"
+                        android:hint="Escriba aquí los detalles observados con la mayor precisión posible..."
+                        android:inputType="textMultiLine|textCapSentences"
+                        android:padding="12dp"
+                        android:textColor="@color/slate_900"
+                        android:textSize="13sp" />
+
+                    <!-- Legal Warning Note -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/bg_pill_slate"
+                        android:backgroundTint="@color/slate_100"
+                        android:orientation="horizontal"
+                        android:padding="12dp">
+
+                        <ImageView
+                            android:layout_width="16dp"
+                            android:layout_height="16dp"
+                            android:layout_marginTop="2dp"
+                            android:src="@drawable/ic_shield_check"
+                            app:tint="@color/slate_600" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:layout_weight="1"
+                            android:fontFamily="sans-serif"
+                            android:text="La radicación de denuncias falsas o temerarias está sujeta a sanciones de ley. Esta información es procesada por médicos veterinarios de la Alcaldía."
+                            android:textColor="@color/slate_600"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <!-- Action Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:gravity="end"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnCitizenCancel"
+                            style="@style/Widget.Material3.Button.TextButton"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:text="Cancelar"
+                            android:textColor="@color/slate_600" />
+
+                        <Button
+                            android:id="@+id/btnCitizenSubmit"
+                            android:layout_width="wrap_content"
+                            android:layout_height="48dp"
+                            android:layout_marginStart="12dp"
+                            android:backgroundTint="@color/rose_700"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Radicar Denuncia Formal"
+                            android:textColor="@color/white" />
+                    </LinearLayout>
+
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Previous Citizen Reports Section -->
+            <LinearLayout
+                android:id="@+id/layoutCitizenMyReports"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Mis Denuncias Radicadas"
+                    android:textColor="@color/slate_900"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/tvCitizenReportCount"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Seguimiento al estado de tus denuncias en Zipaquirá"
+                    android:textColor="@color/slate_500"
+                    android:textSize="11sp" />
+
+                <LinearLayout
+                    android:id="@+id/containerCitizenReports"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="vertical" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
