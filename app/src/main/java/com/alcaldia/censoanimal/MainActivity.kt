@@ -29,6 +29,8 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
+const val IS_TOP_NAV_ENABLED = false
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var bottomNavigation: BottomNavigationView
@@ -49,6 +51,8 @@ class MainActivity : AppCompatActivity() {
     private lateinit var tvTopBarBadge: TextView
     private lateinit var btnTopBarAccount: LinearLayout
     private lateinit var tvTopBarAccountLabel: TextView
+
+    private lateinit var systemStatusBar: LinearLayout
 
     private var isOnline = true
 
@@ -74,6 +78,7 @@ class MainActivity : AppCompatActivity() {
         tvRoleName = findViewById(R.id.tvRoleName)
         ivRoleIcon = findViewById(R.id.ivRoleIcon)
 
+        systemStatusBar = findViewById(R.id.systemStatusBar)
         btnNetworkToggle = findViewById(R.id.btnNetworkToggle)
         tvNetworkLabel = findViewById(R.id.tvNetworkLabel)
         ivNetworkIcon = findViewById(R.id.ivNetworkIcon)
@@ -98,6 +103,8 @@ class MainActivity : AppCompatActivity() {
         updateClock()
         updateRoleUI()
         updateNetworkUI()
+        if(IS_TOP_NAV_ENABLED) systemStatusBar.visibility = android.view.View.VISIBLE
+        else  systemStatusBar.visibility = android.view.View.GONE
 
         setupBottomNavigation()
         setupTopBarListeners()
