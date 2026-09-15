@@ -67,6 +67,11 @@ object TopBarAccountHelper {
         }
     }
 
+    fun openAccountSettings(activity: Activity) {
+        val intent = Intent(activity, AccountSettingsActivity::class.java)
+        activity.startActivity(intent)
+    }
+
     fun showAccountDropdown(
         activity: Activity,
         anchorView: View,
@@ -100,7 +105,7 @@ object TopBarAccountHelper {
 
         btnDropdownSettings.setOnClickListener {
             popupWindow.dismiss()
-            showAccountSettingsDialog(activity, onSessionUpdated)
+            openAccountSettings(activity)
         }
 
         btnDropdownLogout.setOnClickListener {
@@ -108,89 +113,24 @@ object TopBarAccountHelper {
             confirmLogout(activity, onSessionUpdated)
         }
 
-        // Show anchored below account button, aligned to its right
-        val location = IntArray(2)
-        anchorView.getLocationOnScreen(location)
-        popupWindow.showAsDropDown(anchorView, -120, 8, Gravity.NO_GRAVITY)
+        // Measure popup to align right edge with anchor view
+        popupView.measure(
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED),
+            View.MeasureSpec.makeMeasureSpec(0, View.MeasureSpec.UNSPECIFIED)
+        )
+        val popupWidth = popupView.measuredWidth
+        val density = activity.resources.displayMetrics.density
+        val xOffset = anchorView.width - popupWidth
+        val yOffset = (6 * density).toInt()
+
+        popupWindow.showAsDropDown(anchorView, xOffset, yOffset)
     }
 
     fun showAccountSettingsDialog(
         activity: Activity,
         onSessionUpdated: ((UserProfile) -> Unit)? = null
     ) {
-        val dialogView = LayoutInflater.from(activity).inflate(R.layout.dialog_account_settings, null)
-        val dialog = AlertDialog.Builder(activity)
-            .setView(dialogView)
-            .create()
-        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-
-        val profile = AppSessionManager.currentProfile
-
-        val tvSettingsUserName = dialogView.findViewById<TextView>(R.id.tvSettingsUserName)
-        val tvSettingsUserRole = dialogView.findViewById<TextView>(R.id.tvSettingsUserRole)
-        val tvSettingsEmail = dialogView.findViewById<TextView>(R.id.tvSettingsEmail)
-        val tvSettingsId = dialogView.findViewById<TextView>(R.id.tvSettingsId)
-        val btnCloseSettings = dialogView.findViewById<ImageButton>(R.id.btnCloseSettings)
-
-        val btnRoleVet = dialogView.findViewById<Button>(R.id.btnRoleVet)
-        val btnRoleOfficial = dialogView.findViewById<Button>(R.id.btnRoleOfficial)
-        val btnRoleCitizen = dialogView.findViewById<Button>(R.id.btnRoleCitizen)
-
-        val switchAutoSync = dialogView.findViewById<SwitchCompat>(R.id.switchAutoSync)
-        val switchBiometric = dialogView.findViewById<SwitchCompat>(R.id.switchBiometric)
-        val switchNotifications = dialogView.findViewById<SwitchCompat>(R.id.switchNotifications)
-
-        val btnSettingsLogout = dialogView.findViewById<Button>(R.id.btnSettingsLogout)
-        val btnSettingsSave = dialogView.findViewById<Button>(R.id.btnSettingsSave)
-
-        fun bindProfile(p: UserProfile) {
-            tvSettingsUserName.text = p.name
-            tvSettingsUserRole.text = p.roleLabel
-            tvSettingsEmail.text = "✉ ${p.email}"
-            tvSettingsId.text = "🪪 ${p.professionalId}"
-            switchAutoSync.isChecked = p.isAutoSyncEnabled
-            switchBiometric.isChecked = p.isBiometricEnabled
-            switchNotifications.isChecked = p.isNotificationsEnabled
-        }
-
-        bindProfile(profile)
-
-        btnRoleVet.setOnClickListener {
-            AppSessionManager.switchRole(UserRole.VETERINARIO)
-            bindProfile(AppSessionManager.currentProfile)
-            Toast.makeText(activity, "Rol cambiado a Veterinario", Toast.LENGTH_SHORT).show()
-        }
-
-        btnRoleOfficial.setOnClickListener {
-            AppSessionManager.switchRole(UserRole.FUNCIONARIO)
-            bindProfile(AppSessionManager.currentProfile)
-            Toast.makeText(activity, "Rol cambiado a Funcionario", Toast.LENGTH_SHORT).show()
-        }
-
-        btnRoleCitizen.setOnClickListener {
-            AppSessionManager.switchRole(UserRole.CIUDADANO)
-            bindProfile(AppSessionManager.currentProfile)
-            Toast.makeText(activity, "Rol cambiado a Ciudadano", Toast.LENGTH_SHORT).show()
-        }
-
-        btnCloseSettings.setOnClickListener { dialog.dismiss() }
-
-        btnSettingsSave.setOnClickListener {
-            AppSessionManager.updatePreferences(
-                autoSync = switchAutoSync.isChecked,
-                biometric = switchBiometric.isChecked,
-                notifications = switchNotifications.isChecked
-            )
-            Toast.makeText(activity, "Preferencias de cuenta actualizadas", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-        }
-
-        btnSettingsLogout.setOnClickListener {
-            dialog.dismiss()
-            confirmLogout(activity, onSessionUpdated)
-        }
-
-        dialog.show()
+        openAccountSettings(activity)
     }
 
     fun confirmLogout(

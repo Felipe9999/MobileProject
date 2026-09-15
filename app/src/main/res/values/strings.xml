@@ -7,6 +7,7 @@
     <string name="title_activity_lost_found">Pérdidas y Hallazgos</string>
     <string name="title_activity_mistreatment">Gestión de Maltrato</string>
     <string name="title_activity_report_mistreatment">Radicar Denuncia de Maltrato</string>
+    <string name="title_activity_account_settings">Configuración de Cuenta</string>
 
     <!-- Bottom Nav Tabs -->
     <string name="tab_census">Censo</string>
