@@ -63,6 +63,10 @@ class ScannerActivity : AppCompatActivity() {
         tvScannedSub = findViewById(R.id.tvScannedSub)
         btnOpenScannedDetail = findViewById(R.id.btnOpenScannedDetail)
 
+        val btnScannerAccount = findViewById<View>(R.id.btnScannerAccount)
+        val tvScannerAccountLabel = findViewById<TextView>(R.id.tvScannerAccountLabel)
+        TopBarAccountHelper.setupAccountButton(this, btnScannerAccount, tvScannerAccountLabel)
+
         btnScannerBack.setOnClickListener { finish() }
 
         btnToggleScannerPrivacy.setOnClickListener {

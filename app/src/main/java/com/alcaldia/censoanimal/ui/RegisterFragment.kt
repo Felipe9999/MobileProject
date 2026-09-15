@@ -55,8 +55,6 @@ class RegisterFragment : Fragment() {
     private lateinit var spinnerColor: Spinner
 
     // Step 2 Form Fields
-    private lateinit var etMicrochip: EditText
-    private lateinit var btnGenerateChip: Button
     private lateinit var switchSterilized: SwitchMaterial
     private lateinit var switchSterilizationTattoo: SwitchMaterial
     private lateinit var etRabiesDate: EditText
@@ -109,8 +107,6 @@ class RegisterFragment : Fragment() {
         spinnerColor = view.findViewById(R.id.spinnerColor)
 
         // Step 2
-        etMicrochip = view.findViewById(R.id.etMicrochip)
-        btnGenerateChip = view.findViewById(R.id.btnGenerateChip)
         switchSterilized = view.findViewById(R.id.switchSterilized)
         switchSterilizationTattoo = view.findViewById(R.id.switchSterilizationTattoo)
         etRabiesDate = view.findViewById(R.id.etRabiesDate)
@@ -129,7 +125,7 @@ class RegisterFragment : Fragment() {
 
         setupSpinners()
         setupSpeciesToggle()
-        setupGpsAndChipButtons()
+        setupGpsButton()
         setupStepper()
     }
 
@@ -174,14 +170,7 @@ class RegisterFragment : Fragment() {
         updateBreedSpinner("Perro")
     }
 
-    private fun setupGpsAndChipButtons() {
-        btnGenerateChip.setOnClickListener {
-            val randomSuffix = Random.nextInt(100000, 999999)
-            val generatedChip = "981098102$randomSuffix"
-            etMicrochip.setText(generatedChip)
-            Toast.makeText(requireContext(), "Chip generado según estándar ISO", Toast.LENGTH_SHORT).show()
-        }
-
+    private fun setupGpsButton() {
         btnRefreshGps.setOnClickListener {
             currentLat = 4.9800 + (Random.nextDouble() * 0.015)
             currentLng = -73.9650 + (Random.nextDouble() * 0.015)
@@ -224,11 +213,6 @@ class RegisterFragment : Fragment() {
             if (age.isEmpty()) {
                 Toast.makeText(requireContext(), "Ingrese la edad en meses", Toast.LENGTH_SHORT).show()
                 return false
-            }
-        } else if (currentStep == 2) {
-            val rabies = etRabiesDate.text.toString().trim()
-            if (rabies.isEmpty()) {
-                etRabiesDate.setText("2026-02-28")
             }
         }
         return true
@@ -275,7 +259,7 @@ class RegisterFragment : Fragment() {
 
         val newRecord = AnimalRecord(
             registro_id = newId,
-            microchip = etMicrochip.text.toString().trim().ifEmpty { null },
+            microchip = null,
             especie = selectedSpecies,
             animal_nombre = etAnimalName.text.toString().trim(),
             sexo = spinnerSex.selectedItem.toString(),
@@ -285,8 +269,8 @@ class RegisterFragment : Fragment() {
             esterilizado = switchSterilized.isChecked,
             fecha_esterilizacion = if (switchSterilized.isChecked) today else null,
             tatuaje_esterilizacion = switchSterilizationTattoo.isChecked,
-            fecha_vacuna_rabia = etRabiesDate.text.toString().trim().ifEmpty { today },
-            lote_vacuna = etVaccineBatch.text.toString().trim().ifEmpty { "RAB-2026-X8" },
+            fecha_vacuna_rabia = etRabiesDate.text.toString().trim().ifEmpty { null },
+            lote_vacuna = etVaccineBatch.text.toString().trim().ifEmpty { null },
             tipo_guardia = spinnerGuardianType.selectedItem?.toString() ?: "Propietario / Tenedor Permanente",
             responsable_nombre = ownerName,
             documento_tipo = "CC",
@@ -313,7 +297,10 @@ class RegisterFragment : Fragment() {
         currentStep = 1
         etAnimalName.setText("")
         etAgeMonths.setText("")
-        etMicrochip.setText("")
+        etRabiesDate.setText("")
+        etVaccineBatch.setText("")
+        switchSterilized.isChecked = false
+        switchSterilizationTattoo.isChecked = false
         etOwnerName.setText("")
         etOwnerDoc.setText("")
         etOwnerPhone.setText("")

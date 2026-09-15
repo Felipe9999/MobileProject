@@ -3,7 +3,7 @@ package com.alcaldia.censoanimal
 import android.app.AlertDialog
 import android.content.Intent
 import android.os.Bundle
-import android.view.LayoutInflater
+import android.view.View
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
@@ -13,6 +13,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.UserRole
 import com.alcaldia.censoanimal.ui.CensusFragment
@@ -22,6 +23,7 @@ import com.alcaldia.censoanimal.ui.MapFragment
 import com.alcaldia.censoanimal.ui.OfflineSyncFragment
 import com.alcaldia.censoanimal.ui.RegisterFragment
 import com.alcaldia.censoanimal.ui.ScannerActivity
+import com.alcaldia.censoanimal.ui.TopBarAccountHelper
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import java.text.SimpleDateFormat
 import java.util.Date
@@ -40,9 +42,14 @@ class MainActivity : AppCompatActivity() {
     private lateinit var ivNetworkIcon: ImageView
 
     private lateinit var btnQuickScanner: ImageButton
-    private lateinit var btnQuickLogin: ImageButton
 
-    private var currentUserRole = UserRole.VETERINARIO
+    // Standardized Top Bar Views
+    private lateinit var tvTopBarSubtitle: TextView
+    private lateinit var tvTopBarTitle: TextView
+    private lateinit var tvTopBarBadge: TextView
+    private lateinit var btnTopBarAccount: LinearLayout
+    private lateinit var tvTopBarAccountLabel: TextView
+
     private var isOnline = true
 
     private val loginLauncher = registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result ->
@@ -50,8 +57,8 @@ class MainActivity : AppCompatActivity() {
             val roleName = result.data?.getStringExtra("LOGGED_IN_ROLE")
             if (roleName != null) {
                 try {
-                    currentUserRole = UserRole.valueOf(roleName)
-                    updateRoleUI()
+                    val role = UserRole.valueOf(roleName)
+                    AppSessionManager.switchRole(role)
                 } catch (_: Exception) {}
             }
         }
@@ -72,7 +79,21 @@ class MainActivity : AppCompatActivity() {
         ivNetworkIcon = findViewById(R.id.ivNetworkIcon)
 
         btnQuickScanner = findViewById(R.id.btnQuickScanner)
-        btnQuickLogin = findViewById(R.id.btnQuickLogin)
+
+        // Standardized Top Bar Bindings
+        tvTopBarSubtitle = findViewById(R.id.tvTopBarSubtitle)
+        tvTopBarTitle = findViewById(R.id.tvTopBarTitle)
+        tvTopBarBadge = findViewById(R.id.tvTopBarBadge)
+        btnTopBarAccount = findViewById(R.id.btnTopBarAccount)
+        tvTopBarAccountLabel = findViewById(R.id.tvTopBarAccountLabel)
+
+        TopBarAccountHelper.setupAccountButton(this, btnTopBarAccount, tvTopBarAccountLabel) {
+            updateRoleUI()
+        }
+
+        AppSessionManager.addSessionListener {
+            runOnUiThread { updateRoleUI() }
+        }
 
         updateClock()
         updateRoleUI()
@@ -84,7 +105,32 @@ class MainActivity : AppCompatActivity() {
         // Default to Census tab
         if (savedInstanceState == null) {
             loadFragment(CensusFragment())
+            updateTopBar(
+                getString(R.string.header_census_title),
+                getString(R.string.header_census_sub),
+                "${Microdataset.INITIAL_ANIMAL_RECORDS.size} censados"
+            )
         }
+    }
+
+    fun updateTopBar(title: String, subtitle: String, badgeText: String? = null) {
+        tvTopBarTitle.text = title
+        tvTopBarSubtitle.text = subtitle
+        updateTopBarBadge(badgeText)
+    }
+
+    fun updateTopBarBadge(badgeText: String?) {
+        if (badgeText != null) {
+            tvTopBarBadge.text = badgeText
+            tvTopBarBadge.visibility = View.VISIBLE
+        } else {
+            tvTopBarBadge.visibility = View.GONE
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        updateRoleUI()
     }
 
     private fun updateClock() {
@@ -93,7 +139,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun updateRoleUI() {
-        when (currentUserRole) {
+        val currentRole = AppSessionManager.currentProfile.role
+        when (currentRole) {
             UserRole.VETERINARIO -> {
                 tvRoleName.text = "Veterinario"
                 tvRoleName.setTextColor(ContextCompat.getColor(this, R.color.blue_200))
@@ -109,6 +156,11 @@ class MainActivity : AppCompatActivity() {
                 tvRoleName.setTextColor(ContextCompat.getColor(this, R.color.amber_200))
                 ivRoleIcon.setImageResource(R.drawable.ic_user)
             }
+        }
+        tvTopBarAccountLabel.text = when (currentRole) {
+            UserRole.VETERINARIO -> "Veterinario"
+            UserRole.FUNCIONARIO -> "Funcionario"
+            UserRole.CIUDADANO -> "Ciudadano"
         }
     }
 
@@ -142,11 +194,6 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, ScannerActivity::class.java)
             startActivity(intent)
         }
-
-        btnQuickLogin.setOnClickListener {
-            val intent = Intent(this, LoginActivity::class.java)
-            loginLauncher.launch(intent)
-        }
     }
 
     private fun showRoleSwitcherDialog() {
@@ -159,13 +206,14 @@ class MainActivity : AppCompatActivity() {
         AlertDialog.Builder(this)
             .setTitle("Cambiar Rol Activo")
             .setItems(roles) { _, which ->
-                currentUserRole = when (which) {
+                val newRole = when (which) {
                     0 -> UserRole.VETERINARIO
                     1 -> UserRole.FUNCIONARIO
                     else -> UserRole.CIUDADANO
                 }
+                AppSessionManager.switchRole(newRole)
                 updateRoleUI()
-                Toast.makeText(this, "Perfil cambiado a: ${currentUserRole.label}", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Perfil cambiado a: ${newRole.label}", Toast.LENGTH_SHORT).show()
             }
             .setNegativeButton("Cancelar", null)
             .show()
@@ -176,22 +224,47 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_census -> {
                     loadFragment(CensusFragment())
+                    updateTopBar(
+                        getString(R.string.header_census_title),
+                        getString(R.string.header_census_sub),
+                        "${Microdataset.INITIAL_ANIMAL_RECORDS.size} censados"
+                    )
                     true
                 }
                 R.id.nav_register -> {
                     loadFragment(RegisterFragment())
+                    updateTopBar(
+                        getString(R.string.header_register_title),
+                        getString(R.string.header_register_sub),
+                        null
+                    )
                     true
                 }
                 R.id.nav_sync -> {
                     loadFragment(OfflineSyncFragment())
+                    updateTopBar(
+                        getString(R.string.header_sync_title),
+                        getString(R.string.header_sync_sub),
+                        null
+                    )
                     true
                 }
                 R.id.nav_indicators -> {
                     loadFragment(IndicatorsFragment())
+                    updateTopBar(
+                        getString(R.string.header_indicators_title),
+                        getString(R.string.header_indicators_sub),
+                        null
+                    )
                     true
                 }
                 R.id.nav_map -> {
                     loadFragment(MapFragment())
+                    updateTopBar(
+                        getString(R.string.header_map_title),
+                        getString(R.string.header_map_sub),
+                        null
+                    )
                     true
                 }
                 else -> false

@@ -267,6 +267,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvPresetVetBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_pill_blue"
@@ -327,6 +328,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvPresetOfficialBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_pill_emerald"
@@ -387,6 +389,7 @@
                 </LinearLayout>
 
                 <TextView
+                    android:id="@+id/tvPresetCitizenBadge"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/bg_pill_amber"

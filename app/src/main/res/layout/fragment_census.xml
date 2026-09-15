@@ -7,86 +7,47 @@
     android:background="@color/slate_50"
     android:orientation="vertical">
 
-    <!-- Top Blue Header -->
+    <!-- Hidden legacy badge view to prevent NPE in existing bindings -->
+    <TextView
+        android:id="@+id/tvTotalBadge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone" />
+
+    <!-- Quick Access to Modules (TRD Pérdidas & Maltrato) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_600"
-        android:orientation="vertical"
-        android:paddingHorizontal="16dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="14dp">
+        android:background="@color/white"
+        android:elevation="2dp"
+        android:orientation="horizontal"
+        android:paddingHorizontal="14dp"
+        android:paddingVertical="10dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:fontFamily="sans-serif-bold"
-            android:text="@string/header_census_sub"
-            android:textColor="@color/blue_100"
-            android:textSize="10sp" />
+        <Button
+            android:id="@+id/btnOpenLostFound"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/blue_50"
+            android:paddingHorizontal="4dp"
+            android:text="🐾 Pérdidas / Hallazgos"
+            android:textColor="@color/blue_700"
+            android:textSize="11sp" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="2dp"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:fontFamily="sans-serif-black"
-                android:text="@string/header_census_title"
-                android:textColor="@color/white"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/tvTotalBadge"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/bg_pill_blue"
-                android:backgroundTint="@color/blue_800"
-                android:fontFamily="sans-serif-bold"
-                android:paddingHorizontal="8dp"
-                android:paddingVertical="3dp"
-                android:text="15 censados"
-                android:textColor="@color/white"
-                android:textSize="11sp" />
-        </LinearLayout>
-
-        <!-- Quick Access to Modules (TRD Pérdidas & Maltrato) -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:orientation="horizontal">
-
-            <Button
-                android:id="@+id/btnOpenLostFound"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/blue_500"
-                android:paddingHorizontal="4dp"
-                android:text="🐾 Pérdidas / Hallazgos"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
-
-            <Button
-                android:id="@+id/btnOpenMistreatment"
-                style="@style/Widget.Material3.Button.TonalButton"
-                android:layout_width="0dp"
-                android:layout_height="36dp"
-                android:layout_marginStart="6dp"
-                android:layout_weight="1"
-                android:backgroundTint="@color/blue_500"
-                android:paddingHorizontal="4dp"
-                android:text="🛡️ Casos de Maltrato"
-                android:textColor="@color/white"
-                android:textSize="10sp" />
-        </LinearLayout>
+        <Button
+            android:id="@+id/btnOpenMistreatment"
+            style="@style/Widget.Material3.Button.TonalButton"
+            android:layout_width="0dp"
+            android:layout_height="38dp"
+            android:layout_marginStart="8dp"
+            android:layout_weight="1"
+            android:backgroundTint="@color/rose_50"
+            android:paddingHorizontal="4dp"
+            android:text="🛡️ Casos de Maltrato"
+            android:textColor="@color/rose_700"
+            android:textSize="11sp" />
     </LinearLayout>
 
     <!-- Search Input Bar -->

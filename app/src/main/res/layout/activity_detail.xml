@@ -56,11 +56,52 @@
             android:id="@+id/btnDetailShowQr"
             android:layout_width="36dp"
             android:layout_height="36dp"
+            android:layout_marginEnd="8dp"
             android:background="@drawable/bg_pill_slate"
             android:backgroundTint="@color/blue_800"
             android:contentDescription="Ver QR Oficial"
             android:src="@drawable/ic_qr_code"
             app:tint="@color/white" />
+
+        <!-- Standardized Account Button with Dropdown Trigger -->
+        <LinearLayout
+            android:id="@+id/btnDetailAccount"
+            android:layout_width="wrap_content"
+            android:layout_height="36dp"
+            android:background="@drawable/bg_pill_blue"
+            android:backgroundTint="@color/blue_800"
+            android:clickable="true"
+            android:contentDescription="Menú de Cuenta"
+            android:focusable="true"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingStart="8dp"
+            android:paddingEnd="10dp">
+
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/ic_user"
+                app:tint="@color/white" />
+
+            <TextView
+                android:id="@+id/tvDetailAccountLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:fontFamily="sans-serif-bold"
+                android:text="Veterinario"
+                android:textColor="@color/white"
+                android:textSize="11sp" />
+
+            <ImageView
+                android:layout_width="12dp"
+                android:layout_height="12dp"
+                android:layout_marginStart="4dp"
+                android:rotation="90"
+                android:src="@drawable/ic_chevron_right"
+                app:tint="@color/blue_200" />
+        </LinearLayout>
     </LinearLayout>
 
     <!-- Habeas Data / Privacy Mode Bar -->
