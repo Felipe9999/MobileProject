@@ -17,6 +17,7 @@ import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.UserRole
 import com.alcaldia.censoanimal.ui.CensusFragment
+import com.alcaldia.censoanimal.ui.CitizenRegisterAnimalFragment
 import com.alcaldia.censoanimal.ui.IndicatorsFragment
 import com.alcaldia.censoanimal.ui.LoginActivity
 import com.alcaldia.censoanimal.ui.MapFragment
@@ -231,6 +232,13 @@ class MainActivity : AppCompatActivity() {
                 if (bottomNavigation.selectedItemId == R.id.nav_map ||
                     bottomNavigation.selectedItemId == R.id.nav_report_public) {
                     bottomNavigation.selectedItemId = R.id.nav_census
+                } else if (bottomNavigation.selectedItemId == R.id.nav_register) {
+                    loadFragment(CitizenRegisterAnimalFragment())
+                    updateTopBar(
+                        "Registrar Mi Animal",
+                        "Inscribe a tu animal de compañía en el censo municipal",
+                        null
+                    )
                 }
             }
             UserRole.VETERINARIO, UserRole.ADMINISTRADOR -> {
@@ -243,6 +251,13 @@ class MainActivity : AppCompatActivity() {
 
                 if (bottomNavigation.selectedItemId == R.id.nav_report_public) {
                     bottomNavigation.selectedItemId = R.id.nav_census
+                } else if (bottomNavigation.selectedItemId == R.id.nav_register) {
+                    loadFragment(RegisterFragment())
+                    updateTopBar(
+                        getString(R.string.header_register_title),
+                        getString(R.string.header_register_sub),
+                        null
+                    )
                 }
             }
         }
@@ -326,12 +341,22 @@ class MainActivity : AppCompatActivity() {
                     true
                 }
                 R.id.nav_register -> {
-                    loadFragment(RegisterFragment())
-                    updateTopBar(
-                        getString(R.string.header_register_title),
-                        getString(R.string.header_register_sub),
-                        null
-                    )
+                    val isCitizen = AppSessionManager.currentProfile.role == UserRole.CIUDADANO
+                    if (isCitizen) {
+                        loadFragment(CitizenRegisterAnimalFragment())
+                        updateTopBar(
+                            "Registrar Mi Animal",
+                            "Inscribe a tu animal de compañía en el censo municipal",
+                            null
+                        )
+                    } else {
+                        loadFragment(RegisterFragment())
+                        updateTopBar(
+                            getString(R.string.header_register_title),
+                            getString(R.string.header_register_sub),
+                            null
+                        )
+                    }
                     true
                 }
                 R.id.nav_report_public -> {

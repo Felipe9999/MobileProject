@@ -115,7 +115,8 @@ class RegisterActivity : AppCompatActivity() {
         AppSessionManager.login(
             role = UserRole.CIUDADANO,
             customEmail = registeredEmail,
-            customName = displayName
+            customName = displayName,
+            customDocument = citizenId
         )
 
         Toast.makeText(

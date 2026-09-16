@@ -1,0 +1,657 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slate_50"
+    android:orientation="vertical">
+
+    <!-- Stepper Navigation Header (Paso 1: Mi Animal, Paso 2: Salud y Cuidados) -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/white"
+        android:elevation="1dp"
+        android:gravity="center"
+        android:orientation="horizontal"
+        android:paddingHorizontal="16dp"
+        android:paddingVertical="10dp">
+
+        <TextView
+            android:id="@+id/citizenStepTab1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_button_primary"
+            android:fontFamily="sans-serif-bold"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="1. Mi Animal"
+            android:textColor="@color/white"
+            android:textSize="11sp" />
+
+        <View
+            android:layout_width="24dp"
+            android:layout_height="2dp"
+            android:layout_marginHorizontal="8dp"
+            android:background="@color/slate_300" />
+
+        <TextView
+            android:id="@+id/citizenStepTab2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/bg_pill_slate"
+            android:fontFamily="sans-serif-medium"
+            android:paddingHorizontal="12dp"
+            android:paddingVertical="6dp"
+            android:text="2. Salud y Cuidados"
+            android:textColor="@color/slate_600"
+            android:textSize="11sp" />
+    </LinearLayout>
+
+    <!-- Scrollable Form Content -->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:paddingBottom="24dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Banner Informativo de Autoregistro -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="14dp"
+                android:background="@drawable/bg_pill_blue"
+                android:orientation="vertical"
+                android:padding="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <ImageView
+                        android:layout_width="18dp"
+                        android:layout_height="18dp"
+                        android:src="@drawable/ic_shield_check"
+                        app:tint="@color/blue_700" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Autoregistro Ciudadano"
+                        android:textColor="@color/blue_900"
+                        android:textSize="12sp" />
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Inscribe a tu animal de compañía en el Censo Municipal de Zipaquirá. No requieres ingresar tus datos de contacto ni domicilio; se vincularán de forma automática a tu cuenta."
+                    android:textColor="@color/blue_800"
+                    android:textSize="11sp" />
+
+                <!-- Badge de Identidad del Ciudadano -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/bg_card_white"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:paddingHorizontal="10dp"
+                    android:paddingVertical="6dp">
+
+                    <ImageView
+                        android:layout_width="14dp"
+                        android:layout_height="14dp"
+                        android:src="@drawable/ic_user"
+                        app:tint="@color/blue_600" />
+
+                    <TextView
+                        android:id="@+id/tvCitizenAccountBadge"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:fontFamily="sans-serif-medium"
+                        android:text="Tenedor: Carlos Mendoza (C.C. 19384921)"
+                        android:textColor="@color/slate_700"
+                        android:textSize="10sp" />
+                </LinearLayout>
+            </LinearLayout>
+
+            <!-- STEP 1: DATOS BÁSICOS DEL ANIMAL DE COMPAÑÍA -->
+            <LinearLayout
+                android:id="@+id/layoutCitizenStep1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="¿Qué especie es tu compañero? *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <!-- Especie Toggle: Perro / Gato / Otro -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="6dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:id="@+id/btnCitizenSpeciesDog"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill_blue"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🐶"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Canino"
+                            android:textColor="@color/blue_800"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnCitizenSpeciesCat"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_marginEnd="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill_slate"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🐱"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Felino"
+                            android:textColor="@color/slate_700"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/btnCitizenSpeciesOther"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:background="@drawable/bg_pill_slate"
+                        android:clickable="true"
+                        android:focusable="true"
+                        android:gravity="center"
+                        android:orientation="horizontal"
+                        android:paddingVertical="8dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="🐰"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="4dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Otro"
+                            android:textColor="@color/slate_700"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <!-- Nombre del Animal -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Nombre de tu animal de compañía *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etCitizenAnimalName"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="Ej. Toby, Luna, Mateo, Firulais"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Sexo & Edad en Meses -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Sexo *"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <Spinner
+                            android:id="@+id/spinnerCitizenSex"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:paddingHorizontal="8dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="6dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Edad aproximada (Meses) *"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <EditText
+                            android:id="@+id/etCitizenAgeMonths"
+                            android:layout_width="match_parent"
+                            android:layout_height="44dp"
+                            android:layout_marginTop="4dp"
+                            android:background="@drawable/bg_search_box"
+                            android:hint="Ej. 24 (2 años)"
+                            android:inputType="number"
+                            android:paddingHorizontal="12dp"
+                            android:textColor="@color/slate_900"
+                            android:textSize="13sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Referencia: 6 meses (cachorro) • 12 meses (1 año) • 24 meses (2 años)"
+                    android:textColor="@color/slate_500"
+                    android:textSize="10sp" />
+
+                <!-- Raza / Mestizaje -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Raza o tipo de mestizaje *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerCitizenBreed"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:paddingHorizontal="8dp" />
+
+                <!-- Color Predominante -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Color principal de su pelaje *"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <Spinner
+                    android:id="@+id/spinnerCitizenColor"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:paddingHorizontal="8dp" />
+
+                <!-- Placa o Microchip Previo -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Placa o Microchip de Identificación (Opcional)"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Si tu compañero ya cuenta con una placa identificadora o microchip subcutáneo"
+                    android:textColor="@color/slate_500"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/etCitizenMicrochip"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="Ej. 900182000291024 o código de placa"
+                    android:inputType="textCapCharacters"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+            </LinearLayout>
+
+            <!-- STEP 2: SALUD, VACUNACIÓN Y CONFIRMACIÓN -->
+            <LinearLayout
+                android:id="@+id/layoutCitizenStep2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+
+                <!-- Esterilizado -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="¿Está esterilizado(a) o castrado(a)?"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Control quirúrgico de natalidad para bienestar y salud preventiva"
+                            android:textColor="@color/slate_500"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchCitizenSterilized"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/blue_600"
+                        app:trackTint="@color/blue_200" />
+                </LinearLayout>
+
+                <!-- Tatuaje de Esterilización Reconocido -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="¿Tiene tatuaje o marca oficial de esterilización?"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Marca visible en oreja o ingle (realizada en jornadas públicas de la Alcaldía)"
+                            android:textColor="@color/slate_500"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <com.google.android.material.switchmaterial.SwitchMaterial
+                        android:id="@+id/switchCitizenSterilizationTattoo"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        app:thumbTint="@color/emerald_600"
+                        app:trackTint="@color/emerald_200" />
+                </LinearLayout>
+
+                <!-- Vacuna Antirrábica -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Fecha de última vacuna antirrábica (Opcional)"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="2dp"
+                    android:text="Recomendada anualmente. Puedes registrarla si tienes el carné oficial a mano"
+                    android:textColor="@color/slate_500"
+                    android:textSize="10sp" />
+
+                <EditText
+                    android:id="@+id/etCitizenRabiesDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:hint="AAAA-MM-DD (ej. 2026-03-15)"
+                    android:inputType="date"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Carné o Lote de Vacuna -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Número de carné o lote de vacuna (Opcional)"
+                    android:textColor="@color/slate_800"
+                    android:textSize="12sp" />
+
+                <EditText
+                    android:id="@+id/etCitizenVaccineBatch"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="4dp"
+                    android:background="@drawable/bg_search_box"
+                    android:fontFamily="monospace"
+                    android:hint="Ej. RAB-2026-X8 o número de carné"
+                    android:inputType="textCapCharacters"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/slate_900"
+                    android:textSize="13sp" />
+
+                <!-- Resumen de Vinculación Automática del Tenedor -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="20dp"
+                    android:background="@drawable/bg_card_white"
+                    android:elevation="1dp"
+                    android:orientation="vertical"
+                    android:padding="14dp">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/ic_check_circle"
+                            app:tint="@color/emerald_600" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="8dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Vinculación Automática del Responsable"
+                            android:textColor="@color/slate_800"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Este animal de compañía quedará oficialmente asociado a tu ficha de tenedor responsable:"
+                        android:textColor="@color/slate_600"
+                        android:textSize="11sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_pill_slate"
+                        android:orientation="vertical"
+                        android:padding="10dp">
+
+                        <TextView
+                            android:id="@+id/tvSummaryCitizenName"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Tenedor: Carlos Mendoza"
+                            android:textColor="@color/slate_800"
+                            android:textSize="11sp" />
+
+                        <TextView
+                            android:id="@+id/tvSummaryCitizenDoc"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Cédula: C.C. 19384921"
+                            android:textColor="@color/slate_600"
+                            android:textSize="10sp" />
+
+                        <TextView
+                            android:id="@+id/tvSummaryCitizenLocation"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Jurisdicción: Zipaquirá • Barandillas (Urbano)"
+                            android:textColor="@color/slate_600"
+                            android:textSize="10sp" />
+                    </LinearLayout>
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:text="Al registrar, declaras ser el tenedor y custodio responsable de este animal de compañía conforme a las normas de bienestar animal de Zipaquirá."
+                        android:textColor="@color/slate_500"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+            </LinearLayout>
+
+            <!-- Botones de Navegación del Stepper -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnCitizenPrevStep"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginEnd="6dp"
+                    android:layout_weight="1"
+                    android:text="Atrás"
+                    android:textColor="@color/slate_700"
+                    android:visibility="invisible" />
+
+                <Button
+                    android:id="@+id/btnCitizenNextStep"
+                    android:layout_width="0dp"
+                    android:layout_height="48dp"
+                    android:layout_marginStart="6dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/blue_600"
+                    android:text="Siguiente: Salud y Cuidados"
+                    android:textColor="@color/white" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>
