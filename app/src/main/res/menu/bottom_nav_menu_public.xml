@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_report_public"
+        android:icon="@drawable/ic_alert_triangle"
+        android:title="Denunciar" />
+    <item
+        android:id="@+id/nav_indicators"
+        android:icon="@drawable/ic_indicators"
+        android:title="@string/tab_indicators" />
+</menu>

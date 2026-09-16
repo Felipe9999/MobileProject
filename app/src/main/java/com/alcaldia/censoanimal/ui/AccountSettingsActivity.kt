@@ -41,6 +41,10 @@ class AccountSettingsActivity : AppCompatActivity() {
     private lateinit var flIconCitizen: FrameLayout
     private lateinit var ivCheckCitizen: ImageView
 
+    private lateinit var cardRoleUnregistered: MaterialCardView
+    private lateinit var flIconUnregistered: FrameLayout
+    private lateinit var ivCheckUnregistered: ImageView
+
     // Preference switches
     private lateinit var switchAutoSync: SwitchCompat
     private lateinit var switchBiometric: SwitchCompat
@@ -79,6 +83,10 @@ class AccountSettingsActivity : AppCompatActivity() {
         cardRoleCitizen = findViewById(R.id.cardRoleCitizen)
         flIconCitizen = findViewById(R.id.flIconCitizen)
         ivCheckCitizen = findViewById(R.id.ivCheckCitizen)
+
+        cardRoleUnregistered = findViewById(R.id.cardRoleUnregistered)
+        flIconUnregistered = findViewById(R.id.flIconUnregistered)
+        ivCheckUnregistered = findViewById(R.id.ivCheckUnregistered)
 
         switchAutoSync = findViewById(R.id.switchAutoSync)
         switchBiometric = findViewById(R.id.switchBiometric)
@@ -123,12 +131,12 @@ class AccountSettingsActivity : AppCompatActivity() {
         flIconVet.backgroundTintList = if (isVet) bgPillBlue else bgPillSlate
         ivCheckVet.visibility = if (isVet) View.VISIBLE else View.GONE
 
-        // Official
-        val isOfficial = role == UserRole.FUNCIONARIO
-        cardRoleOfficial.strokeWidth = if (isOfficial) strokeSelected else strokeNormal
-        cardRoleOfficial.strokeColor = if (isOfficial) colorBlue else colorSlate
-        flIconOfficial.backgroundTintList = if (isOfficial) bgPillBlue else bgPillSlate
-        ivCheckOfficial.visibility = if (isOfficial) View.VISIBLE else View.GONE
+        // Admin
+        val isAdmin = role == UserRole.ADMINISTRADOR
+        cardRoleOfficial.strokeWidth = if (isAdmin) strokeSelected else strokeNormal
+        cardRoleOfficial.strokeColor = if (isAdmin) colorBlue else colorSlate
+        flIconOfficial.backgroundTintList = if (isAdmin) bgPillBlue else bgPillSlate
+        ivCheckOfficial.visibility = if (isAdmin) View.VISIBLE else View.GONE
 
         // Citizen
         val isCitizen = role == UserRole.CIUDADANO
@@ -136,6 +144,13 @@ class AccountSettingsActivity : AppCompatActivity() {
         cardRoleCitizen.strokeColor = if (isCitizen) colorBlue else colorSlate
         flIconCitizen.backgroundTintList = if (isCitizen) bgPillBlue else bgPillSlate
         ivCheckCitizen.visibility = if (isCitizen) View.VISIBLE else View.GONE
+
+        // Unregistered
+        val isUnregistered = role == UserRole.NO_REGISTRADO
+        cardRoleUnregistered.strokeWidth = if (isUnregistered) strokeSelected else strokeNormal
+        cardRoleUnregistered.strokeColor = if (isUnregistered) colorBlue else colorSlate
+        flIconUnregistered.backgroundTintList = if (isUnregistered) bgPillBlue else bgPillSlate
+        ivCheckUnregistered.visibility = if (isUnregistered) View.VISIBLE else View.GONE
     }
 
     private fun setupRoleClicks() {
@@ -148,10 +163,10 @@ class AccountSettingsActivity : AppCompatActivity() {
         }
 
         cardRoleOfficial.setOnClickListener {
-            if (AppSessionManager.currentProfile.role != UserRole.FUNCIONARIO) {
-                AppSessionManager.switchRole(UserRole.FUNCIONARIO)
+            if (AppSessionManager.currentProfile.role != UserRole.ADMINISTRADOR) {
+                AppSessionManager.switchRole(UserRole.ADMINISTRADOR)
                 populateProfile(AppSessionManager.currentProfile)
-                Toast.makeText(this, "Rol cambiado a Funcionario Municipal", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Rol cambiado a Administrador Municipal", Toast.LENGTH_SHORT).show()
             }
         }
 
@@ -159,7 +174,15 @@ class AccountSettingsActivity : AppCompatActivity() {
             if (AppSessionManager.currentProfile.role != UserRole.CIUDADANO) {
                 AppSessionManager.switchRole(UserRole.CIUDADANO)
                 populateProfile(AppSessionManager.currentProfile)
-                Toast.makeText(this, "Rol cambiado a Ciudadano", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Rol cambiado a Usuario Registrado", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        cardRoleUnregistered.setOnClickListener {
+            if (AppSessionManager.currentProfile.role != UserRole.NO_REGISTRADO) {
+                AppSessionManager.switchRole(UserRole.NO_REGISTRADO)
+                populateProfile(AppSessionManager.currentProfile)
+                Toast.makeText(this, "Modo cambiado a Usuario No Registrado", Toast.LENGTH_SHORT).show()
             }
         }
     }

@@ -34,8 +34,9 @@ object TopBarAccountHelper {
         fun updateLabel(profile: UserProfile) {
             tvAccountLabel?.text = when (profile.role) {
                 UserRole.VETERINARIO -> "Veterinario"
-                UserRole.FUNCIONARIO -> "Funcionario"
+                UserRole.ADMINISTRADOR -> "Admin"
                 UserRole.CIUDADANO -> "Ciudadano"
+                UserRole.NO_REGISTRADO -> "Sin Cuenta"
             }
         }
 
@@ -96,21 +97,61 @@ object TopBarAccountHelper {
         val tvDropdownUserName = popupView.findViewById<TextView>(R.id.tvDropdownUserName)
         val tvDropdownUserRole = popupView.findViewById<TextView>(R.id.tvDropdownUserRole)
         val tvDropdownUserEmail = popupView.findViewById<TextView>(R.id.tvDropdownUserEmail)
+
+        val layoutUnregisteredActions = popupView.findViewById<View>(R.id.layoutUnregisteredActions)
+        val layoutRegisteredActions = popupView.findViewById<View>(R.id.layoutRegisteredActions)
+        val btnDropdownLogin = popupView.findViewById<View>(R.id.btnDropdownLogin)
+        val btnDropdownRegister = popupView.findViewById<View>(R.id.btnDropdownRegister)
+
+        val btnDropdownSwitchRole = popupView.findViewById<View?>(R.id.btnDropdownSwitchRole)
+        val btnDropdownScanner = popupView.findViewById<View?>(R.id.btnDropdownScanner)
         val btnDropdownSettings = popupView.findViewById<View>(R.id.btnDropdownSettings)
         val btnDropdownLogout = popupView.findViewById<View>(R.id.btnDropdownLogout)
 
-        tvDropdownUserName.text = profile.name
-        tvDropdownUserRole.text = profile.roleLabel
-        tvDropdownUserEmail.text = profile.email
+        if (profile.role == UserRole.NO_REGISTRADO) {
+            tvDropdownUserName.text = "Usuario No Registrado"
+            tvDropdownUserRole.text = "Acceso Público"
+            tvDropdownUserEmail.text = "Modo consulta y denuncias"
 
-        btnDropdownSettings.setOnClickListener {
-            popupWindow.dismiss()
-            openAccountSettings(activity)
-        }
+            layoutUnregisteredActions.visibility = View.VISIBLE
+            layoutRegisteredActions.visibility = View.GONE
 
-        btnDropdownLogout.setOnClickListener {
-            popupWindow.dismiss()
-            confirmLogout(activity, onSessionUpdated)
+            btnDropdownLogin.setOnClickListener {
+                popupWindow.dismiss()
+                activity.startActivity(Intent(activity, LoginActivity::class.java))
+            }
+
+            btnDropdownRegister.setOnClickListener {
+                popupWindow.dismiss()
+                activity.startActivity(Intent(activity, RegisterActivity::class.java))
+            }
+        } else {
+            tvDropdownUserName.text = profile.name
+            tvDropdownUserRole.text = profile.roleLabel
+            tvDropdownUserEmail.text = profile.email
+
+            layoutUnregisteredActions.visibility = View.GONE
+            layoutRegisteredActions.visibility = View.VISIBLE
+
+            btnDropdownSwitchRole?.setOnClickListener {
+                popupWindow.dismiss()
+                showRoleSwitcherDialog(activity, onSessionUpdated)
+            }
+
+            btnDropdownScanner?.setOnClickListener {
+                popupWindow.dismiss()
+                activity.startActivity(Intent(activity, ScannerActivity::class.java))
+            }
+
+            btnDropdownSettings.setOnClickListener {
+                popupWindow.dismiss()
+                openAccountSettings(activity)
+            }
+
+            btnDropdownLogout.setOnClickListener {
+                popupWindow.dismiss()
+                confirmLogout(activity, onSessionUpdated)
+            }
         }
 
         // Measure popup to align right edge with anchor view
@@ -124,6 +165,34 @@ object TopBarAccountHelper {
         val yOffset = (6 * density).toInt()
 
         popupWindow.showAsDropDown(anchorView, xOffset, yOffset)
+    }
+
+    fun showRoleSwitcherDialog(
+        activity: Activity,
+        onSessionUpdated: ((UserProfile) -> Unit)? = null
+    ) {
+        val roles = arrayOf(
+            "👨‍⚕️ Veterinario Aliado (Censo, Chips y Mapa)",
+            "🛡️ Administrador Municipal (Control total y Casos)",
+            "👤 Usuario Registrado (Mis Animales)",
+            "🌐 Continuar sin cuenta (Acceso Público)"
+        )
+
+        AlertDialog.Builder(activity)
+            .setTitle("Cambiar Rol Activo")
+            .setItems(roles) { _, which ->
+                val newRole = when (which) {
+                    0 -> UserRole.VETERINARIO
+                    1 -> UserRole.ADMINISTRADOR
+                    2 -> UserRole.CIUDADANO
+                    else -> UserRole.NO_REGISTRADO
+                }
+                AppSessionManager.switchRole(newRole)
+                Toast.makeText(activity, "Perfil cambiado a: ${newRole.label}", Toast.LENGTH_SHORT).show()
+                onSessionUpdated?.invoke(AppSessionManager.currentProfile)
+            }
+            .setNegativeButton("Cancelar", null)
+            .show()
     }
 
     fun showAccountSettingsDialog(

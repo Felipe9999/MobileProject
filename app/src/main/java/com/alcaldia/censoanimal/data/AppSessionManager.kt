@@ -53,8 +53,8 @@ object AppSessionManager {
 
     fun logout() {
         isLoggedIn = false
-        // When logged out, default to Ciudadano / Public mode
-        currentProfile = createProfileForRole(UserRole.CIUDADANO)
+        // When logged out, transition to unregistered user mode
+        currentProfile = createProfileForRole(UserRole.NO_REGISTRADO)
         notifyListeners()
     }
 
@@ -67,6 +67,13 @@ object AppSessionManager {
 
     private fun createProfileForRole(role: UserRole): UserProfile {
         return when (role) {
+            UserRole.NO_REGISTRADO -> UserProfile(
+                name = "Usuario No Registrado",
+                email = "Sin registrar",
+                role = UserRole.NO_REGISTRADO,
+                roleLabel = "Usuario no registrado",
+                professionalId = "Acceso Público"
+            )
             UserRole.VETERINARIO -> UserProfile(
                 name = "Dr. Ricardo Forero",
                 email = "veterinario.campo@alcaldia.gov.co",
@@ -74,18 +81,18 @@ object AppSessionManager {
                 roleLabel = "Veterinario Aliado",
                 professionalId = "COMVEZCOL No. 28491-CUN"
             )
-            UserRole.FUNCIONARIO -> UserProfile(
+            UserRole.ADMINISTRADOR -> UserProfile(
                 name = "Ing. Laura Gómez",
-                email = "salud.publica@alcaldia.gov.co",
-                role = UserRole.FUNCIONARIO,
-                roleLabel = "Funcionario Municipal",
-                professionalId = "ID Funcionario 80.234.192"
+                email = "admin.ambiental@alcaldia.gov.co",
+                role = UserRole.ADMINISTRADOR,
+                roleLabel = "Administrador Municipal",
+                professionalId = "ID Admin 80.234.192"
             )
             UserRole.CIUDADANO -> UserProfile(
                 name = "Carlos Mendoza",
                 email = "ciudadano.rural@gmail.com",
                 role = UserRole.CIUDADANO,
-                roleLabel = "Ciudadano / Propietario",
+                roleLabel = "Usuario Registrado",
                 professionalId = "CC 19.384.921"
             )
         }

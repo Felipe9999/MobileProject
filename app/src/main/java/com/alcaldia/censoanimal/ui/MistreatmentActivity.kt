@@ -56,6 +56,13 @@ class MistreatmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_mistreatment)
 
+        if (AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO ||
+            AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.NO_REGISTRADO) {
+            startActivity(Intent(this, ReportMistreatmentActivity::class.java))
+            finish()
+            return
+        }
+
         initViews()
         setupListeners()
         refreshCases()
@@ -81,12 +88,25 @@ class MistreatmentActivity : AppCompatActivity() {
         TopBarAccountHelper.setupAccountButton(this, btnMistreatmentAccount, tvMistreatmentAccountLabel) { profile ->
             if (profile.role != lastKnownRole) {
                 lastKnownRole = profile.role
-                if (profile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
-                    startActivity(Intent(this, ReportMistreatmentActivity::class.java))
+                if (profile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO ||
+                    profile.role == com.alcaldia.censoanimal.model.UserRole.NO_REGISTRADO) {
+                    if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                        startActivity(Intent(this, ReportMistreatmentActivity::class.java))
+                    }
                     finish()
                 }
             }
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO ||
+            AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.NO_REGISTRADO) {
+            finish()
+            return
+        }
+        refreshCases()
     }
 
     private fun setupListeners() {

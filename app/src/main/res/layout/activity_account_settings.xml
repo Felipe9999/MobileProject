@@ -341,7 +341,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Role Option 2: Funcionario -->
+            <!-- Role Option 2: Administrador -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRoleOfficial"
                 android:layout_width="match_parent"
@@ -373,7 +373,7 @@
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
-                            android:contentDescription="Funcionario"
+                            android:contentDescription="Administrador"
                             android:src="@drawable/ic_shield_check"
                             app:tint="@color/slate_600" />
                     </FrameLayout>
@@ -389,7 +389,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
-                            android:text="Funcionario Municipal"
+                            android:text="Administrador Municipal"
                             android:textColor="@color/slate_900"
                             android:textSize="14sp" />
 
@@ -397,7 +397,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Fiscalización, seguimiento de compromisos, coordinación con Policía y métricas."
+                            android:text="Control total del censo, gestión de usuarios, auditoría, estadísticas y casos de maltrato."
                             android:textColor="@color/slate_500"
                             android:textSize="12sp" />
                     </LinearLayout>
@@ -414,7 +414,7 @@
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
-            <!-- Role Option 3: Ciudadano -->
+            <!-- Role Option 3: Ciudadano (Usuario Registrado) -->
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/cardRoleCitizen"
                 android:layout_width="match_parent"
@@ -446,7 +446,7 @@
                             android:layout_width="22dp"
                             android:layout_height="22dp"
                             android:layout_gravity="center"
-                            android:contentDescription="Ciudadano"
+                            android:contentDescription="Usuario Registrado"
                             android:src="@drawable/ic_user"
                             app:tint="@color/slate_600" />
                     </FrameLayout>
@@ -462,7 +462,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:fontFamily="sans-serif-bold"
-                            android:text="Ciudadano / Propietario"
+                            android:text="Usuario Registrado"
                             android:textColor="@color/slate_900"
                             android:textSize="14sp" />
 
@@ -470,13 +470,86 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginTop="2dp"
-                            android:text="Radicación de denuncias anónimas/reservadas, reporte de extravíos y consultas."
+                            android:text="Gestión de animales propios, registro de animales con botón '+', carné y sincronización propia."
                             android:textColor="@color/slate_500"
                             android:textSize="12sp" />
                     </LinearLayout>
 
                     <ImageView
                         android:id="@+id/ivCheckCitizen"
+                        android:layout_width="24dp"
+                        android:layout_height="24dp"
+                        android:layout_marginStart="8dp"
+                        android:contentDescription="No seleccionado"
+                        android:src="@drawable/ic_check_circle"
+                        android:visibility="gone"
+                        app:tint="@color/blue_600" />
+                </LinearLayout>
+            </com.google.android.material.card.MaterialCardView>
+
+            <!-- Role Option 4: Usuario No Registrado -->
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/cardRoleUnregistered"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:clickable="true"
+                android:focusable="true"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="14dp"
+                app:cardElevation="1dp"
+                app:strokeColor="@color/slate_200"
+                app:strokeWidth="1dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    android:padding="14dp">
+
+                    <FrameLayout
+                        android:id="@+id/flIconUnregistered"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:background="@drawable/bg_pill_slate"
+                        android:backgroundTint="@color/slate_100">
+
+                        <ImageView
+                            android:layout_width="22dp"
+                            android:layout_height="22dp"
+                            android:layout_gravity="center"
+                            android:contentDescription="Sin cuenta"
+                            android:src="@drawable/ic_alert_triangle"
+                            app:tint="@color/slate_600" />
+                    </FrameLayout>
+
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="12dp"
+                        android:layout_weight="1"
+                        android:orientation="vertical">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Usuario No Registrado (Sin Cuenta)"
+                            android:textColor="@color/slate_900"
+                            android:textSize="14sp" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="2dp"
+                            android:text="Acceso público exclusivo: Formulario de denuncia ciudadana de maltrato y estadísticas públicas."
+                            android:textColor="@color/slate_500"
+                            android:textSize="12sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/ivCheckUnregistered"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_marginStart="8dp"

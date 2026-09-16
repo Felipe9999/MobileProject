@@ -42,8 +42,12 @@ class CensusFragment : Fragment() {
     private lateinit var etSearchCensus: EditText
     private lateinit var btnClearSearch: ImageButton
     private lateinit var spinnerVeredaFilter: Spinner
+    private lateinit var layoutVeredaFilterRow: View
     private lateinit var tvTotalBadge: TextView
     private lateinit var layoutEmptyState: LinearLayout
+    private lateinit var tvEmptyTitle: TextView
+    private lateinit var tvEmptySubtitle: TextView
+    private lateinit var fabRegisterAnimal: com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
 
     private lateinit var chipFilterAll: TextView
     private lateinit var chipFilterDogs: TextView
@@ -68,6 +72,7 @@ class CensusFragment : Fragment() {
     private val sessionListener: (UserProfile) -> Unit = {
         activity?.runOnUiThread {
             updateMistreatmentButtonLabel()
+            applyFilters()
         }
     }
 
@@ -78,8 +83,12 @@ class CensusFragment : Fragment() {
         etSearchCensus = view.findViewById(R.id.etSearchCensus)
         btnClearSearch = view.findViewById(R.id.btnClearSearch)
         spinnerVeredaFilter = view.findViewById(R.id.spinnerVeredaFilter)
+        layoutVeredaFilterRow = view.findViewById(R.id.layoutVeredaFilterRow)
         tvTotalBadge = view.findViewById(R.id.tvTotalBadge)
         layoutEmptyState = view.findViewById(R.id.layoutEmptyState)
+        tvEmptyTitle = view.findViewById(R.id.tvEmptyTitle)
+        tvEmptySubtitle = view.findViewById(R.id.tvEmptySubtitle)
+        fabRegisterAnimal = view.findViewById(R.id.fabRegisterAnimal)
 
         chipFilterAll = view.findViewById(R.id.chipFilterAll)
         chipFilterDogs = view.findViewById(R.id.chipFilterDogs)
@@ -95,11 +104,16 @@ class CensusFragment : Fragment() {
         }
         btnOpenMistreatment.setOnClickListener {
             val currentRole = AppSessionManager.currentProfile.role
-            if (currentRole == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
+            if (currentRole == com.alcaldia.censoanimal.model.UserRole.CIUDADANO ||
+                currentRole == com.alcaldia.censoanimal.model.UserRole.NO_REGISTRADO) {
                 startActivity(Intent(requireContext(), ReportMistreatmentActivity::class.java))
             } else {
                 startActivity(Intent(requireContext(), MistreatmentActivity::class.java))
             }
+        }
+
+        fabRegisterAnimal.setOnClickListener {
+            (activity as? com.alcaldia.censoanimal.MainActivity)?.loadRegisterTab()
         }
 
         rvCensusRecords.layoutManager = LinearLayoutManager(requireContext())
@@ -130,7 +144,8 @@ class CensusFragment : Fragment() {
     }
 
     private fun updateMistreatmentButtonLabel() {
-        if (AppSessionManager.currentProfile.role == UserRole.CIUDADANO) {
+        if (AppSessionManager.currentProfile.role == UserRole.CIUDADANO ||
+            AppSessionManager.currentProfile.role == UserRole.NO_REGISTRADO) {
             btnOpenMistreatment.text = "🛡️ Denunciar Maltrato"
         } else {
             btnOpenMistreatment.text = "🛡️ Casos de Maltrato"
@@ -197,10 +212,34 @@ class CensusFragment : Fragment() {
     }
 
     private fun applyFilters() {
-        val query = etSearchCensus.text.toString().trim().lowercase()
-        val allRecords = Microdataset.getAllRecords()
+        val currentProfile = AppSessionManager.currentProfile
+        val isCitizen = currentProfile.role == UserRole.CIUDADANO
 
-        val filtered = allRecords.filter { record ->
+        if (isCitizen) {
+            fabRegisterAnimal.visibility = View.VISIBLE
+            layoutVeredaFilterRow.visibility = View.GONE
+            tvEmptyTitle.text = "No tienes animales registrados"
+            tvEmptySubtitle.text = "Usa el botón 'Registrar animal' (+) para agregar a tu animal de compañía."
+        } else {
+            fabRegisterAnimal.visibility = View.GONE
+            layoutVeredaFilterRow.visibility = View.VISIBLE
+            tvEmptyTitle.text = "No se encontraron registros"
+            tvEmptySubtitle.text = "Prueba con otro término de búsqueda o filtro de vereda."
+        }
+
+        val query = etSearchCensus.text.toString().trim().lowercase()
+        val userDocDigits = currentProfile.professionalId.filter { it.isDigit() }
+
+        val baseRecords = if (isCitizen) {
+            Microdataset.getAllRecords().filter { record ->
+                record.responsable_nombre.equals(currentProfile.name, ignoreCase = true) ||
+                (userDocDigits.isNotEmpty() && record.documento_numero.filter { it.isDigit() } == userDocDigits)
+            }
+        } else {
+            Microdataset.getAllRecords()
+        }
+
+        val filtered = baseRecords.filter { record ->
             // Search query filter
             val matchesQuery = query.isEmpty() ||
                 record.animal_nombre.lowercase().contains(query) ||
@@ -211,7 +250,7 @@ class CensusFragment : Fragment() {
                 record.territorio.lowercase().contains(query)
 
             // Vereda filter
-            val matchesVereda = (selectedVereda == "Todas las Veredas") ||
+            val matchesVereda = isCitizen || (selectedVereda == "Todas las Veredas") ||
                 record.territorio.equals(selectedVereda, ignoreCase = true)
 
             // Category filter
@@ -227,8 +266,9 @@ class CensusFragment : Fragment() {
         }
 
         adapter.updateData(filtered)
-        tvTotalBadge.text = "${filtered.size} censados"
-        (activity as? com.alcaldia.censoanimal.MainActivity)?.updateTopBarBadge("${filtered.size} censados")
+        val badgeText = if (isCitizen) "${filtered.size} mis animales" else "${filtered.size} censados"
+        tvTotalBadge.text = badgeText
+        (activity as? com.alcaldia.censoanimal.MainActivity)?.updateTopBarBadge(badgeText)
 
         if (filtered.isEmpty()) {
             layoutEmptyState.visibility = View.VISIBLE

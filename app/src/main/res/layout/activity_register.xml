@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/slate_900"
+    android:fillViewport="true">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="20dp">
+
+        <!-- Top Header & Back Button -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btnRegisterBack"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Volver"
+                android:src="@drawable/ic_close"
+                app:tint="@color/white" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_weight="1" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/bg_pill_blue"
+                android:backgroundTint="@color/blue_900"
+                android:fontFamily="sans-serif-bold"
+                android:paddingHorizontal="8dp"
+                android:paddingVertical="3dp"
+                android:text="Portal Ciudadano"
+                android:textColor="@color/blue_300"
+                android:textSize="10sp" />
+        </LinearLayout>
+
+        <!-- Brand Icon & Title -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="14dp"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="56dp"
+                android:layout_height="56dp"
+                android:background="@drawable/bg_pill_blue"
+                android:backgroundTint="@color/emerald_600">
+
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:layout_gravity="center"
+                    android:src="@drawable/ic_register"
+                    app:tint="@color/white" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:fontFamily="sans-serif-black"
+                android:text="Registro de Ciudadano"
+                android:textColor="@color/white"
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:gravity="center"
+                android:text="Alcaldía de Zipaquirá • Gestión de Animales de Compañía"
+                android:textColor="@color/slate_400"
+                android:textSize="12sp" />
+        </LinearLayout>
+
+        <!-- Registration Card Form -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            app:cardBackgroundColor="@color/slate_800"
+            app:cardCornerRadius="16dp"
+            app:cardElevation="4dp"
+            app:strokeColor="@color/slate_700"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="18dp">
+
+                <!-- Full Legal Name -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Nombre completo y apellidos *"
+                    android:textColor="@color/slate_300"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etRegisterFullName"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_search_box"
+                    android:backgroundTint="@color/slate_900"
+                    android:hint="Ej: María Camila Rodríguez"
+                    android:inputType="textPersonName|textCapWords"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/slate_500"
+                    android:textSize="12sp" />
+
+                <!-- Citizen ID: Cédula de ciudadanía -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Cédula de ciudadanía (C.C.) *"
+                    android:textColor="@color/slate_300"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etRegisterCitizenId"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_search_box"
+                    android:backgroundTint="@color/slate_900"
+                    android:hint="Ej: 1024567890"
+                    android:inputType="number"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/slate_500"
+                    android:textSize="12sp" />
+
+                <!-- Email -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Correo electrónico *"
+                    android:textColor="@color/slate_300"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etRegisterEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_search_box"
+                    android:backgroundTint="@color/slate_900"
+                    android:hint="correo@ejemplo.com"
+                    android:inputType="textEmailAddress"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/slate_500"
+                    android:textSize="12sp" />
+
+                <!-- Password -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Contraseña *"
+                    android:textColor="@color/slate_300"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etRegisterPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_search_box"
+                    android:backgroundTint="@color/slate_900"
+                    android:hint="Mínimo 6 caracteres"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/slate_500"
+                    android:textSize="12sp" />
+
+                <!-- Confirm Password -->
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Confirmar contraseña *"
+                    android:textColor="@color/slate_300"
+                    android:textSize="11sp" />
+
+                <EditText
+                    android:id="@+id/etRegisterConfirmPassword"
+                    android:layout_width="match_parent"
+                    android:layout_height="44dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/bg_search_box"
+                    android:backgroundTint="@color/slate_900"
+                    android:hint="Repita la contraseña"
+                    android:inputType="textPassword"
+                    android:paddingHorizontal="12dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/slate_500"
+                    android:textSize="12sp" />
+
+                <!-- Terms & Habeas Data -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="14dp"
+                    android:gravity="top"
+                    android:orientation="horizontal">
+
+                    <CheckBox
+                        android:id="@+id/cbRegisterTerms"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="true" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="4dp"
+                        android:layout_weight="1"
+                        android:text="Acepto el tratamiento de mis datos personales según Ley 1581 de 2012 para el registro y tenencia responsable de animales de compañía."
+                        android:textColor="@color/slate_400"
+                        android:textSize="10sp" />
+                </LinearLayout>
+
+                <!-- Submit Button -->
+                <Button
+                    android:id="@+id/btnSubmitRegister"
+                    android:layout_width="match_parent"
+                    android:layout_height="46dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/emerald_600"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="Crear Cuenta de Ciudadano"
+                    android:textColor="@color/white"
+                    android:textSize="13sp" />
+
+                <!-- Go to Login -->
+                <Button
+                    android:id="@+id/btnRegisterGoToLogin"
+                    style="@style/Widget.Material3.Button.OutlinedButton"
+                    android:layout_width="match_parent"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="10dp"
+                    android:text="¿Ya tiene cuenta? Iniciar Sesión"
+                    android:textColor="@color/slate_300"
+                    android:textSize="12sp"
+                    app:strokeColor="@color/slate_600" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+        <!-- Information Notice -->
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="24dp"
+            app:cardBackgroundColor="@color/slate_800"
+            app:cardCornerRadius="12dp"
+            app:strokeColor="@color/slate_700"
+            app:strokeWidth="1dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="12dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="ℹ️"
+                    android:textSize="16sp" />
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_weight="1"
+                    android:text="Como usuario registrado podrá gestionar la ficha de sus animales de compañía, solicitar microchip e interactuar con brigadas de la Alcaldía."
+                    android:textColor="@color/slate_400"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+    </LinearLayout>
+</ScrollView>

@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/slate_50"
-    android:orientation="vertical">
+    android:background="@color/slate_50">
 
-    <!-- Hidden legacy badge view to prevent NPE in existing bindings -->
-    <TextView
-        android:id="@+id/tvTotalBadge"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <!-- Hidden legacy badge view to prevent NPE in existing bindings -->
+        <TextView
+            android:id="@+id/tvTotalBadge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone" />
 
     <!-- Quick Access to Modules (TRD Pérdidas & Maltrato) -->
     <LinearLayout
@@ -180,6 +184,7 @@
 
         <!-- Vereda Selector Spinner Bar -->
         <LinearLayout
+            android:id="@+id/layoutVeredaFilterRow"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
@@ -212,7 +217,7 @@
         android:layout_weight="1"
         android:clipToPadding="false"
         android:paddingTop="6dp"
-        android:paddingBottom="24dp"
+        android:paddingBottom="80dp"
         tools:listitem="@layout/item_animal_record" />
 
     <!-- Empty State -->
@@ -233,6 +238,7 @@
             android:textSize="40sp" />
 
         <TextView
+            android:id="@+id/tvEmptyTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -242,6 +248,7 @@
             android:textSize="14sp" />
 
         <TextView
+            android:id="@+id/tvEmptySubtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="4dp"
@@ -251,4 +258,20 @@
             android:textSize="12sp" />
     </LinearLayout>
 
-</LinearLayout>
+    </LinearLayout>
+
+    <!-- Floating Action Button for Registering Companion Animal -->
+    <com.google.android.material.floatingactionbutton.ExtendedFloatingActionButton
+        android:id="@+id/fabRegisterAnimal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/emerald_600"
+        android:fontFamily="sans-serif-bold"
+        android:text="Registrar animal"
+        android:textColor="@color/white"
+        app:icon="@drawable/ic_plus"
+        app:iconTint="@color/white" />
+
+</FrameLayout>

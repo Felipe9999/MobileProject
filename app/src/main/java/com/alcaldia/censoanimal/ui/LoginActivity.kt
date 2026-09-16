@@ -29,7 +29,7 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var cbRememberOffline: CheckBox
     private lateinit var tvForgotPassword: TextView
     private lateinit var btnSubmitLogin: Button
-    private lateinit var btnBiometricLogin: Button
+    private lateinit var btnContinueWithoutAccount: Button
 
     private lateinit var btnSelectPresetVet: MaterialCardView
     private lateinit var btnSelectPresetOfficial: MaterialCardView
@@ -51,7 +51,7 @@ class LoginActivity : AppCompatActivity() {
         cbRememberOffline = findViewById(R.id.cbRememberOffline)
         tvForgotPassword = findViewById(R.id.tvForgotPassword)
         btnSubmitLogin = findViewById(R.id.btnSubmitLogin)
-        btnBiometricLogin = findViewById(R.id.btnBiometricLogin)
+        btnContinueWithoutAccount = findViewById(R.id.btnContinueWithoutAccount)
 
         btnSelectPresetVet = findViewById(R.id.btnSelectPresetVet)
         btnSelectPresetOfficial = findViewById(R.id.btnSelectPresetOfficial)
@@ -73,12 +73,12 @@ class LoginActivity : AppCompatActivity() {
 
         btnSelectPresetOfficial.setOnClickListener {
             selectPreset(Microdataset.PRESET_ACCOUNTS[1])
-            Toast.makeText(this, "Credenciales de Funcionario cargadas", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Credenciales de Administrador cargadas", Toast.LENGTH_SHORT).show()
         }
 
         btnSelectPresetCitizen.setOnClickListener {
             selectPreset(Microdataset.PRESET_ACCOUNTS[2])
-            Toast.makeText(this, "Credenciales de Ciudadano cargadas", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Credenciales de Usuario Registrado cargadas", Toast.LENGTH_SHORT).show()
         }
 
         etLoginEmail.addTextChangedListener(object : TextWatcher {
@@ -88,7 +88,7 @@ class LoginActivity : AppCompatActivity() {
                 val email = s?.toString()?.trim() ?: ""
                 when {
                     email.equals(Microdataset.PRESET_ACCOUNTS[0].email, ignoreCase = true) -> highlightRoleCard(UserRole.VETERINARIO)
-                    email.equals(Microdataset.PRESET_ACCOUNTS[1].email, ignoreCase = true) -> highlightRoleCard(UserRole.FUNCIONARIO)
+                    email.equals(Microdataset.PRESET_ACCOUNTS[1].email, ignoreCase = true) -> highlightRoleCard(UserRole.ADMINISTRADOR)
                     email.equals(Microdataset.PRESET_ACCOUNTS[2].email, ignoreCase = true) -> highlightRoleCard(UserRole.CIUDADANO)
                     else -> highlightRoleCard(null)
                 }
@@ -99,20 +99,18 @@ class LoginActivity : AppCompatActivity() {
             performLogin()
         }
 
-        btnBiometricLogin.setOnClickListener {
-            val role = selectedRole ?: UserRole.VETERINARIO
-            val account = Microdataset.PRESET_ACCOUNTS.find { it.role == role } ?: Microdataset.PRESET_ACCOUNTS[0]
+        btnContinueWithoutAccount.setOnClickListener {
             AppSessionManager.login(
-                role = role,
-                customEmail = account.email,
-                customName = account.label
+                role = UserRole.NO_REGISTRADO,
+                customEmail = "Sin registrar",
+                customName = "Usuario No Registrado"
             )
             val resultIntent = Intent().apply {
-                putExtra("LOGGED_IN_ROLE", role.name)
-                putExtra("LOGGED_IN_EMAIL", account.email)
+                putExtra("LOGGED_IN_ROLE", UserRole.NO_REGISTRADO.name)
+                putExtra("LOGGED_IN_EMAIL", "Sin registrar")
             }
             setResult(RESULT_OK, resultIntent)
-            Toast.makeText(this, "Autenticación Biométrica Verificada (${role.label})", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, "Modo sin cuenta: Acceso a Denuncia y Estadísticas Públicas", Toast.LENGTH_SHORT).show()
             if (isTaskRoot) {
                 startActivity(Intent(this, com.alcaldia.censoanimal.MainActivity::class.java))
             }
@@ -121,6 +119,10 @@ class LoginActivity : AppCompatActivity() {
 
         tvForgotPassword.setOnClickListener {
             showForgotPasswordDialog()
+        }
+
+        findViewById<TextView>(R.id.tvGoToRegister)?.setOnClickListener {
+            startActivity(Intent(this, RegisterActivity::class.java))
         }
     }
 
@@ -148,8 +150,8 @@ class LoginActivity : AppCompatActivity() {
         )
         tvPresetVetBadge.text = if (isVet) "✓ Activo" else "Usar"
 
-        // Official card
-        val isOfficial = role == UserRole.FUNCIONARIO
+        // Admin card
+        val isOfficial = role == UserRole.ADMINISTRADOR
         btnSelectPresetOfficial.strokeWidth = if (isOfficial) strokeSelected else strokeNormal
         btnSelectPresetOfficial.strokeColor = ContextCompat.getColor(
             this,
@@ -200,7 +202,7 @@ class LoginActivity : AppCompatActivity() {
                     email.contains("alcaldia", ignoreCase = true) ||
                     email.contains("func", ignoreCase = true) ||
                     email.contains("oficial", ignoreCase = true) ||
-                    email.contains("admin", ignoreCase = true) -> UserRole.FUNCIONARIO
+                    email.contains("admin", ignoreCase = true) -> UserRole.ADMINISTRADOR
             else -> UserRole.CIUDADANO
         }
 
