@@ -54,43 +54,17 @@ object OpenStreetMapHelper {
                     background: #e2e8f0;
                     font-size: 11px;
                 }
-                /* Custom Pin Marker */
-                .custom-marker-pin {
-                    position: relative;
+                /* Clean custom pin wrapper without extra transforms */
+                .custom-pin-wrapper {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                }
+                .custom-pin-wrapper svg {
+                    display: block;
                     width: 36px;
-                    height: 36px;
-                    transform: translate(-18px, -36px);
-                }
-                .pin-head {
-                    width: 34px;
-                    height: 34px;
-                    background: #2563eb;
-                    border: 3px solid #ffffff;
-                    border-radius: 50% 50% 50% 0;
-                    transform: rotate(-45deg);
-                    box-shadow: 0 4px 10px rgba(0,0,0,0.35);
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    position: absolute;
-                    top: 0;
-                    left: 0;
-                }
-                .pin-dot {
-                    width: 12px;
-                    height: 12px;
-                    background: #ffffff;
-                    border-radius: 50%;
-                    transform: rotate(45deg);
-                }
-                .pin-pulse {
-                    position: absolute;
-                    width: 24px;
-                    height: 10px;
-                    background: rgba(37, 99, 235, 0.3);
-                    border-radius: 50%;
-                    bottom: -5px;
-                    left: 5px;
+                    height: 48px;
+                    overflow: visible;
                 }
                 .location-badge {
                     position: absolute;
@@ -132,23 +106,43 @@ object OpenStreetMapHelper {
                     attribution: '© OpenStreetMap'
                 }).addTo(map);
 
-                // Custom DivIcon for high-visibility red/blue pinpoint
-                var pinHtml = '<div class="custom-marker-pin">' +
-                              '  <div class="pin-pulse"></div>' +
-                              '  <div class="pin-head"><div class="pin-dot"></div></div>' +
-                              '</div>';
+                // Custom SVG pin with exact geometric tip at (18, 46) and matching Leaflet iconAnchor
+                var pinSvg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 48" width="36" height="48">' +
+                             '  <defs>' +
+                             '    <filter id="pinShadow" x="-30%" y="-20%" width="160%" height="150%">' +
+                             '      <feDropShadow dx="0" dy="2.5" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.35"/>' +
+                             '    </filter>' +
+                             '  </defs>' +
+                             '  <ellipse cx="18" cy="46" rx="6" ry="2" fill="rgba(15, 23, 42, 0.25)"/>' +
+                             '  <circle cx="18" cy="46" r="3" fill="none" stroke="#2563eb" stroke-width="2" opacity="0.6">' +
+                             '    <animate attributeName="r" from="3" to="12" dur="2s" repeatCount="indefinite"/>' +
+                             '    <animate attributeName="opacity" from="0.7" to="0" dur="2s" repeatCount="indefinite"/>' +
+                             '  </circle>' +
+                             '  <path d="M18,2 C9.16,2 2,9.16 2,18 C2,27.5 13,39.5 18,46 C23,39.5 34,27.5 34,18 C34,9.16 26.84,2 18,2 Z"' +
+                             '        fill="#2563eb" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" filter="url(#pinShadow)" />' +
+                             '  <circle cx="18" cy="18" r="6" fill="#ffffff"/>' +
+                             '  <circle cx="18" cy="18" r="2.5" fill="#1d4ed8"/>' +
+                             '</svg>';
 
                 var customIcon = L.divIcon({
                     className: 'custom-pin-wrapper',
-                    html: pinHtml,
-                    iconSize: [36, 36],
-                    iconAnchor: [18, 36]
+                    html: pinSvg,
+                    iconSize: [36, 48],
+                    iconAnchor: [18, 46]
                 });
 
                 var marker = L.marker([curLat, curLng], {
                     icon: customIcon,
                     draggable: isInteractive
                 }).addTo(map);
+
+                // Ensure Leaflet recalculates dimensions if container resizes
+                window.addEventListener('resize', function() {
+                    map.invalidateSize();
+                });
+                setTimeout(function() {
+                    map.invalidateSize();
+                }, 250);
 
                 function updateBadge(lat, lng) {
                     var badge = document.getElementById('coordsBadge');
@@ -212,6 +206,9 @@ object OpenStreetMapHelper {
         webView.settings.domStorageEnabled = true
         webView.settings.loadWithOverviewMode = true
         webView.settings.useWideViewPort = true
+        webView.settings.setSupportZoom(false)
+        webView.settings.builtInZoomControls = false
+        webView.settings.displayZoomControls = false
         webView.settings.allowFileAccess = false
         webView.settings.allowContentAccess = false
 
