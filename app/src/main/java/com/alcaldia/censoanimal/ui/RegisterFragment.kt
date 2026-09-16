@@ -1,9 +1,16 @@
 package com.alcaldia.censoanimal.ui
 
+import android.Manifest
+import android.app.Activity
+import android.content.Context
+import android.content.Intent
+import android.content.pm.PackageManager
+import android.location.LocationManager
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -12,17 +19,18 @@ import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.alcaldia.censoanimal.MainActivity
 import com.alcaldia.censoanimal.R
 import com.alcaldia.censoanimal.data.Microdataset
+import com.alcaldia.censoanimal.data.ZipaquiraGeoHelper
 import com.alcaldia.censoanimal.model.AnimalRecord
 import com.google.android.material.switchmaterial.SwitchMaterial
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
-import kotlin.random.Random
 
 class RegisterFragment : Fragment() {
 
@@ -69,10 +77,27 @@ class RegisterFragment : Fragment() {
     private lateinit var etFarmAddress: EditText
     private lateinit var tvGpsCoords: TextView
     private lateinit var btnRefreshGps: Button
+    private lateinit var btnOpenMapPicker: Button
+    private lateinit var registerMapWebView: WebView
+    private lateinit var tvDetectedVeredaBadge: TextView
     private lateinit var etFieldNotes: EditText
 
-    private var currentLat = 4.9842
-    private var currentLng = -73.9562
+    private var currentLat = ZipaquiraGeoHelper.DEFAULT_LAT
+    private var currentLng = ZipaquiraGeoHelper.DEFAULT_LNG
+
+    private val locationPickerLauncher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        if (result.resultCode == Activity.RESULT_OK && result.data != null) {
+            val data = result.data!!
+            val lat = data.getDoubleExtra(LocationPickerActivity.EXTRA_RESULT_LAT, currentLat)
+            val lng = data.getDoubleExtra(LocationPickerActivity.EXTRA_RESULT_LNG, currentLng)
+            val vereda = data.getStringExtra(LocationPickerActivity.EXTRA_RESULT_VEREDA)
+            val address = data.getStringExtra(LocationPickerActivity.EXTRA_RESULT_ADDRESS)
+
+            applyLocation(lat, lng, vereda, address, updateMap = true)
+        }
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -121,12 +146,23 @@ class RegisterFragment : Fragment() {
         etFarmAddress = view.findViewById(R.id.etFarmAddress)
         tvGpsCoords = view.findViewById(R.id.tvGpsCoords)
         btnRefreshGps = view.findViewById(R.id.btnRefreshGps)
+        btnOpenMapPicker = view.findViewById(R.id.btnOpenMapPicker)
+        registerMapWebView = view.findViewById(R.id.registerMapWebView)
+        tvDetectedVeredaBadge = view.findViewById(R.id.tvDetectedVeredaBadge)
         etFieldNotes = view.findViewById(R.id.etFieldNotes)
+
+        // Default to device GPS location if available
+        val (gpsLat, gpsLng) = getDeviceGpsLocation()
+        currentLat = gpsLat
+        currentLng = gpsLng
 
         setupSpinners()
         setupSpeciesToggle()
-        setupGpsButton()
+        setupOpenStreetMap()
         setupStepper()
+
+        // Initialize address and vereda from default GPS location
+        applyLocation(currentLat, currentLng, null, null, updateMap = false)
     }
 
     private fun setupSpeciesToggle() {
@@ -170,14 +206,89 @@ class RegisterFragment : Fragment() {
         updateBreedSpinner("Perro")
     }
 
-    private fun setupGpsButton() {
+    private fun setupOpenStreetMap() {
+        OpenStreetMapHelper.configureWebView(
+            webView = registerMapWebView,
+            initialLat = currentLat,
+            initialLng = currentLng,
+            isInteractive = true,
+            listener = object : OpenStreetMapHelper.OnLocationChangeListener {
+                override fun onLocationChanged(lat: Double, lng: Double) {
+                    applyLocation(lat, lng, null, null, updateMap = false)
+                }
+            }
+        )
+
         btnRefreshGps.setOnClickListener {
-            currentLat = 4.9800 + (Random.nextDouble() * 0.015)
-            currentLng = -73.9650 + (Random.nextDouble() * 0.015)
-            val formatted = String.format(Locale.US, "Lat: %.4f, Lng: %.4f", currentLat, currentLng)
-            tvGpsCoords.text = formatted
-            Toast.makeText(requireContext(), "Coordenadas GPS actualizadas (WGS84)", Toast.LENGTH_SHORT).show()
+            val (gpsLat, gpsLng) = getDeviceGpsLocation()
+            applyLocation(gpsLat, gpsLng, null, null, updateMap = true)
+            Toast.makeText(requireContext(), "Centrado en GPS actual", Toast.LENGTH_SHORT).show()
         }
+
+        btnOpenMapPicker.setOnClickListener {
+            val intent = Intent(requireContext(), LocationPickerActivity::class.java).apply {
+                putExtra(LocationPickerActivity.EXTRA_INITIAL_LAT, currentLat)
+                putExtra(LocationPickerActivity.EXTRA_INITIAL_LNG, currentLng)
+            }
+            locationPickerLauncher.launch(intent)
+        }
+    }
+
+    private fun applyLocation(
+        lat: Double,
+        lng: Double,
+        forcedVereda: String?,
+        forcedAddress: String?,
+        updateMap: Boolean
+    ) {
+        currentLat = lat
+        currentLng = lng
+        tvGpsCoords.text = String.format(Locale.US, "Lat: %.4f, Lng: %.4f", lat, lng)
+
+        if (updateMap) {
+            OpenStreetMapHelper.updatePinLocation(registerMapWebView, lat, lng)
+        }
+
+        if (forcedVereda != null && forcedAddress != null) {
+            setVeredaInSpinner(forcedVereda)
+            tvDetectedVeredaBadge.text = "Territorio detectado: $forcedVereda"
+            etFarmAddress.setText(forcedAddress)
+        } else {
+            ZipaquiraGeoHelper.resolveLocationAsync(lat, lng) { geoResult ->
+                setVeredaInSpinner(geoResult.vereda)
+                tvDetectedVeredaBadge.text = "Territorio detectado: ${geoResult.vereda}"
+                etFarmAddress.setText(geoResult.address)
+            }
+        }
+    }
+
+    private fun setVeredaInSpinner(veredaName: String) {
+        val index = Microdataset.OFFICIAL_VEREDAS.indexOfFirst {
+            it.equals(veredaName, ignoreCase = true)
+        }
+        if (index >= 0) {
+            spinnerRegisterVereda.setSelection(index)
+        }
+    }
+
+    private fun getDeviceGpsLocation(): Pair<Double, Double> {
+        try {
+            val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
+            val fineGranted = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+            val coarseGranted = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+
+            if (fineGranted || coarseGranted) {
+                val loc = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+                    ?: locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
+
+                if (loc != null && loc.latitude != 0.0) {
+                    return Pair(loc.latitude, loc.longitude)
+                }
+            }
+        } catch (e: Exception) {
+            // Fallback to default
+        }
+        return Pair(ZipaquiraGeoHelper.DEFAULT_LAT, ZipaquiraGeoHelper.DEFAULT_LNG)
     }
 
     private fun setupStepper() {

@@ -567,13 +567,137 @@
                     </LinearLayout>
                 </LinearLayout>
 
+                <!-- Ubicación en OpenStreetMap -->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="sans-serif-bold"
+                        android:text="Ubicación en Mapa (OpenStreetMap) *"
+                        android:textColor="@color/slate_800"
+                        android:textSize="12sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="2dp"
+                        android:text="Usa tu GPS o mueve el pin en el mapa. La vereda y dirección se completarán automáticamente."
+                        android:textColor="@color/slate_500"
+                        android:textSize="11sp" />
+
+                    <!-- Action Bar with GPS and Fullscreen Buttons -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:orientation="horizontal">
+
+                        <Button
+                            android:id="@+id/btnRefreshGps"
+                            style="@style/Widget.Material3.Button.TonalButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginEnd="4dp"
+                            android:layout_weight="1"
+                            android:backgroundTint="@color/blue_50"
+                            android:text="📍 GPS Actual"
+                            android:textColor="@color/blue_700"
+                            android:textSize="11sp" />
+
+                        <Button
+                            android:id="@+id/btnOpenMapPicker"
+                            style="@style/Widget.Material3.Button.OutlinedButton"
+                            android:layout_width="0dp"
+                            android:layout_height="40dp"
+                            android:layout_marginStart="4dp"
+                            android:layout_weight="1"
+                            android:text="⛶ Pantalla Completa"
+                            android:textColor="@color/slate_700"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+
+                    <!-- Interactive OpenStreetMap Container -->
+                    <com.google.android.material.card.MaterialCardView
+                        android:layout_width="match_parent"
+                        android:layout_height="190dp"
+                        android:layout_marginTop="8dp"
+                        app:cardCornerRadius="10dp"
+                        app:cardElevation="2dp"
+                        app:strokeColor="@color/slate_300"
+                        app:strokeWidth="1dp">
+
+                        <FrameLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <WebView
+                                android:id="@+id/registerMapWebView"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent" />
+
+                            <LinearLayout
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="bottom|start"
+                                android:layout_margin="8dp"
+                                android:background="@drawable/bg_stat_dark"
+                                android:orientation="horizontal"
+                                android:paddingHorizontal="8dp"
+                                android:paddingVertical="4dp">
+
+                                <TextView
+                                    android:id="@+id/tvGpsCoords"
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:fontFamily="monospace"
+                                    android:text="Lat: 4.9842, Lng: -73.9562"
+                                    android:textColor="@color/white"
+                                    android:textSize="10sp" />
+                            </LinearLayout>
+                        </FrameLayout>
+                    </com.google.android.material.card.MaterialCardView>
+
+                    <!-- Territory Detected Live Chip -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/bg_pill_emerald"
+                        android:gravity="center_vertical"
+                        android:orientation="horizontal"
+                        android:paddingHorizontal="10dp"
+                        android:paddingVertical="6dp">
+
+                        <ImageView
+                            android:layout_width="14dp"
+                            android:layout_height="14dp"
+                            android:src="@drawable/ic_check_circle"
+                            app:tint="@color/emerald_700" />
+
+                        <TextView
+                            android:id="@+id/tvDetectedVeredaBadge"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="6dp"
+                            android:fontFamily="sans-serif-bold"
+                            android:text="Territorio detectado: Vereda San Jorge"
+                            android:textColor="@color/emerald_900"
+                            android:textSize="11sp" />
+                    </LinearLayout>
+                </LinearLayout>
+
                 <!-- Vereda Oficial -->
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="sans-serif-bold"
-                    android:text="Vereda Oficial *"
+                    android:text="Vereda Oficial (Autocompletada por mapa) *"
                     android:textColor="@color/slate_800"
                     android:textSize="12sp" />
 
@@ -591,7 +715,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
                     android:fontFamily="sans-serif-bold"
-                    android:text="Dirección / Nombre del Predio o Finca *"
+                    android:text="Dirección / Nombre del Predio o Finca (Autocompletada) *"
                     android:textColor="@color/slate_800"
                     android:textSize="12sp" />
 
@@ -601,48 +725,11 @@
                     android:layout_height="44dp"
                     android:layout_marginTop="4dp"
                     android:background="@drawable/bg_search_box"
-                    android:hint="Ej. Finca El Porvenir Lote 4"
+                    android:hint="Ej. Vereda San Jorge, Sector Finca El Porvenir"
                     android:inputType="textCapSentences"
                     android:paddingHorizontal="12dp"
                     android:textColor="@color/slate_900"
                     android:textSize="13sp" />
-
-                <!-- Coordenadas GPS WGS84 -->
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="14dp"
-                    android:background="@drawable/bg_pill_slate"
-                    android:gravity="center_vertical"
-                    android:orientation="horizontal"
-                    android:padding="10dp">
-
-                    <ImageView
-                        android:layout_width="16dp"
-                        android:layout_height="16dp"
-                        android:src="@drawable/ic_map_pin"
-                        app:tint="@color/emerald_600" />
-
-                    <TextView
-                        android:id="@+id/tvGpsCoords"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="8dp"
-                        android:layout_weight="1"
-                        android:fontFamily="monospace"
-                        android:text="Lat: 4.9842, Lng: -73.9562"
-                        android:textColor="@color/slate_700"
-                        android:textSize="11sp" />
-
-                    <Button
-                        android:id="@+id/btnRefreshGps"
-                        style="@style/Widget.Material3.Button.TextButton"
-                        android:layout_width="wrap_content"
-                        android:layout_height="36dp"
-                        android:text="GPS Actual"
-                        android:textColor="@color/emerald_700"
-                        android:textSize="10sp" />
-                </LinearLayout>
 
                 <!-- Observaciones -->
                 <TextView
