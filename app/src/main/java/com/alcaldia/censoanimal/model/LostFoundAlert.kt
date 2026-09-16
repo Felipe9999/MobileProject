@@ -16,5 +16,8 @@ data class LostFoundAlert(
     val descripcion: String,
     val posible_coincidencia_registro_id: String? = null,
     val dias_custodia_albergue: Int = 0,
-    var validacion_manual_aprobada: Boolean = false
+    var validacion_manual_aprobada: Boolean = false,
+    val direccion_referencia: String? = null,
+    val latitud: Double? = null,
+    val longitud: Double? = null
 )

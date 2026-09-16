@@ -1,28 +1,22 @@
 package com.alcaldia.censoanimal.ui
 
-import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
-import android.view.LayoutInflater
 import android.view.View
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.LinearLayout
-import android.widget.Spinner
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.alcaldia.censoanimal.R
-import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.LostFoundAlert
 import com.google.android.material.card.MaterialCardView
-import java.text.SimpleDateFormat
-import java.util.Date
 import java.util.Locale
 
 class LostFoundActivity : AppCompatActivity() {
@@ -33,7 +27,8 @@ class LostFoundActivity : AppCompatActivity() {
     private lateinit var btnLostFoundAccount: LinearLayout
     private lateinit var tvLostFoundAccountLabel: TextView
     private lateinit var tvLostFoundSummary: TextView
-    private lateinit var btnNewAlert: Button
+    private lateinit var btnReportLost: Button
+    private lateinit var btnReportFound: Button
 
     private lateinit var etSearchAlerts: EditText
     private lateinit var chipFilterAll: TextView
@@ -56,12 +51,18 @@ class LostFoundActivity : AppCompatActivity() {
         refreshList()
     }
 
+    override fun onResume() {
+        super.onResume()
+        refreshList()
+    }
+
     private fun initViews() {
         btnLostFoundBack = findViewById(R.id.btnLostFoundBack)
         btnLostFoundAccount = findViewById(R.id.btnLostFoundAccount)
         tvLostFoundAccountLabel = findViewById(R.id.tvLostFoundAccountLabel)
         tvLostFoundSummary = findViewById(R.id.tvLostFoundSummary)
-        btnNewAlert = findViewById(R.id.btnNewAlert)
+        btnReportLost = findViewById(R.id.btnReportLost)
+        btnReportFound = findViewById(R.id.btnReportFound)
 
         etSearchAlerts = findViewById(R.id.etSearchAlerts)
         chipFilterAll = findViewById(R.id.chipFilterAll)
@@ -78,8 +79,12 @@ class LostFoundActivity : AppCompatActivity() {
     private fun setupListeners() {
         btnLostFoundBack.setOnClickListener { finish() }
 
-        btnNewAlert.setOnClickListener {
-            showNewAlertDialog()
+        btnReportLost.setOnClickListener {
+            startActivity(Intent(this, ReportLostAnimalActivity::class.java))
+        }
+
+        btnReportFound.setOnClickListener {
+            startActivity(Intent(this, ReportFoundAnimalActivity::class.java))
         }
 
         chipFilterAll.setOnClickListener { updateFilter(FilterType.ALL) }
@@ -235,7 +240,11 @@ class LostFoundActivity : AppCompatActivity() {
 
         // Location & Contact
         val locTv = TextView(this).apply {
-            text = "📍 Vereda: ${alert.vereda} • Contacto: ${alert.contacto_nombre} (${alert.contacto_telefono})"
+            val addrText = if (!alert.direccion_referencia.isNullOrEmpty()) " • ${alert.direccion_referencia}" else ""
+            val coordsText = if (alert.latitud != null && alert.longitud != null) {
+                String.format(Locale.US, " (%.4f, %.4f)", alert.latitud, alert.longitud)
+            } else ""
+            text = "📍 Vereda: ${alert.vereda}$addrText$coordsText\n📞 Contacto: ${alert.contacto_nombre} (${alert.contacto_telefono})"
             setTextColor(ContextCompat.getColor(context, R.color.slate_600))
             textSize = 12f
             setPadding(0, (2 * density).toInt(), 0, (2 * density).toInt())
@@ -324,61 +333,5 @@ class LostFoundActivity : AppCompatActivity() {
 
         cardView.addView(cardContent)
         return cardView
-    }
-
-    private fun showNewAlertDialog() {
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_new_lost_found, null)
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .create()
-
-        val spinnerType = dialogView.findViewById<Spinner>(R.id.spinnerAlertType)
-        val spinnerSpecies = dialogView.findViewById<Spinner>(R.id.spinnerAlertSpecies)
-        val spinnerVereda = dialogView.findViewById<Spinner>(R.id.spinnerAlertVereda)
-        val etNameBreed = dialogView.findViewById<EditText>(R.id.etAlertNameBreed)
-        val etContact = dialogView.findViewById<EditText>(R.id.etAlertContact)
-        val etDescription = dialogView.findViewById<EditText>(R.id.etAlertDescription)
-        val btnCancel = dialogView.findViewById<Button>(R.id.btnCancelNewAlert)
-        val btnSave = dialogView.findViewById<Button>(R.id.btnSaveNewAlert)
-
-        spinnerType.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("PERDIDO", "HALLADO"))
-        spinnerSpecies.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, listOf("Perro", "Gato", "Otro"))
-        spinnerVereda.adapter = ArrayAdapter(this, android.R.layout.simple_spinner_dropdown_item, Microdataset.OFFICIAL_VEREDAS)
-
-        btnCancel.setOnClickListener { dialog.dismiss() }
-
-        btnSave.setOnClickListener {
-            val nameBreed = etNameBreed.text.toString().trim().ifEmpty { "Mestizo Criollo" }
-            val contact = etContact.text.toString().trim().ifEmpty { "Ciudadano Zipaquirá - 3100000000" }
-            val desc = etDescription.text.toString().trim().ifEmpty { "Sin descripción particular" }
-            val today = SimpleDateFormat("yyyy-MM-dd", Locale.US).format(Date())
-            val isFound = spinnerType.selectedItem.toString() == "HALLADO"
-
-            val newAlert = LostFoundAlert(
-                id = "ALR-2026-${(100..999).random()}",
-                tipo = spinnerType.selectedItem.toString(),
-                especie = spinnerSpecies.selectedItem.toString(),
-                nombre = if (isFound) null else nameBreed,
-                raza = nameBreed,
-                color = "Varios",
-                vereda = spinnerVereda.selectedItem.toString(),
-                fecha_evento = today,
-                microchip = null,
-                contacto_nombre = contact.substringBefore("-").trim(),
-                contacto_telefono = if (contact.contains("-")) contact.substringAfter("-").trim() else "3100000000",
-                estado = "Activo / En Búsqueda",
-                descripcion = desc,
-                posible_coincidencia_registro_id = if (isFound) "CEN-2026-004" else null,
-                dias_custodia_albergue = 0,
-                validacion_manual_aprobada = false
-            )
-
-            Microdataset.addLostFoundAlert(newAlert)
-            Toast.makeText(this, "Alerta publicada exitosamente", Toast.LENGTH_SHORT).show()
-            dialog.dismiss()
-            refreshList()
-        }
-
-        dialog.show()
     }
 }

@@ -96,43 +96,58 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="vertical">
 
-            <LinearLayout
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/tvLostFoundSummary"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif-black"
-                    android:text="3 alertas activas en Zipaquirá"
-                    android:textColor="@color/slate_900"
-                    android:textSize="13sp" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="sans-serif"
-                    android:text="TRD FR-2.4 Validación Manual Obligatoria • FR-2.5 Regla 20 Días"
-                    android:textColor="@color/slate_500"
-                    android:textSize="10sp" />
-            </LinearLayout>
-
-            <Button
-                android:id="@+id/btnNewAlert"
-                style="@style/Widget.Material3.Button.TonalButton"
+            <TextView
+                android:id="@+id/tvLostFoundSummary"
                 android:layout_width="wrap_content"
-                android:layout_height="38dp"
-                android:backgroundTint="@color/blue_100"
-                android:fontFamily="sans-serif-bold"
-                android:text="+ Publicar Alerta"
-                android:textColor="@color/blue_800"
-                android:textSize="11sp" />
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-black"
+                android:text="3 alertas activas en Zipaquirá"
+                android:textColor="@color/slate_900"
+                android:textSize="13sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif"
+                android:text="TRD FR-2.4 Validación Manual Obligatoria • FR-2.5 Regla 20 Días"
+                android:textColor="@color/slate_500"
+                android:textSize="10sp" />
+
+            <!-- Dual Buttons: Report Lost & Report Found -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btnReportLost"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/rose_50"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="🚨 Reportar Perdido"
+                    android:textColor="@color/rose_700"
+                    android:textSize="12sp" />
+
+                <Button
+                    android:id="@+id/btnReportFound"
+                    style="@style/Widget.Material3.Button.TonalButton"
+                    android:layout_width="0dp"
+                    android:layout_height="40dp"
+                    android:layout_marginStart="4dp"
+                    android:layout_weight="1"
+                    android:backgroundTint="@color/emerald_50"
+                    android:fontFamily="sans-serif-bold"
+                    android:text="🐾 Reportar Hallado"
+                    android:textColor="@color/emerald_700"
+                    android:textSize="12sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <!-- Search input box -->

@@ -82,20 +82,13 @@ class RegisterFragment : Fragment() {
     private lateinit var tvDetectedVeredaBadge: TextView
     private lateinit var etFieldNotes: EditText
 
-    private var currentLat = ZipaquiraGeoHelper.DEFAULT_LAT
-    private var currentLng = ZipaquiraGeoHelper.DEFAULT_LNG
+    private lateinit var locationHelper: FormLocationHelper
 
     private val locationPickerLauncher = registerForActivityResult(
         ActivityResultContracts.StartActivityForResult()
     ) { result ->
         if (result.resultCode == Activity.RESULT_OK && result.data != null) {
-            val data = result.data!!
-            val lat = data.getDoubleExtra(LocationPickerActivity.EXTRA_RESULT_LAT, currentLat)
-            val lng = data.getDoubleExtra(LocationPickerActivity.EXTRA_RESULT_LNG, currentLng)
-            val vereda = data.getStringExtra(LocationPickerActivity.EXTRA_RESULT_VEREDA)
-            val address = data.getStringExtra(LocationPickerActivity.EXTRA_RESULT_ADDRESS)
-
-            applyLocation(lat, lng, vereda, address, updateMap = true)
+            locationHelper.handleActivityResult(result.data!!)
         }
     }
 
@@ -151,18 +144,25 @@ class RegisterFragment : Fragment() {
         tvDetectedVeredaBadge = view.findViewById(R.id.tvDetectedVeredaBadge)
         etFieldNotes = view.findViewById(R.id.etFieldNotes)
 
-        // Default to device GPS location if available
-        val (gpsLat, gpsLng) = getDeviceGpsLocation()
-        currentLat = gpsLat
-        currentLng = gpsLng
-
         setupSpinners()
         setupSpeciesToggle()
-        setupOpenStreetMap()
+        setupLocationHelper()
         setupStepper()
+    }
 
-        // Initialize address and vereda from default GPS location
-        applyLocation(currentLat, currentLng, null, null, updateMap = false)
+    private fun setupLocationHelper() {
+        locationHelper = FormLocationHelper(
+            context = requireContext(),
+            mapWebView = registerMapWebView,
+            btnGps = btnRefreshGps,
+            btnFullscreenMap = btnOpenMapPicker,
+            tvCoords = tvGpsCoords,
+            tvDetectedVereda = tvDetectedVeredaBadge,
+            spinnerVereda = spinnerRegisterVereda,
+            etAddress = etFarmAddress,
+            launcher = locationPickerLauncher
+        )
+        locationHelper.init()
     }
 
     private fun setupSpeciesToggle() {
@@ -204,91 +204,6 @@ class RegisterFragment : Fragment() {
         spinnerRegisterVereda.adapter = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_dropdown_item, Microdataset.OFFICIAL_VEREDAS)
 
         updateBreedSpinner("Perro")
-    }
-
-    private fun setupOpenStreetMap() {
-        OpenStreetMapHelper.configureWebView(
-            webView = registerMapWebView,
-            initialLat = currentLat,
-            initialLng = currentLng,
-            isInteractive = true,
-            listener = object : OpenStreetMapHelper.OnLocationChangeListener {
-                override fun onLocationChanged(lat: Double, lng: Double) {
-                    applyLocation(lat, lng, null, null, updateMap = false)
-                }
-            }
-        )
-
-        btnRefreshGps.setOnClickListener {
-            val (gpsLat, gpsLng) = getDeviceGpsLocation()
-            applyLocation(gpsLat, gpsLng, null, null, updateMap = true)
-            Toast.makeText(requireContext(), "Centrado en GPS actual", Toast.LENGTH_SHORT).show()
-        }
-
-        btnOpenMapPicker.setOnClickListener {
-            val intent = Intent(requireContext(), LocationPickerActivity::class.java).apply {
-                putExtra(LocationPickerActivity.EXTRA_INITIAL_LAT, currentLat)
-                putExtra(LocationPickerActivity.EXTRA_INITIAL_LNG, currentLng)
-            }
-            locationPickerLauncher.launch(intent)
-        }
-    }
-
-    private fun applyLocation(
-        lat: Double,
-        lng: Double,
-        forcedVereda: String?,
-        forcedAddress: String?,
-        updateMap: Boolean
-    ) {
-        currentLat = lat
-        currentLng = lng
-        tvGpsCoords.text = String.format(Locale.US, "Lat: %.4f, Lng: %.4f", lat, lng)
-
-        if (updateMap) {
-            OpenStreetMapHelper.updatePinLocation(registerMapWebView, lat, lng)
-        }
-
-        if (forcedVereda != null && forcedAddress != null) {
-            setVeredaInSpinner(forcedVereda)
-            tvDetectedVeredaBadge.text = "Territorio detectado: $forcedVereda"
-            etFarmAddress.setText(forcedAddress)
-        } else {
-            ZipaquiraGeoHelper.resolveLocationAsync(lat, lng) { geoResult ->
-                setVeredaInSpinner(geoResult.vereda)
-                tvDetectedVeredaBadge.text = "Territorio detectado: ${geoResult.vereda}"
-                etFarmAddress.setText(geoResult.address)
-            }
-        }
-    }
-
-    private fun setVeredaInSpinner(veredaName: String) {
-        val index = Microdataset.OFFICIAL_VEREDAS.indexOfFirst {
-            it.equals(veredaName, ignoreCase = true)
-        }
-        if (index >= 0) {
-            spinnerRegisterVereda.setSelection(index)
-        }
-    }
-
-    private fun getDeviceGpsLocation(): Pair<Double, Double> {
-        try {
-            val locationManager = requireContext().getSystemService(Context.LOCATION_SERVICE) as? LocationManager
-            val fineGranted = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
-            val coarseGranted = ContextCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
-
-            if (fineGranted || coarseGranted) {
-                val loc = locationManager?.getLastKnownLocation(LocationManager.GPS_PROVIDER)
-                    ?: locationManager?.getLastKnownLocation(LocationManager.NETWORK_PROVIDER)
-
-                if (loc != null && loc.latitude != 0.0) {
-                    return Pair(loc.latitude, loc.longitude)
-                }
-            }
-        } catch (e: Exception) {
-            // Fallback to default
-        }
-        return Pair(ZipaquiraGeoHelper.DEFAULT_LAT, ZipaquiraGeoHelper.DEFAULT_LNG)
     }
 
     private fun setupStepper() {
@@ -390,8 +305,8 @@ class RegisterFragment : Fragment() {
             territorio = spinnerRegisterVereda.selectedItem.toString(),
             territorio_catalogo = spinnerRegisterVereda.selectedItem.toString(),
             direccion_finca = farmAddress,
-            latitud = currentLat,
-            longitud = currentLng,
+            latitud = locationHelper.currentLat,
+            longitud = locationHelper.currentLng,
             fecha_censo = today,
             censo_por = "Veterinario Aliado",
             observaciones = etFieldNotes.text.toString().trim().ifEmpty { "Registro de censo en campo con validación de catálogo." },
