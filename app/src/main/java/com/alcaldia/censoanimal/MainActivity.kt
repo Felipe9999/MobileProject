@@ -21,6 +21,7 @@ import com.alcaldia.censoanimal.ui.IndicatorsFragment
 import com.alcaldia.censoanimal.ui.LoginActivity
 import com.alcaldia.censoanimal.ui.MapFragment
 import com.alcaldia.censoanimal.ui.OfflineSyncFragment
+import com.alcaldia.censoanimal.ui.PublicReportFragment
 import com.alcaldia.censoanimal.ui.RegisterFragment
 import com.alcaldia.censoanimal.ui.ScannerActivity
 import com.alcaldia.censoanimal.ui.TopBarAccountHelper
@@ -100,23 +101,35 @@ class MainActivity : AppCompatActivity() {
             runOnUiThread { updateRoleUI() }
         }
 
+        setupBottomNavigation()
         updateClock()
         updateRoleUI()
         updateNetworkUI()
         if(IS_TOP_NAV_ENABLED) systemStatusBar.visibility = android.view.View.VISIBLE
         else  systemStatusBar.visibility = android.view.View.GONE
 
-        setupBottomNavigation()
         setupTopBarListeners()
 
-        // Default to Census tab
+        // Default initial tab based on role
         if (savedInstanceState == null) {
-            loadFragment(CensusFragment())
-            updateTopBar(
-                getString(R.string.header_census_title),
-                getString(R.string.header_census_sub),
-                "${Microdataset.INITIAL_ANIMAL_RECORDS.size} censados"
-            )
+            val role = AppSessionManager.currentProfile.role
+            if (role == UserRole.NO_REGISTRADO) {
+                bottomNavigation.selectedItemId = R.id.nav_report_public
+            } else if (role == UserRole.CIUDADANO) {
+                loadFragment(CensusFragment())
+                updateTopBar(
+                    "Mis Animales",
+                    "Gestión de animales de compañía a tu cargo",
+                    null
+                )
+            } else {
+                loadFragment(CensusFragment())
+                updateTopBar(
+                    getString(R.string.header_census_title),
+                    getString(R.string.header_census_sub),
+                    "${Microdataset.INITIAL_ANIMAL_RECORDS.size} censados"
+                )
+            }
         }
     }
 
@@ -153,21 +166,85 @@ class MainActivity : AppCompatActivity() {
                 tvRoleName.setTextColor(ContextCompat.getColor(this, R.color.blue_200))
                 ivRoleIcon.setImageResource(R.drawable.ic_user)
             }
-            UserRole.FUNCIONARIO -> {
-                tvRoleName.text = "Funcionario"
+            UserRole.ADMINISTRADOR -> {
+                tvRoleName.text = "Administrador"
                 tvRoleName.setTextColor(ContextCompat.getColor(this, R.color.emerald_200))
-                ivRoleIcon.setImageResource(R.drawable.ic_landmark)
+                ivRoleIcon.setImageResource(R.drawable.ic_shield_check)
             }
             UserRole.CIUDADANO -> {
-                tvRoleName.text = "Ciudadano"
+                tvRoleName.text = "Registrado"
                 tvRoleName.setTextColor(ContextCompat.getColor(this, R.color.amber_200))
                 ivRoleIcon.setImageResource(R.drawable.ic_user)
+            }
+            UserRole.NO_REGISTRADO -> {
+                tvRoleName.text = "Sin Cuenta"
+                tvRoleName.setTextColor(ContextCompat.getColor(this, R.color.slate_400))
+                ivRoleIcon.setImageResource(R.drawable.ic_alert_triangle)
             }
         }
         tvTopBarAccountLabel.text = when (currentRole) {
             UserRole.VETERINARIO -> "Veterinario"
-            UserRole.FUNCIONARIO -> "Funcionario"
+            UserRole.ADMINISTRADOR -> "Admin"
             UserRole.CIUDADANO -> "Ciudadano"
+            UserRole.NO_REGISTRADO -> "Sin Cuenta"
+        }
+        updateNavMenuVisibility(currentRole)
+    }
+
+    private var currentMenuResId: Int = R.menu.bottom_nav_menu
+
+    private fun updateNavMenuVisibility(role: UserRole) {
+        val targetMenuResId = if (role == UserRole.NO_REGISTRADO) {
+            R.menu.bottom_nav_menu_public
+        } else {
+            R.menu.bottom_nav_menu
+        }
+
+        if (currentMenuResId != targetMenuResId) {
+            currentMenuResId = targetMenuResId
+            bottomNavigation.menu.clear()
+            bottomNavigation.inflateMenu(targetMenuResId)
+        }
+
+        val menu = bottomNavigation.menu
+        val itemCensus = menu.findItem(R.id.nav_census)
+        val itemRegister = menu.findItem(R.id.nav_register)
+        val itemSync = menu.findItem(R.id.nav_sync)
+        val itemIndicators = menu.findItem(R.id.nav_indicators)
+        val itemMap = menu.findItem(R.id.nav_map)
+
+        when (role) {
+            UserRole.NO_REGISTRADO -> {
+                if (bottomNavigation.selectedItemId != R.id.nav_report_public &&
+                    bottomNavigation.selectedItemId != R.id.nav_indicators) {
+                    bottomNavigation.selectedItemId = R.id.nav_report_public
+                }
+            }
+            UserRole.CIUDADANO -> {
+                itemCensus?.isVisible = true
+                itemCensus?.title = "Mis animales"
+                itemRegister?.isVisible = true
+                itemSync?.isVisible = true
+                itemIndicators?.isVisible = true
+                itemMap?.isVisible = false
+
+                if (bottomNavigation.selectedItemId == R.id.nav_map ||
+                    bottomNavigation.selectedItemId == R.id.nav_report_public) {
+                    bottomNavigation.selectedItemId = R.id.nav_census
+                }
+            }
+            UserRole.VETERINARIO, UserRole.ADMINISTRADOR -> {
+                itemCensus?.isVisible = true
+                itemCensus?.title = getString(R.string.tab_census)
+                itemRegister?.isVisible = true
+                itemSync?.isVisible = true
+                itemIndicators?.isVisible = true
+                itemMap?.isVisible = true
+
+                if (bottomNavigation.selectedItemId == R.id.nav_report_public) {
+                    bottomNavigation.selectedItemId = R.id.nav_census
+                }
+            }
         }
     }
 
@@ -205,9 +282,10 @@ class MainActivity : AppCompatActivity() {
 
     private fun showRoleSwitcherDialog() {
         val roles = arrayOf(
-            "👨‍⚕️ Veterinario Aliado (Censo y Chips)",
-            "🏛️ Funcionario Municipal (Auditoría e Indicadores)",
-            "👤 Ciudadano / Propietario (Habeas Data)"
+            "👨‍⚕️ Veterinario Aliado (Censo, Chips y Mapa)",
+            "🛡️ Administrador Municipal (Control total y Casos)",
+            "👤 Usuario Registrado (Mis Animales)",
+            "🌐 Continuar sin cuenta (Acceso Público)"
         )
 
         AlertDialog.Builder(this)
@@ -215,8 +293,9 @@ class MainActivity : AppCompatActivity() {
             .setItems(roles) { _, which ->
                 val newRole = when (which) {
                     0 -> UserRole.VETERINARIO
-                    1 -> UserRole.FUNCIONARIO
-                    else -> UserRole.CIUDADANO
+                    1 -> UserRole.ADMINISTRADOR
+                    2 -> UserRole.CIUDADANO
+                    else -> UserRole.NO_REGISTRADO
                 }
                 AppSessionManager.switchRole(newRole)
                 updateRoleUI()
@@ -231,11 +310,19 @@ class MainActivity : AppCompatActivity() {
             when (item.itemId) {
                 R.id.nav_census -> {
                     loadFragment(CensusFragment())
-                    updateTopBar(
-                        getString(R.string.header_census_title),
-                        getString(R.string.header_census_sub),
-                        "${Microdataset.INITIAL_ANIMAL_RECORDS.size} censados"
-                    )
+                    if (AppSessionManager.currentProfile.role == UserRole.CIUDADANO) {
+                        updateTopBar(
+                            "Mis Animales",
+                            "Gestión de animales de compañía a tu cargo",
+                            null
+                        )
+                    } else {
+                        updateTopBar(
+                            getString(R.string.header_census_title),
+                            getString(R.string.header_census_sub),
+                            "${Microdataset.getAllRecords().size} censados"
+                        )
+                    }
                     true
                 }
                 R.id.nav_register -> {
@@ -247,11 +334,21 @@ class MainActivity : AppCompatActivity() {
                     )
                     true
                 }
+                R.id.nav_report_public -> {
+                    loadFragment(PublicReportFragment())
+                    updateTopBar(
+                        "Denuncia Ciudadana",
+                        "Radicación pública por presunto maltrato animal",
+                        null
+                    )
+                    true
+                }
                 R.id.nav_sync -> {
                     loadFragment(OfflineSyncFragment())
+                    val isCitizen = AppSessionManager.currentProfile.role == UserRole.CIUDADANO
                     updateTopBar(
-                        getString(R.string.header_sync_title),
-                        getString(R.string.header_sync_sub),
+                        if (isCitizen) "Sincronización Personal" else getString(R.string.header_sync_title),
+                        if (isCitizen) "Transmisión de tus registros a la Alcaldía" else getString(R.string.header_sync_sub),
                         null
                     )
                     true
@@ -259,8 +356,8 @@ class MainActivity : AppCompatActivity() {
                 R.id.nav_indicators -> {
                     loadFragment(IndicatorsFragment())
                     updateTopBar(
-                        getString(R.string.header_indicators_title),
-                        getString(R.string.header_indicators_sub),
+                        "Estadísticas Públicas",
+                        "Métricas de bienestar animal en Zipaquirá",
                         null
                     )
                     true
@@ -286,6 +383,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun selectCensusTab() {
-        bottomNavigation.selectedItemId = R.id.nav_census
+        val role = AppSessionManager.currentProfile.role
+        if (role == UserRole.NO_REGISTRADO) {
+            bottomNavigation.selectedItemId = R.id.nav_report_public
+        } else {
+            bottomNavigation.selectedItemId = R.id.nav_census
+        }
+    }
+
+    fun loadRegisterTab() {
+        val role = AppSessionManager.currentProfile.role
+        if (role == UserRole.NO_REGISTRADO) {
+            bottomNavigation.selectedItemId = R.id.nav_report_public
+        } else {
+            bottomNavigation.selectedItemId = R.id.nav_register
+        }
     }
 }

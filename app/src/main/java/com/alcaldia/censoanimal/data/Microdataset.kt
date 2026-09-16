@@ -92,22 +92,22 @@ object Microdataset {
             description = "Censo en veredas, registro de chips, vacunas y resolución de duplicados."
         ),
         PresetAccount(
-            role = UserRole.FUNCIONARIO,
-            label = "Funcionario Municipal",
-            email = "salud.publica@alcaldia.gov.co",
+            role = UserRole.ADMINISTRADOR,
+            label = "Administrador Municipal",
+            email = "admin.ambiental@alcaldia.gov.co",
             password = "Alcaldia2026*",
-            badge = "Auditoría / Métricas",
+            badge = "Administración / Control",
             badgeColor = "#D1FAE5",
-            description = "Tableros de control, cobertura por veredas, tasas y fiscalización."
+            description = "Control total de censo, auditoría, indicadores y usuarios."
         ),
         PresetAccount(
             role = UserRole.CIUDADANO,
-            label = "Ciudadano / Propietario",
+            label = "Usuario Registrado",
             email = "ciudadano.rural@gmail.com",
             password = "Alcaldia2026*",
-            badge = "Consulta Pública",
+            badge = "Mis Animales",
             badgeColor = "#FEF3C7",
-            description = "Consulta de microchips y ficha sanitaria básica (Habeas Data)."
+            description = "Gestión de animales propios, carné virtual con QR y reportes."
         )
     )
 
@@ -270,9 +270,9 @@ object Microdataset {
             fecha_esterilizacion = "2025-11-30",
             fecha_vacuna_rabia = "2025-11-30",
             lote_vacuna = "RAB-2025-F4",
-            responsable_nombre = "Laura Mendoza",
+            responsable_nombre = "Carlos Mendoza",
             documento_tipo = "CC",
-            documento_numero = "1019283746",
+            documento_numero = "19384921",
             telefono = "3178291048",
             territorio = "Vereda El Rosal",
             territorio_catalogo = "Vereda El Rosal",
@@ -299,9 +299,9 @@ object Microdataset {
             fecha_esterilizacion = null,
             fecha_vacuna_rabia = "2025-06-18",
             lote_vacuna = "RAB-2025-M2",
-            responsable_nombre = "Guillermo Páez",
+            responsable_nombre = "Carlos Mendoza",
             documento_tipo = "CC",
-            documento_numero = "11394820",
+            documento_numero = "19384921",
             telefono = "3119283746",
             territorio = "Vereda Barroblanco",
             territorio_catalogo = "Vereda Barroblanco",

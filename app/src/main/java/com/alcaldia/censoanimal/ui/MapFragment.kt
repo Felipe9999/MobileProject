@@ -17,8 +17,10 @@ import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
 import com.alcaldia.censoanimal.R
+import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.AnimalRecord
+import com.alcaldia.censoanimal.model.UserRole
 import com.google.android.material.card.MaterialCardView
 
 class MapFragment : Fragment() {
@@ -55,6 +57,7 @@ class MapFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        if (!checkRoleAccess()) return
 
         spinnerMapVereda = view.findViewById(R.id.spinnerMapVereda)
         tvMapDogsCount = view.findViewById(R.id.tvMapDogsCount)
@@ -92,7 +95,18 @@ class MapFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        renderMapPins()
+        if (checkRoleAccess()) {
+            renderMapPins()
+        }
+    }
+
+    private fun checkRoleAccess(): Boolean {
+        val role = AppSessionManager.currentProfile.role
+        if (role != UserRole.VETERINARIO && role != UserRole.ADMINISTRADOR) {
+            (activity as? com.alcaldia.censoanimal.MainActivity)?.selectCensusTab()
+            return false
+        }
+        return true
     }
 
     private fun setupVeredaSpinner() {

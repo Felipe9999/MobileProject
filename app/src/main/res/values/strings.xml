@@ -4,6 +4,7 @@
     <string name="title_activity_detail">Ficha de Identificación</string>
     <string name="title_activity_scanner">Escáner de Microchip &amp; QR</string>
     <string name="title_activity_login">Iniciar Sesión</string>
+    <string name="title_activity_register">Registro de Ciudadano</string>
     <string name="title_activity_lost_found">Pérdidas y Hallazgos</string>
     <string name="title_activity_mistreatment">Gestión de Maltrato</string>
     <string name="title_activity_report_mistreatment">Radicar Denuncia de Maltrato</string>

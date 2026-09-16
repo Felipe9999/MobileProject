@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.alcaldia.censoanimal.R
 import com.alcaldia.censoanimal.adapter.SyncRecordAdapter
+import com.alcaldia.censoanimal.data.AppSessionManager
 import com.alcaldia.censoanimal.data.Microdataset
 import com.alcaldia.censoanimal.model.AnimalRecord
 import com.google.android.material.card.MaterialCardView
@@ -29,6 +30,8 @@ class OfflineSyncFragment : Fragment() {
     private lateinit var btnResolveConflict: Button
     private lateinit var rvSyncRecords: RecyclerView
     private lateinit var syncAdapter: SyncRecordAdapter
+
+    private var sessionListener: ((com.alcaldia.censoanimal.data.UserProfile) -> Unit)? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -50,7 +53,7 @@ class OfflineSyncFragment : Fragment() {
         rvSyncRecords = view.findViewById(R.id.rvSyncRecords)
 
         rvSyncRecords.layoutManager = LinearLayoutManager(requireContext())
-        syncAdapter = SyncRecordAdapter(Microdataset.getAllRecords()) { conflictRecord ->
+        syncAdapter = SyncRecordAdapter(getVisibleRecords()) { conflictRecord ->
             showResolveConflictDialog(conflictRecord)
         }
         rvSyncRecords.adapter = syncAdapter
@@ -66,7 +69,8 @@ class OfflineSyncFragment : Fragment() {
         }
 
         btnResolveConflict.setOnClickListener {
-            val duplicateRecord = Microdataset.getAllRecords().find { it.alerta_duplicado }
+            val visible = getVisibleRecords()
+            val duplicateRecord = visible.find { it.alerta_duplicado }
             if (duplicateRecord != null) {
                 showResolveConflictDialog(duplicateRecord)
             } else {
@@ -74,7 +78,19 @@ class OfflineSyncFragment : Fragment() {
             }
         }
 
+        sessionListener = {
+            activity?.runOnUiThread {
+                refreshData()
+            }
+        }
+        sessionListener?.let { AppSessionManager.addSessionListener(it) }
+
         refreshData()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        sessionListener?.let { AppSessionManager.removeSessionListener(it) }
     }
 
     override fun onResume() {
@@ -82,8 +98,24 @@ class OfflineSyncFragment : Fragment() {
         refreshData()
     }
 
+    private fun getVisibleRecords(): List<AnimalRecord> {
+        val allRecords = Microdataset.getAllRecords()
+        val currentProfile = AppSessionManager.currentProfile
+
+        return if (currentProfile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
+            val userDocDigits = currentProfile.professionalId.filter { ch -> ch.isDigit() }
+            allRecords.filter { record ->
+                record.responsable_nombre.equals(currentProfile.name, ignoreCase = true) ||
+                (userDocDigits.isNotEmpty() && record.documento_numero.filter { ch -> ch.isDigit() } == userDocDigits)
+            }
+        } else {
+            allRecords
+        }
+    }
+
     private fun refreshData() {
-        val records = Microdataset.getAllRecords()
+        val records = getVisibleRecords()
+        val isCitizen = AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.CIUDADANO
         val total = records.size
         val pending = records.count { it.offline_pending }
         val synced = records.count { it.sincronizado_alcaldia }
@@ -92,6 +124,12 @@ class OfflineSyncFragment : Fragment() {
         tvLocalCount.text = "$total"
         tvServerCount.text = "$synced"
         tvPendingCount.text = "$pending"
+
+        if (isCitizen) {
+            btnSyncAll.text = "Sincronizar mis animales con la Alcaldía"
+        } else {
+            btnSyncAll.text = "Sincronizar ahora con la Alcaldía"
+        }
 
         cardDuplicateWarning.visibility = if (hasConflict) View.VISIBLE else View.GONE
         syncAdapter.updateData(records)

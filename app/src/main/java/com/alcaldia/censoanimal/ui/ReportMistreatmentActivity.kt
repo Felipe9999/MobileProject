@@ -1,5 +1,6 @@
 package com.alcaldia.censoanimal.ui
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.View
 import android.widget.ArrayAdapter
@@ -50,6 +51,13 @@ class ReportMistreatmentActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_report_mistreatment)
 
+        if (AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.VETERINARIO ||
+            AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.ADMINISTRADOR) {
+            startActivity(Intent(this, MistreatmentActivity::class.java))
+            finish()
+            return
+        }
+
         initViews()
         setupListeners()
         populateDropdowns()
@@ -82,11 +90,23 @@ class ReportMistreatmentActivity : AppCompatActivity() {
         TopBarAccountHelper.setupAccountButton(this, btnReportAccount, tvReportAccountLabel) { profile ->
             if (profile.role != lastKnownRole) {
                 lastKnownRole = profile.role
-                if (profile.role != com.alcaldia.censoanimal.model.UserRole.CIUDADANO) {
-                    startActivity(android.content.Intent(this, MistreatmentActivity::class.java))
+                if (profile.role == com.alcaldia.censoanimal.model.UserRole.VETERINARIO ||
+                    profile.role == com.alcaldia.censoanimal.model.UserRole.ADMINISTRADOR) {
+                    if (lifecycle.currentState.isAtLeast(androidx.lifecycle.Lifecycle.State.RESUMED)) {
+                        startActivity(Intent(this, MistreatmentActivity::class.java))
+                    }
                     finish()
                 }
             }
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.VETERINARIO ||
+            AppSessionManager.currentProfile.role == com.alcaldia.censoanimal.model.UserRole.ADMINISTRADOR) {
+            finish()
+            return
         }
     }
 

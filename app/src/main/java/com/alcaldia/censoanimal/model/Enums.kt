@@ -16,9 +16,10 @@ enum class AnimalState(val label: String) {
 }
 
 enum class UserRole(val label: String, val roleKey: String) {
+    NO_REGISTRADO("Usuario no registrado", "no_registrado"),
+    CIUDADANO("Usuario Registrado", "ciudadano"),
     VETERINARIO("Veterinario Aliado", "veterinario"),
-    FUNCIONARIO("Funcionario Municipal", "funcionario"),
-    CIUDADANO("Ciudadano / Propietario", "ciudadano")
+    ADMINISTRADOR("Administrador", "administrador")
 }
 
 enum class SyncStatus(val label: String) {
