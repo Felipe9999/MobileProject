@@ -59,51 +59,20 @@
             android:textSize="9sp" />
     </LinearLayout>
 
-    <!-- Map Canvas Container with background map image & interactive pin overlays -->
+    <!-- Map Canvas Container with real OpenStreetMap WebView & interactive pin overlays -->
     <FrameLayout
         android:id="@+id/mapContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:background="#E8F5E9">
+        android:background="@color/slate_100">
 
-        <ImageView
-            android:id="@+id/ivMapBackground"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:scaleType="centerCrop"
-            android:src="@drawable/vereda_map_bg" />
-
-        <!-- Overlay filter -->
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="#0A064E3B" />
-
-        <!-- Road Labels Overlay -->
-        <TextView
-            android:id="@+id/tvRoadLabel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|center_horizontal"
-            android:layout_marginTop="80dp"
-            android:background="@drawable/bg_card_white"
-            android:elevation="2dp"
-            android:fontFamily="sans-serif-bold"
-            android:paddingHorizontal="8dp"
-            android:paddingVertical="3dp"
-            android:rotation="-15"
-            android:text="🛣️ Vía Zipaquirá - Tabio"
-            android:textColor="@color/slate_700"
-            android:textSize="10sp" />
-
-        <!-- Floating animal pins container -->
-        <FrameLayout
-            android:id="@+id/layoutAnimalPins"
+        <WebView
+            android:id="@+id/webViewMap"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
 
-        <!-- Map Controls Floating Panel (Zoom In, Zoom Out, Reset) -->
+        <!-- Map Controls Floating Panel (Zoom In, Zoom Out, Recenter) -->
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -137,6 +106,21 @@
                 android:contentDescription="Alejar mapa"
                 android:src="@drawable/ic_zoom_out"
                 app:tint="@color/slate_700" />
+
+            <View
+                android:layout_width="24dp"
+                android:layout_height="1dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@color/slate_200" />
+
+            <ImageButton
+                android:id="@+id/btnRecenterMap"
+                android:layout_width="34dp"
+                android:layout_height="34dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:contentDescription="Centrar mapa en Zipaquirá"
+                android:src="@drawable/ic_compass"
+                app:tint="@color/blue_600" />
         </LinearLayout>
     </FrameLayout>
 

@@ -7,6 +7,9 @@ import android.view.MotionEvent
 import android.webkit.JavascriptInterface
 import android.webkit.WebView
 import android.webkit.WebViewClient
+import com.alcaldia.censoanimal.model.AnimalRecord
+import org.json.JSONArray
+import org.json.JSONObject
 import java.util.Locale
 
 /**
@@ -238,5 +241,307 @@ object OpenStreetMapHelper {
     fun updatePinLocation(webView: WebView, lat: Double, lng: Double) {
         val js = String.format(Locale.US, "window.setPinLocation(%.6f, %.6f, true);", lat, lng)
         webView.evaluateJavascript(js, null)
+    }
+
+    interface OnAnimalSelectedListener {
+        fun onAnimalSelected(recordId: String)
+    }
+
+    class AnimalMapBridge(private val listener: OnAnimalSelectedListener) {
+        private val mainHandler = Handler(Looper.getMainLooper())
+
+        @JavascriptInterface
+        fun onAnimalSelected(recordId: String) {
+            mainHandler.post {
+                listener.onAnimalSelected(recordId)
+            }
+        }
+    }
+
+    fun animalsToJson(records: List<AnimalRecord>): String {
+        val array = JSONArray()
+        for (r in records) {
+            val obj = JSONObject()
+            obj.put("id", r.registro_id)
+            obj.put("name", r.animal_nombre)
+            obj.put("species", r.especie)
+            obj.put("breed", r.raza)
+            obj.put("vereda", r.territorio)
+            obj.put("owner", r.responsable_nombre)
+            obj.put("lat", r.latitud)
+            obj.put("lng", r.longitud)
+            obj.put("isDuplicateAlert", r.alerta_duplicado)
+            array.put(obj)
+        }
+        return array.toString()
+    }
+
+    fun buildAnimalMapHtml(records: List<AnimalRecord>, initialVereda: String = "Todas las Veredas"): String {
+        val animalsJson = animalsToJson(records)
+        val escapedVereda = initialVereda.replace("'", "\\'")
+
+        return """
+        <!DOCTYPE html>
+        <html>
+        <head>
+            <meta charset="utf-8" />
+            <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+            <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+            <style>
+                * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
+                html, body, #map {
+                    width: 100%;
+                    height: 100%;
+                    margin: 0;
+                    padding: 0;
+                    background: #f1f5f9;
+                    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+                }
+                .leaflet-container {
+                    background: #e2e8f0;
+                    font-size: 11px;
+                }
+                .animal-pin-marker {
+                    background: transparent !important;
+                    border: none !important;
+                    box-shadow: none !important;
+                }
+                .animal-pin-marker svg {
+                    display: block;
+                    width: 38px;
+                    height: 48px;
+                    overflow: visible;
+                    cursor: pointer;
+                }
+                .animal-tooltip {
+                    background: rgba(15, 23, 42, 0.92);
+                    border: none;
+                    border-radius: 14px;
+                    color: #ffffff;
+                    font-size: 11px;
+                    font-weight: 600;
+                    padding: 5px 10px;
+                    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+                }
+                .animal-tooltip:before {
+                    border-top-color: rgba(15, 23, 42, 0.92);
+                }
+            </style>
+        </head>
+        <body>
+            <div id="map"></div>
+
+            <script>
+                var animalsData = $animalsJson;
+                var currentVereda = '$escapedVereda';
+                var markers = {};
+                var selectedAnimalId = null;
+
+                var map = L.map('map', {
+                    center: [5.0260, -74.0040],
+                    zoom: 13,
+                    zoomControl: false,
+                    attributionControl: true
+                });
+
+                L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                    maxZoom: 19,
+                    attribution: '© OpenStreetMap | Censo Zipaquirá'
+                }).addTo(map);
+
+                var territoryCenters = {
+                    "Vereda San Jorge": [4.9842, -73.9562],
+                    "Vereda El Rosal": [4.9920, -73.9610],
+                    "Vereda Barroblanco": [5.0080, -73.9820],
+                    "Vereda Santa Librada": [5.0300, -73.9550],
+                    "Vereda La Esperanza": [4.9800, -74.0150],
+                    "Vereda San Benito": [5.0150, -74.0350],
+                    "Vereda Ventalarga": [5.0550, -74.0100],
+                    "Vereda Portachuelo": [5.0450, -74.0200],
+                    "Vereda Río Frío": [5.0380, -73.9700],
+                    "Vereda El Tunal": [4.9750, -73.9850],
+                    "Vereda Páramo de Guerrero": [5.0600, -74.0500],
+                    "Vereda Barandillas": [5.0120, -73.9740],
+                    "Vereda La Granja": [5.0200, -73.9900],
+                    "Vereda Empalizado": [5.0400, -74.0400],
+                    "Casco Urbano / Barrios": [5.0260, -74.0040]
+                };
+
+                function createAnimalIcon(animal, isSelected) {
+                    var isDog = (animal.species || '').toLowerCase() === 'perro';
+                    var emoji = isDog ? '🐶' : '🐱';
+                    var mainColor = animal.isDuplicateAlert ? '#e11d48' : (isDog ? '#2563eb' : '#059669');
+                    var ring = isSelected ? '<circle cx="19" cy="18" r="16" fill="none" stroke="#f59e0b" stroke-width="3.5" opacity="0.95"/>' : '';
+
+                    var svg = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 38 48" width="38" height="48">' +
+                              '  <defs>' +
+                              '    <filter id="shadow-' + animal.id + '" x="-25%" y="-20%" width="150%" height="150%">' +
+                              '      <feDropShadow dx="0" dy="2" stdDeviation="2" flood-color="#0f172a" flood-opacity="0.35"/>' +
+                              '    </filter>' +
+                              '  </defs>' +
+                              '  <ellipse cx="19" cy="46" rx="6" ry="2" fill="rgba(15, 23, 42, 0.25)"/>' +
+                              ring +
+                              '  <path d="M19,2 C9.6,2 2,9.6 2,19 C2,28.5 14,39 19,46 C24,39 36,28.5 36,19 C36,9.6 28.4,2 19,2 Z"' +
+                              '        fill="' + mainColor + '" stroke="#ffffff" stroke-width="2.5" stroke-linejoin="round" filter="url(#shadow-' + animal.id + ')" />' +
+                              '  <circle cx="19" cy="18" r="11" fill="#ffffff"/>' +
+                              '  <text x="19" y="23" text-anchor="middle" font-size="13">' + emoji + '</text>' +
+                              '</svg>';
+
+                    return L.divIcon({
+                        className: 'animal-pin-marker',
+                        html: svg,
+                        iconSize: [38, 48],
+                        iconAnchor: [19, 46]
+                    });
+                }
+
+                function initMarkers() {
+                    animalsData.forEach(function(animal) {
+                        var icon = createAnimalIcon(animal, false);
+                        var marker = L.marker([animal.lat, animal.lng], { icon: icon });
+                        marker.animalData = animal;
+
+                        marker.bindTooltip(animal.name + ' (' + animal.species + ') • ' + animal.vereda, {
+                            direction: 'top',
+                            offset: [0, -42],
+                            className: 'animal-tooltip'
+                        });
+
+                        marker.on('click', function() {
+                            selectAnimal(animal.id, false);
+                            if (window.AndroidAnimalBridge) {
+                                window.AndroidAnimalBridge.onAnimalSelected(animal.id);
+                            }
+                        });
+
+                        markers[animal.id] = marker;
+                    });
+
+                    filterVereda(currentVereda);
+                }
+
+                function selectAnimal(id, panTo) {
+                    selectedAnimalId = id;
+                    for (var aId in markers) {
+                        var m = markers[aId];
+                        m.setIcon(createAnimalIcon(m.animalData, aId === id));
+                    }
+                    if (panTo && markers[id]) {
+                        map.panTo(markers[id].getLatLng());
+                    }
+                }
+
+                function filterVereda(vereda) {
+                    currentVereda = vereda;
+                    var visibleLatLngs = [];
+
+                    for (var id in markers) {
+                        var marker = markers[id];
+                        var animal = marker.animalData;
+                        var matches = (vereda === 'Todas las Veredas') ||
+                                      (animal.vereda && animal.vereda.toLowerCase() === vereda.toLowerCase());
+                        if (matches) {
+                            if (!map.hasLayer(marker)) {
+                                map.addLayer(marker);
+                            }
+                            visibleLatLngs.push(marker.getLatLng());
+                        } else {
+                            if (map.hasLayer(marker)) {
+                                map.removeLayer(marker);
+                            }
+                        }
+                    }
+
+                    if (visibleLatLngs.length > 0) {
+                        var bounds = L.latLngBounds(visibleLatLngs);
+                        map.fitBounds(bounds, { padding: [40, 40], maxZoom: 16 });
+                    } else if (territoryCenters[vereda]) {
+                        map.setView(territoryCenters[vereda], 15);
+                    } else {
+                        map.setView([5.0260, -74.0040], 13);
+                    }
+                }
+
+                window.addEventListener('resize', function() {
+                    map.invalidateSize();
+                });
+                setTimeout(function() {
+                    map.invalidateSize();
+                }, 250);
+
+                initMarkers();
+
+                window.selectAnimal = selectAnimal;
+                window.filterVereda = filterVereda;
+                window.zoomIn = function() { map.zoomIn(); };
+                window.zoomOut = function() { map.zoomOut(); };
+                window.fitAll = function() { filterVereda(currentVereda); };
+            </script>
+        </body>
+        </html>
+        """.trimIndent()
+    }
+
+    @SuppressLint("SetJavaScriptEnabled")
+    fun configureAnimalMapWebView(
+        webView: WebView,
+        records: List<AnimalRecord>,
+        initialVereda: String = "Todas las Veredas",
+        listener: OnAnimalSelectedListener? = null
+    ) {
+        webView.settings.javaScriptEnabled = true
+        webView.settings.domStorageEnabled = true
+        webView.settings.loadWithOverviewMode = true
+        webView.settings.useWideViewPort = true
+        webView.settings.setSupportZoom(false)
+        webView.settings.builtInZoomControls = false
+        webView.settings.displayZoomControls = false
+        webView.settings.allowFileAccess = false
+        webView.settings.allowContentAccess = false
+
+        if (listener != null) {
+            webView.addJavascriptInterface(AnimalMapBridge(listener), "AndroidAnimalBridge")
+        }
+
+        webView.webViewClient = object : WebViewClient() {}
+
+        webView.setOnTouchListener { v, event ->
+            when (event.action) {
+                MotionEvent.ACTION_DOWN, MotionEvent.ACTION_MOVE -> {
+                    v.parent?.requestDisallowInterceptTouchEvent(true)
+                }
+                MotionEvent.ACTION_UP, MotionEvent.ACTION_CANCEL -> {
+                    v.parent?.requestDisallowInterceptTouchEvent(false)
+                }
+            }
+            false
+        }
+
+        val html = buildAnimalMapHtml(records, initialVereda)
+        webView.loadDataWithBaseURL("https://www.openstreetmap.org", html, "text/html", "UTF-8", null)
+    }
+
+    fun selectAnimalOnMap(webView: WebView, recordId: String, panTo: Boolean = true) {
+        val js = "window.selectAnimal('$recordId', $panTo);"
+        webView.evaluateJavascript(js, null)
+    }
+
+    fun filterAnimalMapVereda(webView: WebView, vereda: String) {
+        val escaped = vereda.replace("'", "\\'")
+        val js = "window.filterVereda('$escaped');"
+        webView.evaluateJavascript(js, null)
+    }
+
+    fun zoomInAnimalMap(webView: WebView) {
+        webView.evaluateJavascript("window.zoomIn();", null)
+    }
+
+    fun zoomOutAnimalMap(webView: WebView) {
+        webView.evaluateJavascript("window.zoomOut();", null)
+    }
+
+    fun fitAllAnimalMap(webView: WebView) {
+        webView.evaluateJavascript("window.fitAll();", null)
     }
 }

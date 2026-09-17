@@ -2,17 +2,14 @@ package com.alcaldia.censoanimal.ui
 
 import android.content.Intent
 import android.os.Bundle
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebView
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.FrameLayout
 import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.LinearLayout
 import android.widget.Spinner
 import android.widget.TextView
 import androidx.fragment.app.Fragment
@@ -28,7 +25,7 @@ class MapFragment : Fragment() {
     private lateinit var spinnerMapVereda: Spinner
     private lateinit var tvMapDogsCount: TextView
     private lateinit var tvMapCatsCount: TextView
-    private lateinit var layoutAnimalPins: FrameLayout
+    private lateinit var webViewMap: WebView
     private lateinit var cardMapSelectedRecord: MaterialCardView
 
     // Selected record views
@@ -42,10 +39,11 @@ class MapFragment : Fragment() {
 
     private lateinit var btnZoomIn: ImageButton
     private lateinit var btnZoomOut: ImageButton
+    private lateinit var btnRecenterMap: ImageButton
 
     private var selectedVereda = "Todas las Veredas"
     private var currentlySelectedRecord: AnimalRecord? = null
-    private var currentZoom = 1.0f
+    private var isMapConfigured = false
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -62,7 +60,7 @@ class MapFragment : Fragment() {
         spinnerMapVereda = view.findViewById(R.id.spinnerMapVereda)
         tvMapDogsCount = view.findViewById(R.id.tvMapDogsCount)
         tvMapCatsCount = view.findViewById(R.id.tvMapCatsCount)
-        layoutAnimalPins = view.findViewById(R.id.layoutAnimalPins)
+        webViewMap = view.findViewById(R.id.webViewMap)
         cardMapSelectedRecord = view.findViewById(R.id.cardMapSelectedRecord)
 
         tvMapSelectedEmoji = view.findViewById(R.id.tvMapSelectedEmoji)
@@ -75,6 +73,7 @@ class MapFragment : Fragment() {
 
         btnZoomIn = view.findViewById(R.id.btnZoomIn)
         btnZoomOut = view.findViewById(R.id.btnZoomOut)
+        btnRecenterMap = view.findViewById(R.id.btnRecenterMap)
 
         setupVeredaSpinner()
         setupZoomControls()
@@ -87,17 +86,22 @@ class MapFragment : Fragment() {
             }
         }
 
-        // Delay pin rendering until layout measured
-        layoutAnimalPins.post {
-            renderMapPins()
-        }
+        initOsmMap()
     }
 
     override fun onResume() {
         super.onResume()
         if (checkRoleAccess()) {
-            renderMapPins()
+            updateCounts()
+            if (!isMapConfigured) {
+                initOsmMap()
+            }
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        isMapConfigured = false
     }
 
     private fun checkRoleAccess(): Boolean {
@@ -123,7 +127,15 @@ class MapFragment : Fragment() {
         spinnerMapVereda.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                 selectedVereda = veredas[position]
-                renderMapPins()
+                updateCounts()
+                if (isMapConfigured) {
+                    OpenStreetMapHelper.filterAnimalMapVereda(webViewMap, selectedVereda)
+                }
+
+                val filtered = getFilteredRecords()
+                if (filtered.isNotEmpty()) {
+                    selectRecord(filtered[0])
+                }
             }
             override fun onNothingSelected(parent: AdapterView<*>?) {}
         }
@@ -131,118 +143,54 @@ class MapFragment : Fragment() {
 
     private fun setupZoomControls() {
         btnZoomIn.setOnClickListener {
-            if (currentZoom < 1.6f) {
-                currentZoom += 0.2f
-                layoutAnimalPins.scaleX = currentZoom
-                layoutAnimalPins.scaleY = currentZoom
-            }
+            OpenStreetMapHelper.zoomInAnimalMap(webViewMap)
         }
 
         btnZoomOut.setOnClickListener {
-            if (currentZoom > 0.8f) {
-                currentZoom -= 0.2f
-                layoutAnimalPins.scaleX = currentZoom
-                layoutAnimalPins.scaleY = currentZoom
-            }
+            OpenStreetMapHelper.zoomOutAnimalMap(webViewMap)
+        }
+
+        btnRecenterMap.setOnClickListener {
+            OpenStreetMapHelper.fitAllAnimalMap(webViewMap)
         }
     }
 
-    private fun renderMapPins() {
-        layoutAnimalPins.removeAllViews()
-
+    private fun getFilteredRecords(): List<AnimalRecord> {
         val allRecords = Microdataset.getAllRecords()
-        val filtered = allRecords.filter {
+        return allRecords.filter {
             selectedVereda == "Todas las Veredas" || it.territorio.equals(selectedVereda, ignoreCase = true)
         }
+    }
 
+    private fun updateCounts() {
+        val filtered = getFilteredRecords()
         val dogsCount = filtered.count { it.especie.equals("Perro", ignoreCase = true) }
         val catsCount = filtered.count { it.especie.equals("Gato", ignoreCase = true) }
         tvMapDogsCount.text = "🐶 Caninos: $dogsCount"
         tvMapCatsCount.text = "🐱 Felinos: $catsCount"
+    }
 
-        val containerWidth = layoutAnimalPins.width
-        val containerHeight = layoutAnimalPins.height
+    private fun initOsmMap() {
+        val allRecords = Microdataset.getAllRecords()
+        updateCounts()
 
-        if (containerWidth == 0 || containerHeight == 0) return
+        OpenStreetMapHelper.configureAnimalMapWebView(
+            webViewMap,
+            allRecords,
+            selectedVereda,
+            object : OpenStreetMapHelper.OnAnimalSelectedListener {
+                override fun onAnimalSelected(recordId: String) {
+                    val found = Microdataset.getAllRecords().find { it.registro_id == recordId }
+                    found?.let { selectRecord(it) }
+                }
+            }
+        )
+        isMapConfigured = true
 
-        // Geographic boundaries for normalized projection
-        // Lat: 4.9750 to 4.9960
-        // Lng: -73.9660 to -73.9470
-        val minLat = 4.9750
-        val maxLat = 4.9960
-        val minLng = -73.9660
-        val maxLng = -73.9470
-
-        for (record in filtered) {
-            val normX = ((record.longitud - minLng) / (maxLng - minLng)).coerceIn(0.08, 0.92)
-            val normY = (1.0 - ((record.latitud - minLat) / (maxLat - minLat))).coerceIn(0.08, 0.92)
-
-            val posX = (normX * containerWidth).toInt()
-            val posY = (normY * containerHeight).toInt()
-
-            val pinView = createPinView(record)
-            val params = FrameLayout.LayoutParams(
-                FrameLayout.LayoutParams.WRAP_CONTENT,
-                FrameLayout.LayoutParams.WRAP_CONTENT
-            )
-            params.leftMargin = posX - 20
-            params.topMargin = posY - 20
-            params.gravity = Gravity.TOP or Gravity.START
-            layoutAnimalPins.addView(pinView, params)
-        }
-
-        // Set initial selected item if available
+        val filtered = getFilteredRecords()
         if (filtered.isNotEmpty()) {
             selectRecord(filtered[0])
         }
-    }
-
-    private fun createPinView(record: AnimalRecord): View {
-        val isDog = record.especie.equals("Perro", ignoreCase = true)
-        val isSelected = currentlySelectedRecord?.registro_id == record.registro_id
-
-        val pinContainer = LinearLayout(requireContext())
-        pinContainer.orientation = LinearLayout.VERTICAL
-        pinContainer.gravity = Gravity.CENTER_HORIZONTAL
-        pinContainer.setPadding(4, 4, 4, 4)
-
-        val circleFrame = FrameLayout(requireContext())
-        val size = if (isSelected) 40 else 32
-        val circleParams = LinearLayout.LayoutParams(size, size)
-        circleFrame.layoutParams = circleParams
-
-        if (record.alerta_duplicado) {
-            circleFrame.setBackgroundResource(R.drawable.bg_pill_rose)
-        } else if (isDog) {
-            circleFrame.setBackgroundResource(R.drawable.bg_pill_blue)
-        } else {
-            circleFrame.setBackgroundResource(R.drawable.bg_pill_emerald)
-        }
-
-        val tvEmoji = TextView(requireContext())
-        tvEmoji.text = if (isDog) "🐶" else "🐱"
-        tvEmoji.textSize = if (isSelected) 16f else 13f
-        val emojiParams = FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT, FrameLayout.LayoutParams.WRAP_CONTENT)
-        emojiParams.gravity = Gravity.CENTER
-        circleFrame.addView(tvEmoji, emojiParams)
-
-        pinContainer.addView(circleFrame)
-
-        // Label pill under pin
-        val tvLabel = TextView(requireContext())
-        tvLabel.text = record.animal_nombre
-        tvLabel.textSize = 9f
-        tvLabel.setTextColor(resources.getColor(R.color.slate_900, null))
-        tvLabel.setBackgroundResource(R.drawable.bg_card_white)
-        tvLabel.setPadding(6, 2, 6, 2)
-        pinContainer.addView(tvLabel)
-
-        pinContainer.setOnClickListener {
-            selectRecord(record)
-            renderMapPins()
-        }
-
-        return pinContainer
     }
 
     private fun selectRecord(record: AnimalRecord) {
@@ -252,7 +200,7 @@ class MapFragment : Fragment() {
         tvMapSelectedName.text = record.animal_nombre
         tvMapSelectedId.text = record.registro_id
         tvMapSelectedBreed.text = "${record.raza} • ${record.territorio}"
-        tvMapSelectedGps.text = "GPS: ${record.latitud}, ${record.longitud}"
+        tvMapSelectedGps.text = "GPS: %.4f, %.4f".format(record.latitud, record.longitud)
         tvMapSelectedOwner.text = "Resp: ${record.responsable_nombre}"
     }
 }
