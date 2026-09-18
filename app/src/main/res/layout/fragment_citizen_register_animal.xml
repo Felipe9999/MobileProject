@@ -11,7 +11,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/navigationBarColor"
+        android:background="?attr/colorSurface"
         android:elevation="1dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Inscribe a tu animal de compañía en el Censo Municipal de Zipaquirá. No requieres ingresar tus datos de contacto ni domicilio; se vincularán de forma automática a tu cuenta."
-                    android:textColor="?attr/colorOnSecondaryContainer"
+                    android:textColor="?attr/colorOnPrimaryContainer"
                     android:textSize="11sp" />
 
                 <!-- Badge de Identidad del Ciudadano -->
@@ -177,7 +177,7 @@
                             android:layout_marginStart="4dp"
                             android:fontFamily="sans-serif-bold"
                             android:text="Canino"
-                            android:textColor="?attr/colorOnSecondaryContainer"
+                            android:textColor="?attr/colorOnPrimaryContainer"
                             android:textSize="11sp" />
                     </LinearLayout>
 

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/navigationBarColor"
+    android:background="?attr/colorSurface"
     android:orientation="vertical">
 
     <!-- Top Header -->
@@ -52,7 +52,7 @@
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_close"
-            app:tint="?android:attr/navigationBarColor" />
+            app:tint="?attr/colorOnPrimary" />
     </LinearLayout>
 
     <!-- Action Bar -->

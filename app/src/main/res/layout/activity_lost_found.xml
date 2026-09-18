@@ -24,7 +24,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver"
             android:src="@drawable/ic_arrow_left"
-            app:tint="?android:attr/navigationBarColor" />
+            app:tint="?attr/colorOnPrimary" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Red Comunitaria &amp; Albergue Zipaquirá"
-                android:textColor="?attr/colorSecondaryContainer"
+                android:textColor="?attr/colorPrimaryContainer"
                 android:textSize="11sp" />
 
             <TextView
@@ -56,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="36dp"
             android:background="@drawable/bg_pill_blue"
-            android:backgroundTint="?attr/colorOnSecondaryContainer"
+            android:backgroundTint="?attr/colorOnPrimaryContainer"
             android:clickable="true"
             android:contentDescription="Menú de Cuenta"
             android:focusable="true"
@@ -68,7 +68,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_user"
-                app:tint="?android:attr/navigationBarColor" />
+                app:tint="?attr/colorOnPrimary" />
 
             <TextView
                 android:id="@+id/tvLostFoundAccountLabel"
@@ -86,7 +86,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="?android:attr/navigationBarColor"
+        android:background="?attr/colorSurface"
         android:elevation="1dp"
         android:orientation="vertical"
         android:paddingHorizontal="16dp"
@@ -203,7 +203,7 @@
                     android:paddingHorizontal="12dp"
                     android:paddingVertical="5dp"
                     android:text="Todas las alertas"
-                    android:textColor="?attr/colorOnSecondaryContainer"
+                    android:textColor="?attr/colorOnPrimaryContainer"
                     android:textSize="11sp" />
 
                 <TextView

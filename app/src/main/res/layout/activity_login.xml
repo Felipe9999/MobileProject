@@ -27,7 +27,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Cerrar"
                 android:src="@drawable/ic_close"
-                app:tint="?android:attr/navigationBarColor" />
+                app:tint="?attr/colorOnPrimary" />
 
             <View
                 android:layout_width="0dp"
@@ -66,7 +66,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_shield_check"
-                    app:tint="?android:attr/navigationBarColor" />
+                    app:tint="?attr/colorOnPrimary" />
             </FrameLayout>
 
             <TextView
@@ -291,7 +291,7 @@
                     android:paddingHorizontal="6dp"
                     android:paddingVertical="2dp"
                     android:text="Usar"
-                    android:textColor="?attr/colorOnSecondaryContainer"
+                    android:textColor="?attr/colorOnPrimaryContainer"
                     android:textSize="9sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>

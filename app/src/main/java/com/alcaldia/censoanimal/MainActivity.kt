@@ -2,6 +2,7 @@ package com.alcaldia.censoanimal
 
 import android.app.AlertDialog
 import android.content.Intent
+import android.content.res.ColorStateList
 import android.os.Bundle
 import android.view.View
 import android.widget.ImageButton
@@ -321,6 +322,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupBottomNavigation() {
+        bottomNavigation.setBackgroundColor(ContextCompat.getColor(this, R.color.white))
+        bottomNavigation.backgroundTintList = ColorStateList.valueOf(ContextCompat.getColor(this, R.color.white))
+
         bottomNavigation.setOnItemSelectedListener { item ->
             when (item.itemId) {
                 R.id.nav_census -> {

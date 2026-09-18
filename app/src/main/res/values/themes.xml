@@ -1,19 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <style name="Theme.CensoAnimalMunicipal" parent="Theme.Material3.Light.NoActionBar">
+        <!-- Primary Brand Palette (Municipal Blue) -->
         <item name="colorPrimary">@color/blue_600</item>
         <item name="colorPrimaryVariant">@color/blue_700</item>
         <item name="colorOnPrimary">@color/white</item>
+        <item name="colorPrimaryContainer">@color/blue_100</item>
+        <item name="colorOnPrimaryContainer">@color/blue_800</item>
+
+        <!-- Secondary Brand Palette (Companion Animal Health / Emerald) -->
         <item name="colorSecondary">@color/emerald_600</item>
         <item name="colorSecondaryVariant">@color/emerald_700</item>
         <item name="colorOnSecondary">@color/white</item>
         <item name="colorSecondaryContainer">@color/blue_100</item>
         <item name="colorOnSecondaryContainer">@color/blue_800</item>
+
+        <!-- Tertiary Palette (Indigo) -->
+        <item name="colorTertiary">@color/indigo_600</item>
+        <item name="colorOnTertiary">@color/white</item>
+        <item name="colorTertiaryContainer">@color/indigo_100</item>
+        <item name="colorOnTertiaryContainer">@color/indigo_700</item>
+
+        <!-- Error / Critical Palette (Mistreatment & Alerts / Rose) -->
+        <item name="colorError">@color/rose_600</item>
+        <item name="colorOnError">@color/white</item>
+        <item name="colorErrorContainer">@color/rose_50</item>
+        <item name="colorOnErrorContainer">@color/rose_900</item>
+
+        <!-- Surface, Background & Neutral Palette -->
+        <item name="android:windowBackground">@color/slate_50</item>
+        <item name="android:colorBackground">@color/slate_50</item>
+        <item name="colorSurface">@color/white</item>
+        <item name="colorOnSurface">@color/slate_900</item>
+        <item name="colorSurfaceVariant">@color/slate_100</item>
+        <item name="colorOnSurfaceVariant">@color/slate_600</item>
+        <item name="colorSurfaceContainer">@color/white</item>
+        <item name="colorSurfaceContainerLow">@color/slate_50</item>
+        <item name="colorSurfaceContainerHigh">@color/slate_100</item>
+        <item name="colorSurfaceContainerHighest">@color/slate_200</item>
+        <item name="colorSurfaceContainerLowest">@color/white</item>
+
+        <!-- Outlines & Dividers -->
+        <item name="colorOutline">@color/slate_300</item>
+        <item name="colorOutlineVariant">@color/slate_200</item>
+
+        <!-- System Bars -->
         <item name="android:statusBarColor">@color/blue_700</item>
         <item name="android:windowLightStatusBar">false</item>
         <item name="android:navigationBarColor">@color/white</item>
         <item name="android:windowLightNavigationBar">true</item>
-        <item name="android:windowBackground">@color/slate_50</item>
+
+        <!-- Disable elevation overlay tinting so white surfaces remain pure white -->
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="elevationOverlayColor">@android:color/transparent</item>
+
+        <!-- Bottom Navigation View Style -->
+        <item name="bottomNavigationStyle">@style/Widget.App.BottomNavigationView</item>
+    </style>
+
+    <style name="Widget.App.BottomNavigationView" parent="Widget.Material3.BottomNavigationView">
+        <item name="android:background">@color/white</item>
+        <item name="backgroundTint">@color/white</item>
+        <item name="elevationOverlayEnabled">false</item>
+        <item name="elevationOverlayColor">@android:color/transparent</item>
     </style>
 
     <style name="Theme.CensoAnimalMunicipal.DarkHeader" parent="Theme.CensoAnimalMunicipal">
@@ -25,8 +74,8 @@
         <item name="cardCornerRadius">16dp</item>
         <item name="cardElevation">1dp</item>
         <item name="strokeWidth">1dp</item>
-        <item name="strokeColor">@color/slate_200</item>
-        <item name="cardBackgroundColor">@color/white</item>
+        <item name="strokeColor">?attr/colorOutlineVariant</item>
+        <item name="cardBackgroundColor">?attr/colorSurface</item>
     </style>
 
     <style name="Chip.Filter" parent="Widget.Material3.Chip.Filter">

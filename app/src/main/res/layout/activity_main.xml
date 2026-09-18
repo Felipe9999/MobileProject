@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text="@string/header_census_sub"
-                    android:textColor="?attr/colorSecondaryContainer"
+                    android:textColor="?attr/colorPrimaryContainer"
                     android:textSize="10sp" />
 
                 <TextView
@@ -178,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_pill_blue"
-                android:backgroundTint="?attr/colorOnSecondaryContainer"
+                android:backgroundTint="?attr/colorOnPrimaryContainer"
                 android:clickable="true"
                 android:contentDescription="Menú de Cuenta"
                 android:focusable="true"
@@ -192,7 +192,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_user"
-                    app:tint="?android:attr/navigationBarColor" />
+                    app:tint="?attr/colorOnPrimary" />
 
                 <TextView
                     android:id="@+id/tvTopBarAccountLabel"
@@ -224,9 +224,11 @@
         <!-- Bottom Navigation View -->
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:id="@+id/bottomNavigation"
+            style="@style/Widget.App.BottomNavigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/navigationBarColor"
+            android:background="@color/white"
+            app:backgroundTint="@color/white"
             app:elevation="8dp"
             app:itemIconSize="24dp"
             app:itemIconTint="@color/nav_item_color"

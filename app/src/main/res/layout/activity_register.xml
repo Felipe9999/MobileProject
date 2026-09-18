@@ -27,7 +27,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Volver"
                 android:src="@drawable/ic_close"
-                app:tint="?android:attr/navigationBarColor" />
+                app:tint="?attr/colorOnPrimary" />
 
             <View
                 android:layout_width="0dp"
@@ -66,7 +66,7 @@
                     android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_register"
-                    app:tint="?android:attr/navigationBarColor" />
+                    app:tint="?attr/colorOnPrimary" />
             </FrameLayout>
 
             <TextView

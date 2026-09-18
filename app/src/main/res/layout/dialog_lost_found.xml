@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="?android:attr/navigationBarColor"
+    android:background="?attr/colorSurface"
     android:orientation="vertical">
 
     <!-- Top Header -->
@@ -42,7 +42,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TRD FR-2.4 Validación Manual • FR-2.5 Regla 20 Días"
-                android:textColor="?attr/colorSecondaryContainer"
+                android:textColor="?attr/colorPrimaryContainer"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -52,7 +52,7 @@
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_close"
-            app:tint="?android:attr/navigationBarColor" />
+            app:tint="?attr/colorOnPrimary" />
     </LinearLayout>
 
     <!-- Action Bar -->
@@ -80,9 +80,9 @@
             style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
-            android:backgroundTint="?attr/colorSecondaryContainer"
+            android:backgroundTint="?attr/colorPrimaryContainer"
             android:text="+ Publicar Alerta"
-            android:textColor="?attr/colorOnSecondaryContainer"
+            android:textColor="?attr/colorOnPrimaryContainer"
             android:textSize="11sp" />
     </LinearLayout>
 
