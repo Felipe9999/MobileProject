@@ -40,6 +40,12 @@
             android:label="@string/title_activity_detail" />
 
         <activity
+            android:name=".ui.VirtualCardActivity"
+            android:exported="false"
+            android:screenOrientation="portrait"
+            android:label="Carné Virtual Animal" />
+
+        <activity
             android:name=".ui.ScannerActivity"
             android:exported="false"
             android:screenOrientation="portrait"

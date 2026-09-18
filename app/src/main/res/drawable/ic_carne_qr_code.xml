@@ -1,0 +1,69 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="200"
+    android:viewportHeight="200">
+
+    <!-- Top Left Finder Pattern Outer Box -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M20,20h50v50h-50zM30,30v30h30v-30z" />
+    <!-- Top Left Finder Center Dot -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M38,38h14v14h-14z" />
+
+    <!-- Top Right Finder Pattern Outer Box -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M130,20h50v50h-50zM140,30v30h30v-30z" />
+    <!-- Top Right Finder Center Dot -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M148,38h14v14h-14z" />
+
+    <!-- Bottom Left Finder Pattern Outer Box -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M20,130h50v50h-50zM30,140v30h30v-30z" />
+    <!-- Bottom Left Finder Center Dot -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M38,148h14v14h-14z" />
+
+    <!-- Data modules and timing patterns -->
+    <!-- Horizontal Top Timing / Modules -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M80,24h8v8h-8z M96,24h8v8h-8z M112,24h8v8h-8z M80,40h16v8h-16z M104,40h16v8h-16z M88,56h8v8h-8z M104,56h16v8h-16z" />
+
+    <!-- Middle Data Patterns -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M24,80h16v8h-16z M48,80h8v8h-8z M64,80h8v8h-8z M80,80h8v8h-8z M96,72h8v16h-8z M112,80h16v8h-16z M136,80h8v8h-8z M152,80h16v8h-16z M176,80h8v8h-8z" />
+
+    <!-- Center Section Modules -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M24,96h8v16h-8z M48,96h16v8h-16z M40,112h8v8h-8z M56,112h16v8h-16z M72,96h16v8h-16z M72,112h8v16h-8z M120,96h16v8h-16z M120,112h8v8h-8z M144,96h8v8h-8z M160,96h16v16h-16z M144,112h8v16h-8z M176,112h8v8h-8z" />
+
+    <!-- Central Municipal Security Dots (Theme Primary & Secondary) -->
+    <path
+        android:fillColor="?attr/colorPrimary"
+        android:pathData="M92,96h8v8h-8z" />
+    <path
+        android:fillColor="?attr/colorSecondary"
+        android:pathData="M104,96h8v8h-8z" />
+
+    <!-- Bottom Data Patterns -->
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M80,128h16v8h-16z M104,128h8v16h-8z M120,136h16v8h-16z M144,136h8v8h-8z M160,128h8v8h-8z M176,128h8v8h-8z" />
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M80,152h8v16h-8z M96,160h16v8h-16z M120,152h8v8h-8z M136,152h16v8h-16z M160,152h8v16h-8z M176,152h8v8h-8z" />
+    <path
+        android:fillColor="?attr/colorOnSurface"
+        android:pathData="M88,176h16v8h-16z M112,176h8v8h-8z M128,168h8v16h-8z M144,176h16v8h-16z M168,176h16v8h-16z" />
+</vector>
+

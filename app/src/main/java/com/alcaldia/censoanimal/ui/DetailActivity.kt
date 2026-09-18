@@ -1,6 +1,7 @@
 package com.alcaldia.censoanimal.ui
 
 import android.app.AlertDialog
+import android.content.Intent
 import android.os.Bundle
 import android.view.Gravity
 import android.view.LayoutInflater
@@ -422,18 +423,10 @@ class DetailActivity : AppCompatActivity() {
 
     private fun showQrDialog() {
         val record = animalRecord ?: return
-        val dialogView = LayoutInflater.from(this).inflate(R.layout.dialog_qr_code, null)
-        val dialog = AlertDialog.Builder(this)
-            .setView(dialogView)
-            .create()
-
-        val tvQrRecordId = dialogView.findViewById<TextView>(R.id.tvQrRecordId)
-        val btnDismissQr = dialogView.findViewById<Button>(R.id.btnDismissQr)
-
-        tvQrRecordId.text = "${record.registro_id} • ${record.animal_nombre}"
-        btnDismissQr.setOnClickListener { dialog.dismiss() }
-
-        dialog.show()
+        val intent = Intent(this, VirtualCardActivity::class.java).apply {
+            putExtra("RECORD_ID", record.registro_id)
+        }
+        startActivity(intent)
     }
 
     private fun showDeathDialog() {
