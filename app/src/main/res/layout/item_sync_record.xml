@@ -7,7 +7,7 @@
     android:layout_height="wrap_content"
     android:layout_marginHorizontal="16dp"
     android:layout_marginVertical="5dp"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="?android:attr/navigationBarColor"
     app:cardCornerRadius="16dp"
     app:cardElevation="1dp"
     app:strokeColor="@color/slate_200"
@@ -113,7 +113,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
-                    android:textColor="@color/emerald_700"
+                    android:textColor="?attr/colorSecondaryVariant"
                     android:textSize="11sp"
                     tools:text="✔ Guardado en la Alcaldía" />
             </LinearLayout>

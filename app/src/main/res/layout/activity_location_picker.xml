@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue_800"
+            android:background="?attr/colorOnSecondaryContainer"
             android:elevation="4dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -29,7 +29,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Regresar"
                 android:src="@drawable/ic_arrow_left"
-                app:tint="@color/white" />
+                app:tint="?android:attr/navigationBarColor" />
 
             <LinearLayout
                 android:layout_width="0dp"
@@ -43,7 +43,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text="Ubicación en OpenStreetMap"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="15sp" />
 
                 <TextView
@@ -60,10 +60,10 @@
                 style="@style/Widget.Material3.Button.TonalButton"
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
-                android:backgroundTint="@color/blue_700"
+                android:backgroundTint="?attr/colorPrimaryVariant"
                 android:paddingHorizontal="10dp"
                 android:text="GPS Actual"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="11sp" />
         </LinearLayout>
 
@@ -71,7 +71,7 @@
         <HorizontalScrollView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?android:attr/navigationBarColor"
             android:elevation="2dp"
             android:paddingHorizontal="8dp"
             android:paddingVertical="6dp"
@@ -108,16 +108,16 @@
                 android:layout_marginBottom="16dp"
                 android:contentDescription="Centrar en mi ubicación GPS"
                 android:src="@drawable/ic_compass"
-                app:backgroundTint="@color/white"
+                app:backgroundTint="?android:attr/navigationBarColor"
                 app:elevation="6dp"
-                app:tint="@color/blue_600" />
+                app:tint="?attr/colorPrimary" />
         </FrameLayout>
 
         <!-- Bottom Selection Info Card -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?android:attr/navigationBarColor"
             android:elevation="8dp"
             android:orientation="vertical"
             android:padding="16dp">
@@ -132,7 +132,7 @@
                     android:layout_width="18dp"
                     android:layout_height="18dp"
                     android:src="@drawable/ic_map_pin"
-                    app:tint="@color/blue_600" />
+                    app:tint="?attr/colorPrimary" />
 
                 <TextView
                     android:id="@+id/tvPickerVeredaBadge"
@@ -144,7 +144,7 @@
                     android:paddingHorizontal="10dp"
                     android:paddingVertical="4dp"
                     android:text="Vereda San Jorge"
-                    android:textColor="@color/blue_800"
+                    android:textColor="?attr/colorOnSecondaryContainer"
                     android:textSize="12sp" />
 
                 <TextView
@@ -187,10 +187,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="48dp"
                 android:layout_marginTop="12dp"
-                android:backgroundTint="@color/blue_600"
+                android:backgroundTint="?attr/colorPrimary"
                 android:fontFamily="sans-serif-bold"
                 android:text="✓ Confirmar y Usar Esta Ubicación"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="13sp" />
 
         </LinearLayout>

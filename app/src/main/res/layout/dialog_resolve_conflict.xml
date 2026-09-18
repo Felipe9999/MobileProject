@@ -74,7 +74,7 @@
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_marginStart="6dp"
-            android:backgroundTint="@color/blue_600"
+            android:backgroundTint="?attr/colorPrimary"
             android:text="Auto"
             android:textSize="11sp" />
     </LinearLayout>
@@ -102,9 +102,9 @@
             android:layout_height="44dp"
             android:layout_marginStart="6dp"
             android:layout_weight="1"
-            android:backgroundTint="@color/emerald_600"
+            android:backgroundTint="?attr/colorSecondary"
             android:text="Guardar y Sincronizar"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorOnPrimary" />
     </LinearLayout>
 
 </LinearLayout>

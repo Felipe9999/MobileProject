@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="?android:attr/navigationBarColor"
     android:orientation="vertical">
 
     <!-- Top Header -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_700"
+        android:background="?attr/colorPrimaryVariant"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
@@ -35,14 +35,14 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="Módulo de Pérdidas y Hallazgos"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="15sp" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="TRD FR-2.4 Validación Manual • FR-2.5 Regla 20 Días"
-                android:textColor="@color/blue_100"
+                android:textColor="?attr/colorSecondaryContainer"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -52,14 +52,14 @@
             android:layout_height="32dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:src="@drawable/ic_close"
-            app:tint="@color/white" />
+            app:tint="?android:attr/navigationBarColor" />
     </LinearLayout>
 
     <!-- Action Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/slate_50"
+        android:background="?android:attr/windowBackground"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
@@ -80,9 +80,9 @@
             style="@style/Widget.Material3.Button.TonalButton"
             android:layout_width="wrap_content"
             android:layout_height="34dp"
-            android:backgroundTint="@color/blue_100"
+            android:backgroundTint="?attr/colorSecondaryContainer"
             android:text="+ Publicar Alerta"
-            android:textColor="@color/blue_800"
+            android:textColor="?attr/colorOnSecondaryContainer"
             android:textSize="11sp" />
     </LinearLayout>
 

@@ -39,7 +39,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/blue_50"
             android:text="📍 GPS Actual"
-            android:textColor="@color/blue_700"
+            android:textColor="?attr/colorPrimaryVariant"
             android:textSize="11sp" />
 
         <Button
@@ -90,7 +90,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="monospace"
                     android:text="Lat: 4.9842, Lng: -73.9562"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="10sp" />
             </LinearLayout>
         </FrameLayout>
@@ -112,7 +112,7 @@
             android:layout_width="14dp"
             android:layout_height="14dp"
             android:src="@drawable/ic_check_circle"
-            app:tint="@color/emerald_700" />
+            app:tint="?attr/colorSecondaryVariant" />
 
         <TextView
             android:id="@+id/tvLocationDetectedVereda"

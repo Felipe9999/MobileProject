@@ -9,7 +9,7 @@
     android:layout_marginVertical="6dp"
     android:clickable="true"
     android:focusable="true"
-    app:cardBackgroundColor="@color/white"
+    app:cardBackgroundColor="?android:attr/navigationBarColor"
     app:cardCornerRadius="16dp"
     app:cardElevation="1dp"
     app:strokeColor="@color/slate_200"
@@ -89,7 +89,7 @@
                         android:paddingHorizontal="6dp"
                         android:paddingVertical="2dp"
                         android:text="Activo"
-                        android:textColor="@color/emerald_700"
+                        android:textColor="?attr/colorSecondaryVariant"
                         android:textSize="9sp" />
                 </LinearLayout>
 
@@ -115,7 +115,7 @@
                         android:layout_width="12dp"
                         android:layout_height="12dp"
                         android:src="@drawable/ic_map_pin"
-                        app:tint="@color/emerald_600" />
+                        app:tint="?attr/colorSecondary" />
 
                     <TextView
                         android:id="@+id/tvVereda"
@@ -181,7 +181,7 @@
                 android:paddingHorizontal="6dp"
                 android:paddingVertical="3dp"
                 android:text="Esterilizado"
-                android:textColor="@color/blue_700"
+                android:textColor="?attr/colorPrimaryVariant"
                 android:textSize="9sp" />
 
             <View

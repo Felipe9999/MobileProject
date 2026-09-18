@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/slate_50"
+    android:background="?android:attr/windowBackground"
     android:orientation="vertical">
 
     <!-- Stepper Navigation Header (Paso 1: Mi Animal, Paso 2: Salud y Cuidados) -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="?android:attr/navigationBarColor"
         android:elevation="1dp"
         android:gravity="center"
         android:orientation="horizontal"
@@ -27,7 +27,7 @@
             android:paddingHorizontal="12dp"
             android:paddingVertical="6dp"
             android:text="1. Mi Animal"
-            android:textColor="@color/white"
+            android:textColor="?attr/colorOnPrimary"
             android:textSize="11sp" />
 
         <View
@@ -81,7 +81,7 @@
                         android:layout_width="18dp"
                         android:layout_height="18dp"
                         android:src="@drawable/ic_shield_check"
-                        app:tint="@color/blue_700" />
+                        app:tint="?attr/colorPrimaryVariant" />
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -98,7 +98,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="4dp"
                     android:text="Inscribe a tu animal de compañía en el Censo Municipal de Zipaquirá. No requieres ingresar tus datos de contacto ni domicilio; se vincularán de forma automática a tu cuenta."
-                    android:textColor="@color/blue_800"
+                    android:textColor="?attr/colorOnSecondaryContainer"
                     android:textSize="11sp" />
 
                 <!-- Badge de Identidad del Ciudadano -->
@@ -116,7 +116,7 @@
                         android:layout_width="14dp"
                         android:layout_height="14dp"
                         android:src="@drawable/ic_user"
-                        app:tint="@color/blue_600" />
+                        app:tint="?attr/colorPrimary" />
 
                     <TextView
                         android:id="@+id/tvCitizenAccountBadge"
@@ -177,7 +177,7 @@
                             android:layout_marginStart="4dp"
                             android:fontFamily="sans-serif-bold"
                             android:text="Canino"
-                            android:textColor="@color/blue_800"
+                            android:textColor="?attr/colorOnSecondaryContainer"
                             android:textSize="11sp" />
                     </LinearLayout>
 
@@ -440,7 +440,7 @@
                         android:id="@+id/switchCitizenSterilized"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:thumbTint="@color/blue_600"
+                        app:thumbTint="?attr/colorPrimary"
                         app:trackTint="@color/blue_200" />
                 </LinearLayout>
 
@@ -478,7 +478,7 @@
                         android:id="@+id/switchCitizenSterilizationTattoo"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        app:thumbTint="@color/emerald_600"
+                        app:thumbTint="?attr/colorSecondary"
                         app:trackTint="@color/emerald_200" />
                 </LinearLayout>
 
@@ -555,7 +555,7 @@
                             android:layout_width="18dp"
                             android:layout_height="18dp"
                             android:src="@drawable/ic_check_circle"
-                            app:tint="@color/emerald_600" />
+                            app:tint="?attr/colorSecondary" />
 
                         <TextView
                             android:layout_width="wrap_content"
@@ -646,9 +646,9 @@
                     android:layout_height="48dp"
                     android:layout_marginStart="6dp"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/blue_600"
+                    android:backgroundTint="?attr/colorPrimary"
                     android:text="Siguiente: Salud y Cuidados"
-                    android:textColor="@color/white" />
+                    android:textColor="?attr/colorOnPrimary" />
             </LinearLayout>
 
         </LinearLayout>

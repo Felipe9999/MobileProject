@@ -24,7 +24,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver"
             android:src="@drawable/ic_arrow_left"
-            app:tint="@color/white" />
+            app:tint="?android:attr/navigationBarColor" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="Reportar Animal Hallado"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="16sp" />
         </LinearLayout>
 
@@ -68,7 +68,7 @@
                 android:layout_width="16dp"
                 android:layout_height="16dp"
                 android:src="@drawable/ic_user"
-                app:tint="@color/white" />
+                app:tint="?android:attr/navigationBarColor" />
 
             <TextView
                 android:id="@+id/tvAccountReportFoundLabel"
@@ -77,7 +77,7 @@
                 android:layout_marginStart="6dp"
                 android:fontFamily="sans-serif-bold"
                 android:text="Usuario"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="11sp" />
         </LinearLayout>
     </LinearLayout>
@@ -146,7 +146,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?android:attr/navigationBarColor"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -212,7 +212,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?android:attr/navigationBarColor"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -423,7 +423,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?android:attr/navigationBarColor"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -458,7 +458,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?android:attr/navigationBarColor"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -530,7 +530,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/white"
+                    android:background="?android:attr/navigationBarColor"
                     android:orientation="vertical"
                     android:padding="16dp">
 
@@ -564,10 +564,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
                 android:layout_marginTop="20dp"
-                android:backgroundTint="@color/emerald_700"
+                android:backgroundTint="?attr/colorSecondaryVariant"
                 android:fontFamily="sans-serif-bold"
                 android:text="🐾 Publicar Alerta de Animal Hallado"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="14sp" />
 
             <Button

@@ -105,7 +105,7 @@
             android:layout_weight="1"
             android:backgroundTint="@color/rose_600"
             android:text="Confirmar Baja"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorOnPrimary" />
     </LinearLayout>
 
 </LinearLayout>

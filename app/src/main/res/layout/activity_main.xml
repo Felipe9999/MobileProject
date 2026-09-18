@@ -5,7 +5,7 @@
     android:id="@+id/mainCoordinatorLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/slate_50">
+    android:background="?android:attr/windowBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -122,7 +122,7 @@
             android:id="@+id/standardTopBar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/blue_700"
+            android:background="?attr/colorPrimaryVariant"
             android:elevation="4dp"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -142,7 +142,7 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="sans-serif-bold"
                     android:text="@string/header_census_sub"
-                    android:textColor="@color/blue_100"
+                    android:textColor="?attr/colorSecondaryContainer"
                     android:textSize="10sp" />
 
                 <TextView
@@ -152,7 +152,7 @@
                     android:layout_marginTop="2dp"
                     android:fontFamily="sans-serif-black"
                     android:text="@string/header_census_title"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="18sp" />
             </LinearLayout>
 
@@ -168,7 +168,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="4dp"
                 android:text="15 censados"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="11sp"
                 android:visibility="visible" />
 
@@ -178,7 +178,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="36dp"
                 android:background="@drawable/bg_pill_blue"
-                android:backgroundTint="@color/blue_800"
+                android:backgroundTint="?attr/colorOnSecondaryContainer"
                 android:clickable="true"
                 android:contentDescription="Menú de Cuenta"
                 android:focusable="true"
@@ -192,7 +192,7 @@
                     android:layout_width="16dp"
                     android:layout_height="16dp"
                     android:src="@drawable/ic_user"
-                    app:tint="@color/white" />
+                    app:tint="?android:attr/navigationBarColor" />
 
                 <TextView
                     android:id="@+id/tvTopBarAccountLabel"
@@ -201,7 +201,7 @@
                     android:layout_marginStart="6dp"
                     android:fontFamily="sans-serif-bold"
                     android:text="Veterinario"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="11sp" />
 
                 <ImageView
@@ -226,7 +226,7 @@
             android:id="@+id/bottomNavigation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/white"
+            android:background="?android:attr/navigationBarColor"
             app:elevation="8dp"
             app:itemIconSize="24dp"
             app:itemIconTint="@color/nav_item_color"

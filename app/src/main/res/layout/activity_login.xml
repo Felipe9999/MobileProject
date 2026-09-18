@@ -27,7 +27,7 @@
                 android:background="?attr/selectableItemBackgroundBorderless"
                 android:contentDescription="Cerrar"
                 android:src="@drawable/ic_close"
-                app:tint="@color/white" />
+                app:tint="?android:attr/navigationBarColor" />
 
             <View
                 android:layout_width="0dp"
@@ -43,7 +43,7 @@
                 android:paddingHorizontal="8dp"
                 android:paddingVertical="3dp"
                 android:text="Servidor Alcaldía Online"
-                android:textColor="@color/emerald_700"
+                android:textColor="?attr/colorSecondaryVariant"
                 android:textSize="10sp" />
         </LinearLayout>
 
@@ -59,14 +59,14 @@
                 android:layout_width="56dp"
                 android:layout_height="56dp"
                 android:background="@drawable/bg_pill_blue"
-                android:backgroundTint="@color/blue_600">
+                android:backgroundTint="?attr/colorPrimary">
 
                 <ImageView
                     android:layout_width="28dp"
                     android:layout_height="28dp"
                     android:layout_gravity="center"
                     android:src="@drawable/ic_shield_check"
-                    app:tint="@color/white" />
+                    app:tint="?android:attr/navigationBarColor" />
             </FrameLayout>
 
             <TextView
@@ -75,7 +75,7 @@
                 android:layout_marginTop="10dp"
                 android:fontFamily="sans-serif-black"
                 android:text="Censo Animal Rural"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="20sp" />
 
             <TextView
@@ -123,7 +123,7 @@
                     android:hint="nombre@alcaldia.gov.co"
                     android:inputType="textEmailAddress"
                     android:paddingHorizontal="12dp"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textColorHint="@color/slate_500"
                     android:textSize="12sp" />
 
@@ -147,7 +147,7 @@
                     android:hint="••••••••"
                     android:inputType="textPassword"
                     android:paddingHorizontal="12dp"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textColorHint="@color/slate_500"
                     android:textSize="12sp" />
 
@@ -189,10 +189,10 @@
                     android:layout_width="match_parent"
                     android:layout_height="46dp"
                     android:layout_marginTop="12dp"
-                    android:backgroundTint="@color/blue_600"
+                    android:backgroundTint="?attr/colorPrimary"
                     android:fontFamily="sans-serif-bold"
                     android:text="Ingresar al Sistema"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="13sp" />
 
                 <!-- Continuar sin cuenta Button -->
@@ -272,7 +272,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-bold"
                         android:text="Veterinario Aliado (Campo Completo)"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="12sp" />
 
                     <TextView
@@ -291,7 +291,7 @@
                     android:paddingHorizontal="6dp"
                     android:paddingVertical="2dp"
                     android:text="Usar"
-                    android:textColor="@color/blue_800"
+                    android:textColor="?attr/colorOnSecondaryContainer"
                     android:textSize="9sp" />
             </LinearLayout>
         </com.google.android.material.card.MaterialCardView>
@@ -333,7 +333,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-bold"
                         android:text="Administrador Municipal (Control Total)"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="12sp" />
 
                     <TextView
@@ -394,7 +394,7 @@
                         android:layout_height="wrap_content"
                         android:fontFamily="sans-serif-bold"
                         android:text="Ciudadano / Propietario (Habeas Data)"
-                        android:textColor="@color/white"
+                        android:textColor="?attr/colorOnPrimary"
                         android:textSize="12sp" />
 
                     <TextView

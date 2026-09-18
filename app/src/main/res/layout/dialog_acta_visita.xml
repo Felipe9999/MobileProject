@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@color/white"
+    android:background="?android:attr/navigationBarColor"
     android:orientation="vertical"
     android:padding="20dp">
 
@@ -190,6 +190,6 @@
             android:layout_marginStart="8dp"
             android:backgroundTint="@color/slate_900"
             android:text="Firmar y Radicar Acta"
-            android:textColor="@color/white" />
+            android:textColor="?attr/colorOnPrimary" />
     </LinearLayout>
 </LinearLayout>

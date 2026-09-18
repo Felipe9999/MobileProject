@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/slate_50"
+    android:background="?android:attr/windowBackground"
     android:orientation="vertical">
 
     <!-- Municipal Top Bar -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/blue_700"
+        android:background="?attr/colorPrimaryVariant"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:paddingHorizontal="16dp"
@@ -24,7 +24,7 @@
             android:background="?attr/selectableItemBackgroundBorderless"
             android:contentDescription="Volver a la pantalla anterior"
             android:src="@drawable/ic_arrow_left"
-            app:tint="@color/white" />
+            app:tint="?android:attr/navigationBarColor" />
 
         <LinearLayout
             android:layout_width="0dp"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-medium"
                 android:text="Alcaldía de Zipaquirá • Desarrollo Rural y Ambiente"
-                android:textColor="@color/blue_100"
+                android:textColor="?attr/colorSecondaryContainer"
                 android:textSize="11sp" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:text="Configuración de Cuenta"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="18sp" />
         </LinearLayout>
 
@@ -54,7 +54,7 @@
             android:layout_width="38dp"
             android:layout_height="38dp"
             android:background="@drawable/bg_pill_blue"
-            android:backgroundTint="@color/blue_800">
+            android:backgroundTint="?attr/colorOnSecondaryContainer">
 
             <ImageView
                 android:layout_width="20dp"
@@ -62,7 +62,7 @@
                 android:layout_gravity="center"
                 android:contentDescription="Icono de ajustes"
                 android:src="@drawable/ic_settings"
-                app:tint="@color/white" />
+                app:tint="?android:attr/navigationBarColor" />
         </FrameLayout>
     </LinearLayout>
 
@@ -82,7 +82,7 @@
             <com.google.android.material.card.MaterialCardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?android:attr/navigationBarColor"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="2dp"
                 app:strokeColor="@color/slate_200"
@@ -104,7 +104,7 @@
                             android:layout_width="56dp"
                             android:layout_height="56dp"
                             android:background="@drawable/bg_pill_blue"
-                            android:backgroundTint="@color/blue_100">
+                            android:backgroundTint="?attr/colorSecondaryContainer">
 
                             <ImageView
                                 android:id="@+id/ivSettingsAvatar"
@@ -113,7 +113,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="Avatar del usuario"
                                 android:src="@drawable/ic_user"
-                                app:tint="@color/blue_700" />
+                                app:tint="?attr/colorPrimaryVariant" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -147,7 +147,7 @@
                                     android:fontFamily="sans-serif-bold"
                                     android:paddingHorizontal="10dp"
                                     android:paddingVertical="3dp"
-                                    android:textColor="@color/blue_700"
+                                    android:textColor="?attr/colorPrimaryVariant"
                                     android:textSize="11sp"
                                     tools:text="Veterinario Aliado" />
 
@@ -277,10 +277,10 @@
                 android:layout_marginTop="10dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?android:attr/navigationBarColor"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="1dp"
-                app:strokeColor="@color/blue_600"
+                app:strokeColor="?attr/colorPrimary"
                 app:strokeWidth="2dp">
 
                 <LinearLayout
@@ -295,7 +295,7 @@
                         android:layout_width="42dp"
                         android:layout_height="42dp"
                         android:background="@drawable/bg_pill_blue"
-                        android:backgroundTint="@color/blue_100">
+                        android:backgroundTint="?attr/colorSecondaryContainer">
 
                         <ImageView
                             android:layout_width="22dp"
@@ -303,7 +303,7 @@
                             android:layout_gravity="center"
                             android:contentDescription="Veterinario"
                             android:src="@drawable/ic_syringe"
-                            app:tint="@color/blue_700" />
+                            app:tint="?attr/colorPrimaryVariant" />
                     </FrameLayout>
 
                     <LinearLayout
@@ -337,7 +337,7 @@
                         android:layout_marginStart="8dp"
                         android:contentDescription="Seleccionado"
                         android:src="@drawable/ic_check_circle"
-                        app:tint="@color/blue_600" />
+                        app:tint="?attr/colorPrimary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -349,7 +349,7 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?android:attr/navigationBarColor"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="1dp"
                 app:strokeColor="@color/slate_200"
@@ -410,7 +410,7 @@
                         android:contentDescription="No seleccionado"
                         android:src="@drawable/ic_check_circle"
                         android:visibility="gone"
-                        app:tint="@color/blue_600" />
+                        app:tint="?attr/colorPrimary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -422,7 +422,7 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?android:attr/navigationBarColor"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="1dp"
                 app:strokeColor="@color/slate_200"
@@ -483,7 +483,7 @@
                         android:contentDescription="No seleccionado"
                         android:src="@drawable/ic_check_circle"
                         android:visibility="gone"
-                        app:tint="@color/blue_600" />
+                        app:tint="?attr/colorPrimary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -495,7 +495,7 @@
                 android:layout_marginTop="8dp"
                 android:clickable="true"
                 android:focusable="true"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?android:attr/navigationBarColor"
                 app:cardCornerRadius="14dp"
                 app:cardElevation="1dp"
                 app:strokeColor="@color/slate_200"
@@ -556,7 +556,7 @@
                         android:contentDescription="No seleccionado"
                         android:src="@drawable/ic_check_circle"
                         android:visibility="gone"
-                        app:tint="@color/blue_600" />
+                        app:tint="?attr/colorPrimary" />
                 </LinearLayout>
             </com.google.android.material.card.MaterialCardView>
 
@@ -582,7 +582,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                app:cardBackgroundColor="@color/white"
+                app:cardBackgroundColor="?android:attr/navigationBarColor"
                 app:cardCornerRadius="16dp"
                 app:cardElevation="1dp"
                 app:strokeColor="@color/slate_200"
@@ -615,7 +615,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="Sincronización"
                                 android:src="@drawable/ic_sync"
-                                app:tint="@color/blue_600" />
+                                app:tint="?attr/colorPrimary" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -675,7 +675,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="Biometría"
                                 android:src="@drawable/ic_fingerprint"
-                                app:tint="@color/blue_600" />
+                                app:tint="?attr/colorPrimary" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -735,7 +735,7 @@
                                 android:layout_gravity="center"
                                 android:contentDescription="Notificaciones"
                                 android:src="@drawable/ic_alert_triangle"
-                                app:tint="@color/blue_600" />
+                                app:tint="?attr/colorPrimary" />
                         </FrameLayout>
 
                         <LinearLayout
@@ -817,10 +817,10 @@
                     android:id="@+id/btnSettingsSave"
                     android:layout_width="match_parent"
                     android:layout_height="52dp"
-                    android:backgroundTint="@color/blue_600"
+                    android:backgroundTint="?attr/colorPrimary"
                     android:fontFamily="sans-serif-bold"
                     android:text="Guardar Preferencias"
-                    android:textColor="@color/white"
+                    android:textColor="?attr/colorOnPrimary"
                     android:textSize="14sp"
                     app:cornerRadius="12dp" />
 

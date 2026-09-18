@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/slate_50"
+    android:background="?android:attr/windowBackground"
     android:orientation="vertical">
 
     <!-- Filter Categories Horizontal Scroll -->
     <HorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/white"
+        android:background="?android:attr/navigationBarColor"
         android:elevation="1dp"
         android:paddingHorizontal="12dp"
         android:paddingVertical="8dp"
@@ -33,7 +33,7 @@
                 android:paddingHorizontal="12dp"
                 android:paddingVertical="6dp"
                 android:text="Todos los 8 Indicadores"
-                android:textColor="@color/white"
+                android:textColor="?attr/colorOnPrimary"
                 android:textSize="11sp" />
 
             <TextView
