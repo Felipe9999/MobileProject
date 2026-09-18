@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Censo Animal Rural</string>
+    <string name="app_name">PetCare App</string>
     <string name="title_activity_detail">Ficha de Identificación</string>
     <string name="title_activity_scanner">Escáner de Microchip &amp; QR</string>
     <string name="title_activity_login">Iniciar Sesión</string>

@@ -1,5 +1,5 @@
 {
-  "name": "Censo Animal Rural",
+  "name": "PetCare App",
   "description": "Sistema de caracterización, censo y bienestar para animales de compañía en Zipaquirá.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
